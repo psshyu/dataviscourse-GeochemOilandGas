@@ -27,13 +27,10 @@
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        
+        <!-- Nav Bar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="index.html">Visualizing Oil and Gas Basins</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-          
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
@@ -51,6 +48,15 @@
                 </ul>
             </div>
         </nav>
+        <!-- Begin div layers -->
+        <div>
 
+            <div id="layer1" style="float: left; width: 33vw; height: 33vh; top: 0%; left:0%; background-color: darkcyan"></div>
+            <div id="map" style="float: right; width: 66vw; height: 66vh; top: 0%; right:0%; background-color: darkorange"></div>
+            <div id="layer2" style="float: left; width: 33vw; height: 33vh; top: 33%; left:0%; background-color: darkslateblue"></div>
+            <div id="layer2" style="float: left; width: 33vw; height: 33vh; top: 33%; left:0%; background-color: darkkhaki"></div>
+            <div id="layer3" style="float: left; display:inline-block; width: 33vw; height: 33vh; top: 33%; left:0%; background-color: darkred"></div>
+            <div id="layer3" style="float: left; display:inline-block; width: 33vw; height: 33vh; top: 33%; left:0%; background-color: darkmagenta"></div>
+        </div>
     </body>
 </html>
