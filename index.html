@@ -11,8 +11,10 @@
 
         <!-- d3 library -->
         <script src="https://d3js.org/d3.v5.js"></script>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
 
         <!-- all our JS scripts and their dependencies (like topochart) -->
+        <script src="https://unpkg.com/topojson-client@3"></script>
         <script src="js/map.js" async></script>
         <script src="js/chart.js" async></script>
         <!-- SCRIPT.JS -->
@@ -51,12 +53,12 @@
         <!-- Begin div layers -->
         <div>
 
-            <div id="layer1" style="float: left; width: 33vw; height: 33vh; top: 0%; left:0%; background-color: darkcyan"></div>
-            <div id="map" style="float: right; width: 66vw; height: 66vh; top: 0%; right:0%; background-color: darkorange"></div>
-            <div id="layer2" style="float: left; width: 33vw; height: 33vh; top: 33%; left:0%; background-color: darkslateblue"></div>
-            <div id="layer2" style="float: left; width: 33vw; height: 33vh; top: 33%; left:0%; background-color: darkkhaki"></div>
-            <div id="layer3" style="float: left; display:inline-block; width: 33vw; height: 33vh; top: 33%; left:0%; background-color: darkred"></div>
-            <div id="layer3" style="float: left; display:inline-block; width: 33vw; height: 33vh; top: 33%; left:0%; background-color: darkmagenta"></div>
+            <div id="chart1" style="float: left; width: 33vw; height: 33vh; top: 0%; left:0%; background-color: darkcyan"></div>
+            <div id="map" style="text-align: center; float: right; width: 66vw; height: 66vh; top: 0%; right:0%; background-color: darkorange"></div>
+            <div id="chart2" style="float: left; width: 33vw; height: 33vh; top: 33%; left:0%; background-color: darkslateblue"></div>
+            <div id="info" style="float: left; width: 33vw; height: 33vh; top: 33%; left:0%; background-color: darkkhaki"></div>
+            <div id="chart4" style="float: left; display:inline-block; width: 33vw; height: 33vh; top: 33%; left:0%; background-color: darkred"></div>
+            <div id="chart5" style="float: left; display:inline-block; width: 33vw; height: 33vh; top: 33%; left:0%; background-color: darkmagenta"></div>
         </div>
     </body>
 </html>

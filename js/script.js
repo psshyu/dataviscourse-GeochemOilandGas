@@ -6,6 +6,6 @@
  * What this script needs is the data in JSON format to pass into other objects.
  *
  */
-d3.json("data/.....").then( data => {
-    
-});
+let map = new Map();
+
+//d3.json("data/.....").then( data => {});
