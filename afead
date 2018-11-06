@@ -1,0 +1,5 @@
+Click in basin polygon -> zoom in that basin;
+                            move to the upper right corner;
+                            filter data of the wells in the clicked basin and pass it to the update function of the plots/charts;
+
+

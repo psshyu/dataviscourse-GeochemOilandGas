@@ -7,12 +7,19 @@
  *
  */
 
-projection = d3.geoAlbersUsa();
 
+let projection = d3.geoAlbersUsa();
 
-let map = new Map(projection);
-let well = new Well(projection);
-let basin = new Basin(projection);
+let tocChart = new TOC_barchart();
+let vanKrevelenPlot = new VanKrevelenPlot();
+let potentialPlot = new PotentialPlot();
+let inverseKrevPlot = new InverseKrevelen();
 
+d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData => {
+    //pass well geospatial data (locations/coordinates) to map
 
-//d3.json("data/.....").then( data => {});
+    let map = new Map(projection, geospatialData, tocChart, vanKrevelenPlot, potentialPlot, inverseKrevPlot);
+    map.update();
+    let basin = new Basin(projection);
+
+});
