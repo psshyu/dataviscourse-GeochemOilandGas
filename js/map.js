@@ -46,7 +46,6 @@ class Map {
             this.svg.append("path")
                 .attr("d", path(topojson.feature(us, us.objects.nation)));
             });
-
     }
 
     update(){
@@ -65,9 +64,7 @@ class Map {
                 .attr('cy', d => this.projection([d.Longitude,d.Latitude])[1])
                 .attr('r', 2)
                 .style('fill','#87CEFA')
-
     }
-
 
 }
 
@@ -91,7 +88,7 @@ class Basin {
                 .append('path')
 
                 .attr('d', basin_path)
-                .attr('stroke', 'brown');
+                .attr('stroke', 'grey');
                 // .attr('fill', 'grey');
 
         })
