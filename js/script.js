@@ -7,5 +7,6 @@
  *
  */
 let map = new Map();
+let basin = new Basin();
 
 //d3.json("data/.....").then( data => {});

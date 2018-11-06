@@ -9,7 +9,7 @@ class Map {
     /**
      * not sure of the exact params that should be passed into the constructor right now
      */
-    constructor() {
+    constructor(projection, data) {
         let svg = d3.select("#map")
                     .append("svg")
                         .attr("id", "mapSVG")
@@ -26,8 +26,6 @@ class Map {
         this.svg = d3.select("#mapSVG");
         let path = d3.geoPath();
 
-        this.projection = d3.geoAlbersUsa();
-
 
         d3.json("https://unpkg.com/us-atlas@1/us/10m.json", (error, us) => {
             if (error) throw error;
@@ -36,11 +34,22 @@ class Map {
              * this.svg.append("path")
              * .attr("d", path( <<BASIN PATHS GO HERE>>));
              */
-            //Not sure how to call my json from here. Is it nest-able? Will fix later
+            //Not sure how to call my json from here. are d2.json calls nest-able? Will fix later
             this.svg.append("path")
                 .attr("d", path(topojson.feature(us, us.objects.nation)));
             });
 
+    }
+
+}
+
+class Basin {
+
+
+    constructor(projection, data) {
+
+        this.svg = d3.select("#mapSVG");
+        this.projection = d3.geoAlbersUsa();//.translate([365, 225]);
 
         d3.json("data/USGS_Provinces_topo.json", (error, basins) => {
 
@@ -52,22 +61,28 @@ class Map {
                 .enter()
                 .append('path')
 
-                .attr('d',basin_path)
-                .attr('stroke','brown')
-                .attr('fill','grey');
+                .attr('d', basin_path)
+                .attr('stroke', 'brown')
+                .attr('fill', 'grey');
 
-        console.log(geojson);
-        });
-
-
-
-        console.log("done rendering map");
+        })
     }
-
 }
 
-class Basin {
-    constructor(){
-        
+
+
+class Well {
+
+    constructor(projection){
+
+        d3.csv('data/SRCPhase2GeospatialUSA2.csv', (error, well_geospatial) => {
+            this.well_data = well_geospatial;
+        })
+}
+
+    update(data){
+
+
+
     }
 }
