@@ -11,7 +11,8 @@ projection = d3.geoAlbersUsa();
 
 
 let map = new Map(projection);
-let basin = new Basin(projection);
 let well = new Well(projection);
+let basin = new Basin(projection);
+
 
 //d3.json("data/.....").then( data => {});
