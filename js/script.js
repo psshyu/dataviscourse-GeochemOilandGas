@@ -6,7 +6,12 @@
  * What this script needs is the data in JSON format to pass into other objects.
  *
  */
-let map = new Map();
-let basin = new Basin();
+
+projection = d3.geoAlbersUsa();
+
+
+let map = new Map(projection);
+let basin = new Basin(projection);
+let well = new Well(projection);
 
 //d3.json("data/.....").then( data => {});
