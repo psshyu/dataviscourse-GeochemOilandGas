@@ -7,7 +7,9 @@ class PotentialPlot{
 
     }
     update(samples, colorScale){
-
+        /*
+                *TODO:
+                * */
 
     }
 }

@@ -7,7 +7,9 @@ class InverseKrevelen{
 
     }
     update(samples, colorScale){
-
+        /*
+                *TODO:
+                * */
 
     }
 }

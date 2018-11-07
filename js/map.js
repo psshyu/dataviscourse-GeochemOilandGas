@@ -111,7 +111,6 @@ class Basin {
     }
 
 
-
     update(){
         let that = this;
         let basins = this.svg.selectAll('path');
@@ -124,7 +123,7 @@ class Basin {
                 d3.csv("data/SRCPhase2GeochemUSA2.csv", geospatialData => {
 
                     let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
-                    console.log(that.tocChart); //prints undefined. Could you take a look, please
+                    console.log(that.tocChart); //prints undefined. Could you take a look at this, please?
                     that.tocChart.update(samplesInClickedBasin, that.colorScale);
                     that.vanKrevPlot.update(samplesInClickedBasin,that.colorScale);
                     that.potentialPlot.update(samplesInClickedBasin,that.colorScale);
@@ -132,7 +131,6 @@ class Basin {
                 });
 
             });
-
 
     }
 }
