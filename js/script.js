@@ -21,6 +21,6 @@ d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData => {
     let map = new Map(projection, geospatialData, tocChart, vanKrevelenPlot, potentialPlot, inverseKrevPlot);
     let basin = new Basin(projection);
     map.update();
-    // let basin = new Basin(projection);
+    //let basin = new Basin(projection);
 
 });

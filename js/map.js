@@ -22,7 +22,7 @@ class Map {
                     .append("svg")
                         .attr("id", "mapSVG")
                         .attr("width","65vw")
-                        .attr("height", "65vh")
+                        .attr("height", "80vh")
                         .attr("fill", "none")
                         .attr("stroke","#000")
                         .attr("stroke-linejoin", "round")
@@ -32,24 +32,27 @@ class Map {
 
 
         this.svg = d3.select("#mapSVG");
-        let path = d3.geoPath();
+
+        
+        //let path = d3.geoPath();
 
 
-        d3.json("https://unpkg.com/us-atlas@1/us/10m.json", (error, us) => {
-            if (error) throw error;
+        //d3.json("https://unpkg.com/us-atlas@1/us/10m.json", (error, us) => {
+         //   if (error) throw error;
             /**
              * TODO: Draw basins
              * this.svg.append("path")
              * .attr("d", path( <<BASIN PATHS GO HERE>>));
              */
             //Not sure how to call my json from here. are d3.json calls nest-able? Will fix later
-            this.svg.append("path")
-                .attr("d", path(topojson.feature(us, us.objects.nation)));
-            });
+         //   this.svg.append("path")
+          //      .attr("d", path(topojson.feature(us, us.objects.nation)));
+          //  }
+           // );
 
-            /*
-        *TODO:
-        * Generate a color palette/scale for at least 50 (maybe?) differentiable colors
+        /*
+         *TODO:
+         * Generate a color palette/scale for at least 50 (maybe?) differentiable colors
          */
         let domain = [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60];
         let range = ["#063e78", "#08519c", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15", "#860308"];
@@ -73,13 +76,13 @@ class Map {
             wells.exit().remove();
             let new_wells = wells.enter().append('circle');
             wells = new_wells.merge(wells);
-
+        console.log('drawing basins');
             wells
                 .attr('cx', d => this.projection([d.Longitude,d.Latitude])[0])
                 .attr('cy', d => this.projection([d.Longitude,d.Latitude])[1])
                 .attr('r', 1.5)
                 .style('fill','#87CEFA')
-                .attr('stroke-width',0.2)
+                .attr('stroke-width',0.2);
     }
 
 }
@@ -93,6 +96,22 @@ class Basin {
         this.svg = d3.select("#mapSVG");
         this.projection = projection;
 
+        function mouseOverHandler(d, i){
+            d3.select(this).attr('fill', 'white');
+
+            let name = d.properties.Name;
+            let id = name.replace(/\s/g,'');  
+
+            d3.select("#mapSVG").append("text").attr("y", "47.5vh").attr("id", id)
+             .text((d) => { return name; });
+        }
+        function mouseOutHandler(d, i) {
+            d3.select(this).attr('fill', 'grey');
+
+            let name = d.properties.Name;
+            let id = "#" + name.replace(/\s/g,''); 
+            d3.select(id).remove();
+        }
         d3.json("data/USGS_Provinces_topo.json", (error, basins) => {
 
             let geojson = topojson.feature(basins, basins.objects.USGS_Provinces);
@@ -104,8 +123,10 @@ class Basin {
                 .append('path')
                 .attr('d', basin_path)
                 .style("fill-opacity", 0.1)
-                .attr('fill','#FFFFE0')
-                .attr('stroke', 'grey');
+                .attr('fill','#373737')
+                .attr('stroke', 'grey')
+                .on('mouseover', mouseOverHandler)
+                .on('mouseout', mouseOutHandler);
 
             this.update()});
     }
