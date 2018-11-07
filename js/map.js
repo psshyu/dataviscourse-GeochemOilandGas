@@ -35,23 +35,24 @@ class Map {
         let path = d3.geoPath();
 
 
-        d3.json("https://unpkg.com/us-atlas@1/us/10m.json", (error, us) => {
-            if (error) throw error;
-            /**
-             * TODO: Draw basins
-             * this.svg.append("path")
-             * .attr("d", path( <<BASIN PATHS GO HERE>>));
-             */
-            //Not sure how to call my json from here. are d3.json calls nest-able? Will fix later
-            this.svg.append("path")
-                .attr("d", path(topojson.feature(us, us.objects.nation)));
-            });
+    //     d3.json("https://unpkg.com/us-atlas@1/us/10m.json", (error, us) => {
+    //         if (error) throw error;
+    //         /**
+    //          * TODO: Draw basins
+    //          * this.svg.append("path")
+    //          * .attr("d", path( <<BASIN PATHS GO HERE>>));
+    //          */
+    //         //Not sure how to call my json from here. are d3.json calls nest-able? Will fix later
+    //         this.svg.append("path")
+    //             .attr("d", path(topojson.feature(us, us.objects.nation)));
+    //         });
     }
 
     update(){
 
-            //filter data points falling outside geoAlbers projection extent
-            //get a wider projection as we have offshore wells in the gulf of mexico (sea) and Cali.
+            //filter wells falling outside geoAlbers projection extent
+            //get a wider projection as we have offshore wells in the gulf of mexico (sea) and Cali?
+            //GeoAlbers will return null if well falls outside the US
             this.geospatialData = this.geospatialData.filter(d => projection([d.Longitude,d.Latitude])!==null);
 
             let wells = this.svg.selectAll('circle').data(this.geospatialData);
@@ -62,8 +63,9 @@ class Map {
             wells
                 .attr('cx', d => this.projection([d.Longitude,d.Latitude])[0])
                 .attr('cy', d => this.projection([d.Longitude,d.Latitude])[1])
-                .attr('r', 2)
+                .attr('r', 1.5)
                 .style('fill','#87CEFA')
+                .attr('stroke-width',0.2)
     }
 
 }
@@ -86,11 +88,30 @@ class Basin {
             this.svg.selectAll('path').data(geofeatures)
                 .enter()
                 .append('path')
-
                 .attr('d', basin_path)
+                .style("fill-opacity", 0.1)
+                .attr('fill','#FFFFE0')
                 .attr('stroke', 'grey');
-                // .attr('fill', 'grey');
 
-        })
+        this.update()
+        });
+
+    }
+
+    update(){
+
+        let basins = this.svg.selectAll('path');
+        console.log(basins);
+        basins
+            // .attr('fill','red')
+            .on('click', function(d){
+
+                // load the geochemical csv data and pass them to the plots and charts
+
+
+            });
+
+
+
     }
 }
