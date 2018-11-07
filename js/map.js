@@ -76,20 +76,19 @@ class Map {
             wells.exit().remove();
             let new_wells = wells.enter().append('circle');
             wells = new_wells.merge(wells);
-        console.log('drawing basins');
+
             wells
                 .attr('cx', d => this.projection([d.Longitude,d.Latitude])[0])
                 .attr('cy', d => this.projection([d.Longitude,d.Latitude])[1])
                 .attr('r', 1.5)
                 .style('fill','#87CEFA')
-                .attr('stroke-width',0.2);
+                .attr('stroke-width',0.2)
+                .on("mouseover", (d) => {console.log(d)});
     }
 
 }
 
 class Basin {
-
-
     constructor(projection) {
 
         // this.wellObject = wellObject;
@@ -122,6 +121,10 @@ class Basin {
                 .enter()
                 .append('path')
                 .attr('d', basin_path)
+                .attr('id', (d) => {
+                    let name = d.properties.Name;
+                    return "basin-"+name.replace(/\s/g,'');  
+                })
                 .style("fill-opacity", 0.1)
                 .attr('fill','#373737')
                 .attr('stroke', 'grey')
