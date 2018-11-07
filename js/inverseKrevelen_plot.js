@@ -6,7 +6,7 @@ class InverseKrevelen{
     constructor(){
 
     }
-    update(){
+    update(samples, colorScale){
 
 
     }

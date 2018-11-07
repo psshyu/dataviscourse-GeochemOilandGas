@@ -35,17 +35,31 @@ class Map {
         let path = d3.geoPath();
 
 
-    //     d3.json("https://unpkg.com/us-atlas@1/us/10m.json", (error, us) => {
-    //         if (error) throw error;
-    //         /**
-    //          * TODO: Draw basins
-    //          * this.svg.append("path")
-    //          * .attr("d", path( <<BASIN PATHS GO HERE>>));
-    //          */
-    //         //Not sure how to call my json from here. are d3.json calls nest-able? Will fix later
-    //         this.svg.append("path")
-    //             .attr("d", path(topojson.feature(us, us.objects.nation)));
-    //         });
+        d3.json("https://unpkg.com/us-atlas@1/us/10m.json", (error, us) => {
+            if (error) throw error;
+            /**
+             * TODO: Draw basins
+             * this.svg.append("path")
+             * .attr("d", path( <<BASIN PATHS GO HERE>>));
+             */
+            //Not sure how to call my json from here. are d3.json calls nest-able? Will fix later
+            this.svg.append("path")
+                .attr("d", path(topojson.feature(us, us.objects.nation)));
+            });
+
+            /*
+        *TODO:
+        * Generate a color palette/scale for at least 50 (maybe?) differentiable colors
+         */
+        let domain = [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60];
+        let range = ["#063e78", "#08519c", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15", "#860308"];
+
+        //dummy color scale
+        this.colorScale = d3.scaleQuantile()
+            .domain(domain)
+            .range(range);
+
+
     }
 
     update(){
@@ -93,24 +107,31 @@ class Basin {
                 .attr('fill','#FFFFE0')
                 .attr('stroke', 'grey');
 
-        this.update()
-        });
-
+            this.update()});
     }
 
+
+
     update(){
-
+        let that = this;
         let basins = this.svg.selectAll('path');
-        console.log(basins);
         basins
-            // .attr('fill','red')
             .on('click', function(d){
+                /*
+                *load the geochemical csv data and pass the samples (rows) that correspond to the clicked basin to the plots and charts objects
+                *The key column in common in both tables is:  the 'USGS_Province' column (geochem.csv) and 'Name' column (USGS_Provinces.json)
+                */
+                d3.csv("data/SRCPhase2GeochemUSA2.csv", geospatialData => {
 
-                // load the geochemical csv data and pass them to the plots and charts
-
+                    let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
+                    console.log(that.tocChart); //prints undefined. Could you take a look, please
+                    that.tocChart.update(samplesInClickedBasin, that.colorScale);
+                    that.vanKrevPlot.update(samplesInClickedBasin,that.colorScale);
+                    that.potentialPlot.update(samplesInClickedBasin,that.colorScale);
+                    that.inverseKrevPlot.update(samplesInClickedBasin,that.colorScale);
+                });
 
             });
-
 
 
     }

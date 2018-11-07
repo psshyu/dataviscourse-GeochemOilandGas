@@ -1,5 +1,26 @@
-Click in basin polygon -> zoom in that basin;
-                            move to the upper right corner;
-                            filter data of the wells in the clicked basin and pass it to the update function of the plots/charts;
+Click in basin polygon:
+                        -> zoom in that basin;
+                        -> move to the upper right corner;
+                        ->filter data of the wells in the clicked basin and pass it to the update function of the plots/charts;
+
+Click in well location:
+
+                        -> highlight the samples (circles in the scatteplot and bars in the barchart) that correspond to this well.
+
+Click in sample (circle/bar element)  :
+
+                       -> in map, highlight the well location that corresponds to the clicked/hovered sample.
+                       -> highlights the circle/bar elements in other charts/plots that correspond to the same well
+                       -> display depth-chart (extra)
+
+TA suggested:
+
+                        -> Add more functionality to the vis system by adding a dropdown box/brush that allows to filter the data and
+                       let evaluate it from different perspectives.
+
+Extra:
+                        -> Add a slider and work with temporal time (column age)
+                        -> Add tooltips where convenient
+
 
 

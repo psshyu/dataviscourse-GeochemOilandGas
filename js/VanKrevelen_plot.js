@@ -3,11 +3,10 @@
 
 class VanKrevelenPlot{
 
-constructor(){
+    constructor(){
 
-}
-    update(){
-
+    }
+    update(samples, colorScale){
 
     }
 

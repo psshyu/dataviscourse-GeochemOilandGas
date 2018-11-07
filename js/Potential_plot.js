@@ -6,7 +6,7 @@ class PotentialPlot{
     constructor(){
 
     }
-    update(){
+    update(samples, colorScale){
 
 
     }

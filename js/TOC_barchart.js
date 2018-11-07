@@ -8,6 +8,12 @@ class TOC_barchart{
 
     }
 
-    update(){}
+    update(samples, colorScale){
+
+
+        console.log(samples);
+    }
+
+
 
 }
