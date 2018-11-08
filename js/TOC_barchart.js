@@ -11,8 +11,8 @@ class TOC_barchart{
     update(samples, colorScale){
 
         /*
-                *TODO:
-                * */
+         * TODO:
+         */
         console.log(samples);
     }
 

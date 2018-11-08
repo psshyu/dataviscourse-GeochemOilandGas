@@ -57,10 +57,7 @@ class Map {
         let domain = [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60];
         let range = ["#063e78", "#08519c", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15", "#860308"];
 
-        //dummy color scale
-        this.colorScale = d3.scaleQuantile()
-            .domain(domain)
-            .range(range);
+        
 
 
     }
@@ -89,11 +86,21 @@ class Map {
 }
 
 class Basin {
-    constructor(projection) {
-
-        // this.wellObject = wellObject;
+    constructor(projection, geospatialData, tocChart, vanKrevPlot, potentialPlot, inverseKrevPlot) {
         this.svg = d3.select("#mapSVG");
         this.projection = projection;
+        this.geospatialData = geospatialData;
+        this.tocChart = tocChart;
+        this.vanKrevPlot = vanKrevPlot;
+        this.potentialPlot = potentialPlot;
+        this.inverseKrevPlot = inverseKrevPlot;
+
+        //dummy color scale
+        let domain = [0, 10]
+        let range = [0, 10]
+        this.colorScale = d3.scaleQuantile()
+            .domain(domain)
+            .range(range);
 
         function mouseOverHandler(d, i){
             d3.select(this).attr('fill', 'white');
@@ -104,6 +111,7 @@ class Basin {
             d3.select("#mapSVG").append("text").attr("y", "47.5vh").attr("id", id)
              .text((d) => { return name; });
         }
+
         function mouseOutHandler(d, i) {
             d3.select(this).attr('fill', 'grey');
 
@@ -111,6 +119,8 @@ class Basin {
             let id = "#" + name.replace(/\s/g,''); 
             d3.select(id).remove();
         }
+
+        
         d3.json("data/USGS_Provinces_topo.json", (error, basins) => {
 
             let geojson = topojson.feature(basins, basins.objects.USGS_Provinces);
@@ -129,29 +139,71 @@ class Basin {
                 .attr('fill','#373737')
                 .attr('stroke', 'grey')
                 .on('mouseover', mouseOverHandler)
-                .on('mouseout', mouseOutHandler);
+                .on('mouseout', mouseOutHandler)
+                .on('click', clickHandler)
 
-            this.update()});
+            //this.update(tocChart, vanKrevPlot, potentialPlot, inverseKrevPlot)
+        
+        });
+
+        function clickHandler(d, i) {
+
+            console.log("I handle clicks!");
+            //console.log(projection);
+            d3.select("#chart1").style("background-color", "black");
+
+            let geoPath = d3.geoPath()
+            console.log(d.geometry.coordinates);
+            //let zoomInPath = d3.geoPath().projection(d.geometry);
+            let zoomInPath = geoPath(d.geometry);
+            //console.log("zoom", d.geometry);
+            let mini = d3.select("#info").append("svg").attr("width", "33vw").attr("height", "33vh");
+
+            mini.append('path').attr('d', zoomInPath).attr("transform", "translate(1000, -200) scale(6)").attr("fill", "#373737");
+
+            d3.csv("data/SRCPhase2GeochemUSA2.csv", geospatialData => {
+                let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
+                console.log(samplesInClickedBasin);
+                
+                let name = d.properties.Name.replace(/\s/g,'');  
+                let tocChart = new TOC_barchart();
+                console.log(d.geometry);
+
+                console.log(d3.select("#basin-"+name));
+                //console.log(d.geometry.coordinates);
+                //let zoomInPath = d3.geoPath().projection(d.geometry);
+                //console.log(zoomInPath);
+                //let mini = d3.select("#info").append("svg").attr("width", "33vw").attr("height", "33vh");
+                //mini.append("path").attr("d", d3.geoPath().projection(d.geometry));
+                
+
+                //this.tocChart.update(samplesInClickedBasin, this.colorScale);         
+            });
+        }
+
     }
 
 
-    update(){
-        let that = this;
+    update(tocChart, vanKrevPlot, potentialPlot, inverseKrevPlot){
         let basins = this.svg.selectAll('path');
         basins
-            .on('click', function(d){
+            .on('click', (d) => {
                 /*
                 *load the geochemical csv data and pass the samples (rows) that correspond to the clicked basin to the plots and charts objects
                 *The key column in common in both tables is:  the 'USGS_Province' column (geochem.csv) and 'Name' column (USGS_Provinces.json)
                 */
                 d3.csv("data/SRCPhase2GeochemUSA2.csv", geospatialData => {
-
+                    console.log(geospatialData);
+                    console.log("update basins");
                     let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
-                    console.log(that.tocChart); //prints undefined. Could you take a look at this, please?
-                    that.tocChart.update(samplesInClickedBasin, that.colorScale);
-                    that.vanKrevPlot.update(samplesInClickedBasin,that.colorScale);
-                    that.potentialPlot.update(samplesInClickedBasin,that.colorScale);
-                    that.inverseKrevPlot.update(samplesInClickedBasin,that.colorScale);
+
+                    console.log(samplesInClickedBasin);
+                    let temptocChart = new TOC_barchart();
+                    //temptocChart = tocChart;
+                    temptocChart.update(samplesInClickedBasin, this.colorScale);
+                   /* vanKrevPlot.update(samplesInClickedBasin,this.colorScale);
+                    potentialPlot.update(samplesInClickedBasin,this.colorScale);
+                    inverseKrevPlot.update(samplesInClickedBasin,this.colorScale);*/
                 });
 
             });
