@@ -50,6 +50,9 @@ class Map {
           //  }
            // );
 
+
+
+
         /*
          *TODO:
          * Generate a color palette/scale for at least 50 (maybe?) differentiable colors
@@ -86,6 +89,7 @@ class Map {
 }
 
 class Basin {
+    //when a basin is clicked,
     constructor(projection, geospatialData, tocChart, vanKrevPlot, potentialPlot, inverseKrevPlot) {
         this.svg = d3.select("#mapSVG");
         this.projection = projection;
@@ -96,8 +100,8 @@ class Basin {
         this.inverseKrevPlot = inverseKrevPlot;
 
         //dummy color scale
-        let domain = [0, 10]
-        let range = [0, 10]
+        let domain = [0, 10];
+        let range = [0, 10];
         this.colorScale = d3.scaleQuantile()
             .domain(domain)
             .range(range);
@@ -148,12 +152,12 @@ class Basin {
 
         function clickHandler(d, i) {
 
-            console.log("I handle clicks!");
+            let that = this;
             //console.log(projection);
             d3.select("#chart1").style("background-color", "black");
 
-            let geoPath = d3.geoPath()
-            console.log(d.geometry.coordinates);
+            let geoPath = d3.geoPath();
+            // console.log(d.geometry.coordinates);
             //let zoomInPath = d3.geoPath().projection(d.geometry);
             let zoomInPath = geoPath(d.geometry);
             //console.log("zoom", d.geometry);
@@ -163,13 +167,28 @@ class Basin {
 
             d3.csv("data/SRCPhase2GeochemUSA2.csv", geospatialData => {
                 let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
-                console.log(samplesInClickedBasin);
+                //console.log(samplesInClickedBasin);
                 
-                let name = d.properties.Name.replace(/\s/g,'');  
-                let tocChart = new TOC_barchart();
-                console.log(d.geometry);
+                let name = d.properties.Name.replace(/\s/g,'');
 
-                console.log(d3.select("#basin-"+name));
+                //temporary
+                //Shouldn't a click on a basin only update the already-created objects? Here we are creating objects at every click.
+                //As this is working, I'll just work from here for now.
+
+                let tocChart = new TOC_barchart();
+                let vanKrevelenPlot = new VanKrevelenPlot();
+                let potentialPlot = new PotentialPlot();
+                let inverseKrevPlot = new InverseKrevelen();
+
+                tocChart.update(samplesInClickedBasin,that.colorScale);
+                vanKrevelenPlot.update(samplesInClickedBasin,that.colorScale);
+                potentialPlot.update(samplesInClickedBasin,that.colorScale);
+                inverseKrevPlot.update(samplesInClickedBasin,that.colorScale);
+
+
+                // console.log(d.geometry);
+
+                // console.log(d3.select("#basin-"+name));
                 //console.log(d.geometry.coordinates);
                 //let zoomInPath = d3.geoPath().projection(d.geometry);
                 //console.log(zoomInPath);
@@ -185,7 +204,10 @@ class Basin {
 
 
     update(tocChart, vanKrevPlot, potentialPlot, inverseKrevPlot){
+
+        let that =this;
         let basins = this.svg.selectAll('path');
+
         basins
             .on('click', (d) => {
                 /*
@@ -193,11 +215,11 @@ class Basin {
                 *The key column in common in both tables is:  the 'USGS_Province' column (geochem.csv) and 'Name' column (USGS_Provinces.json)
                 */
                 d3.csv("data/SRCPhase2GeochemUSA2.csv", geospatialData => {
-                    console.log(geospatialData);
-                    console.log("update basins");
+                    // console.log(geospatialData);
+                    // console.log("update basins");
                     let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
 
-                    console.log(samplesInClickedBasin);
+                    // console.log(samplesInClickedBasin);
                     let temptocChart = new TOC_barchart();
                     //temptocChart = tocChart;
                     temptocChart.update(samplesInClickedBasin, this.colorScale);
