@@ -28,28 +28,35 @@ class TOC_barchart{
 
 
         /* Data in strings like it would be if imported from a csv */
+        // formations in horizontal
+        //bins in vertical
 
         var data = [
-            { year: "2006", redDelicious: "10", mcintosh: "15", oranges: "9", pears: "6" },
-            { year: "2007", redDelicious: "12", mcintosh: "18", oranges: "9", pears: "4" },
-            { year: "2008", redDelicious: "05", mcintosh: "20", oranges: "8", pears: "2" },
-            { year: "2009", redDelicious: "01", mcintosh: "15", oranges: "5", pears: "4" },
-            { year: "2010", redDelicious: "02", mcintosh: "10", oranges: "4", pears: "2" },
-            { year: "2011", redDelicious: "03", mcintosh: "12", oranges: "6", pears: "3" },
-            { year: "2012", redDelicious: "04", mcintosh: "15", oranges: "8", pears: "1" },
-            { year: "2013", redDelicious: "06", mcintosh: "11", oranges: "9", pears: "4" },
-            { year: "2014", redDelicious: "10", mcintosh: "13", oranges: "9", pears: "5" },
-            { year: "2015", redDelicious: "16", mcintosh: "19", oranges: "6", pears: "9" },
-            { year: "2016", redDelicious: "19", mcintosh: "17", oranges: "5", pears: "7" },
+            { bin: "2006", f1: "10", f2: "15", oranges: "9", pears: "6" , form20:'12'},
+            { bin: "2007", f1: "12", f2: "18", oranges: "9", pears: "4" ,form20:'12'},
+            { bin: "2008", f1: "05", f2: "20", oranges: "8", pears: "2" ,form20:'12'},
+            { bin: "2009", f1: "01", f2: "15", oranges: "5", pears: "4" ,form20:'12'},
+            { bin: "2010", f1: "02", f2: "10", oranges: "4", pears: "2" ,form20:'12'},
+            { bin: "2011", f1: "03", f2: "12", oranges: "6", pears: "3" ,form20:'12'},
+            { bin: "2012", f1: "04", f2: "15", oranges: "8", pears: "1" ,form20:'12'},
+            { bin: "2013", f1: "06", f2: "11", oranges: "9", pears: "4" ,form20:'12'},
+            { bin: "2014", f1: "10", f2: "13", oranges: "9", pears: "5" ,form20:'12'},
+            { bin: "2015", f1: "16", f2: "19", oranges: "6", pears: "9" ,form20:'12'},
+            { bin: "2016", f1: "19", f2: "17", oranges: "5", pears: "7" ,form20:'12'},
+            { bin: "2017", f1: "14", f2: "16", oranges: "4", pears: "7" ,form20:'12'},
+            { bin: "2018", f1: "14", f2: "16", oranges: "4", pears: "7" ,form20:'12'},
+            { bin: "2019", f1: "14", f2: "16", oranges: "4", pears: "7" ,form20:'12'},
+            { bin: "2020", f1: "14", f2: "16", oranges: "4", pears: "7" ,form20:'12'},
+            { bin: "2021", f1: "14", f2: "16", oranges: "4", pears: "7" ,form20:'12'}
         ];
 
-        var parse = d3.time.format("%Y").parse;
+        // var parse = d3.time.format("%Y").parse;
 
 
 // Transpose the data into layers
-        var dataset = d3.layout.stack()(["redDelicious", "mcintosh", "oranges", "pears"].map(function(fruit) {
+        var dataset = d3.layout.stack()(["f1", "f2", "oranges", "pears",'form20'].map(function(fruit) {
             return data.map(function(d) {
-                return {x: parse(d.year), y: +d[fruit]};
+                return {x: d.bin, y: +d[fruit]};
             });
         }));
 
@@ -65,7 +72,7 @@ class TOC_barchart{
             .domain([0, d3.max(dataset, function(d) {  return d3.max(d, function(d) { return d.y0 + d.y; });  })])
             .range([height, 0]);
 
-        var colors = ["b33040", "#d25c4d", "#f2b447", "#d9d574"];
+        var colors = ["b33040", "#d25c4d", "#f2b447", "#d9d574","#d25c4d"];
 
 
 // // Define and draw axes
@@ -105,7 +112,8 @@ class TOC_barchart{
             .attr("x", function(d) { return x(d.x); })
             .attr("y", function(d) { return y(d.y0 + d.y); })
             .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
-            .attr("width", x.rangeBand());
+            .attr("width", x.rangeBand())
+            .attr('stroke','black');
             // .on("mouseover", function() { tooltip.style("display", null); })
             // .on("mouseout", function() { tooltip.style("display", "none"); })
             // .on("mousemove", function(d) {
@@ -136,10 +144,11 @@ class TOC_barchart{
             .style("text-anchor", "start")
             .text(function(d, i) {
                 switch (i) {
-                    case 0: return "Anjou pears";
-                    case 1: return "Naval oranges";
-                    case 2: return "McIntosh apples";
-                    case 3: return "Red Delicious apples";
+                    case 0: return "Formation1";
+                    case 1: return "Formation2";
+                    case 2: return "Formation3";
+                    case 3: return "Formation4";
+                    case 4: return "Formation5";
                 }
             });
 
