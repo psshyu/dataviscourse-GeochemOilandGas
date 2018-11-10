@@ -22,7 +22,7 @@ class Map {
                     .append("svg")
                         .attr("id", "mapSVG")
                         .attr("width","65vw")
-                        .attr("height", "80vh")
+                        .attr("height", "70vh")
                         .attr("fill", "none")
                         .attr("stroke","#000")
                         .attr("stroke-linejoin", "round")
@@ -81,7 +81,7 @@ class Map {
                 .attr('cx', d => this.projection([d.Longitude,d.Latitude])[0])
                 .attr('cy', d => this.projection([d.Longitude,d.Latitude])[1])
                 .attr('r', 1.5)
-                .style('fill','#87CEFA')
+                .style('fill','#008080')
                 .attr('stroke-width',0.2)
                 .on("mouseover", (d) => {console.log(d)});
     }
@@ -139,12 +139,20 @@ class Basin {
                     let name = d.properties.Name;
                     return "basin-"+name.replace(/\s/g,'');  
                 })
-                .style("fill-opacity", 0.1)
+                .style("fill-opacity", 0.05)
                 .attr('fill','#373737')
                 .attr('stroke', 'grey')
                 .on('mouseover', mouseOverHandler)
                 .on('mouseout', mouseOutHandler)
-                .on('click', clickHandler)
+                .on('click', clickHandler);
+
+            let graticule = d3.geoGraticule();
+            this.svg.append('path')
+                .datum(graticule)
+                .attr('class', "graticule")
+                .attr('d', basin_path)
+                .attr('fill', 'none');
+
 
             //this.update(tocChart, vanKrevPlot, potentialPlot, inverseKrevPlot)
         

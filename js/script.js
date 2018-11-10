@@ -8,7 +8,7 @@
  */
 
 
-let projection = d3.geoAlbersUsa();
+let projection = d3.geoAlbers();
 
 //d3.csv("data/SRCPhase2GeochemUSA2.csv", geoChemData => {
 //pass well geospatial data (locations/coordinates) to map
