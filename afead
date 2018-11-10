@@ -15,6 +15,8 @@ Click in basin polygon:
 If hovered over a well location:
                                 -> Tooltip: well name
 
+The TOC bar chart will be built per formation
+
 If click in a bar (formation):   -> Highlight the data points in the other charts that correspond to this formation
                                 -> Gray out the other colors
                                 -> Highlight the well locations in the map (basin focus) that have this clicked formation as a parameter
