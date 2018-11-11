@@ -1,181 +1,117 @@
 //barchart for TOC data 
 //upper left image in reference
 
-class TOC_barchart{
+class TOC_barchart {
 
-    constructor(){
-        
-    }
+    constructor() {
 
-    update(samples, colorScale){
 
-        /*
-         * TODO:
-         */
+        this.margin = {top: 20, right: 160, bottom: 35, left: 30};
 
-        let margin = {top: 20, right: 160, bottom: 35, left: 30};
+        this.width = 500 - margin.left - margin.right,
+            this.height = 300 - margin.top - margin.bottom;
 
-        let width = 500 - margin.left - margin.right,
-            height = 300 - margin.top - margin.bottom;
-
-        let svg = d3.select("#tocBarchart")
+        this.svg = d3.select("#tocBarchart")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+        this.svg.append('text').text('CLICK A DATA POINT TO DISPLAY THE TOC DISTRIBUTION ABOUT THE FORMATION');
+    }
 
-        /* Need to form this object from csv */
-        // formations in horizontal
-        //bins in vertical
+    /*
+    @param data Receives the data from a specific formation (whenever a circle -in a scatterplot- gets clicked)
 
-        let data = [
-            { bin: "2006", f1: "10", f2: "15", oranges: "9", pears: "6" , form20:'12'},
-            { bin: "2007", f1: "12", f2: "18", oranges: "9", pears: "4" ,form20:'12'},
-            { bin: "2008", f1: "05", f2: "20", oranges: "8", pears: "2" ,form20:'12'},
-            { bin: "2009", f1: "01", f2: "15", oranges: "5", pears: "4" ,form20:'12'},
-            { bin: "2010", f1: "02", f2: "10", oranges: "4", pears: "2" ,form20:'12'},
-            { bin: "2011", f1: "03", f2: "12", oranges: "6", pears: "3" ,form20:'12'},
-            { bin: "2012", f1: "04", f2: "15", oranges: "8", pears: "1" ,form20:'12'},
-            { bin: "2013", f1: "06", f2: "11", oranges: "9", pears: "4" ,form20:'12'},
-            { bin: "2014", f1: "10", f2: "13", oranges: "9", pears: "5" ,form20:'12'},
-            { bin: "2015", f1: "16", f2: "19", oranges: "6", pears: "9" ,form20:'12'},
-            { bin: "2016", f1: "19", f2: "17", oranges: "5", pears: "7" ,form20:'12'},
-            { bin: "2017", f1: "14", f2: "16", oranges: "4", pears: "7" ,form20:'12'},
-            { bin: "2018", f1: "14", f2: "16", oranges: "4", pears: "7" ,form20:'12'},
-            { bin: "2019", f1: "14", f2: "16", oranges: "4", pears: "7" ,form20:'12'},
-            { bin: "2020", f1: "14", f2: "16", oranges: "4", pears: "7" ,form20:'12'},
-            { bin: "2021", f1: "14", f2: "16", oranges: "4", pears: "7" ,form20:'12'}
-        ];
+     */
 
-        console.log(data);
-        // let parse = d3.time.format("%Y").parse;
+    update(data, colorScale) {
 
 
-// Transpose the data into layers
-        let dataset = d3.layout.stack()(["f1", "f2", "oranges", "pears",'form20'].map(function(fruit) {
-            return data.map(function(d) {
-                return {x: d.bin, y: +d[fruit]};
+        // Set up the scales
+        let aScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.a)])
+            .range([0, 140]);
+        let bScale = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.b)])
+            .range([0, 140]);
+        let iScale = d3.scaleLinear()
+            .domain([0, data.length])
+            .range([10, 120]);
+
+
+        let barchartsSelection = d3.select("#aBarChart").selectAll("rect").data(data);
+
+        // handle exit selection
+        barchartsSelection
+            .exit()
+            .attr("opacity", 1)
+            .transition()
+            .duration(1000)
+            .attr("opacity", 0)
+            .remove();
+
+        let newBars = barchartsSelection.enter().append("rect");
+
+        // //Need to merge the new rectangle with the original selection
+        barchartsSelection = newBars.merge(barchartsSelection);
+
+        //Apply transitions to new selection containing all rectangles
+        barchartsSelection
+            .transition()
+            .duration(1000)
+            .attr("width", function (d) {
+                return aScale(d.a);
+            })
+            .attr("x", 0)
+            .attr("y", (d, i) => (i + 1) * 10)
+            .attr("height", 10);
+//if we wanted to add listeners on D3 we use .on like this: .on("mouseout",function (){this.setAttribute("style","fill: red");}) with D3
+//When adding events by javascript we need to use events and select 'the group g of elemnts' (adding events to a selection of bars don't work)
+//also when adding a new listener, we need to call the group again, and not concatenate the listeners.
+//'this' in D3 .on functions refers to the element being clicked, hoveredover, etc. In JS, we use event.target.
+        DOMbarchartsGroupS = document.getElementById("aBarChart");
+        DOMbarchartsGroupS
+            .addEventListener("mouseover", function (event) {
+                event.target.setAttribute("style", "fill: red");
             });
-        }));
-
-        console.log(dataset);
-
-
-// Set x, y and colors
-        let x = d3.scale.ordinal()
-            .domain(dataset[0].map(function(d) { return d.x; }))
-            .rangeRoundBands([10, width-10], 0.02);
-
-        let y = d3.scale.linear()
-            .domain([0, d3.max(dataset, function(d) {  return d3.max(d, function(d) { return d.y0 + d.y; });  })])
-            .range([height, 0]);
-
-        let colors = ["b33040", "#d25c4d", "#f2b447", "#d9d574","#d25c4d"];
-
-
-// // Define and draw axes
-//         let yAxis = d3.svg.axis()
-//             .scale(y)
-//             .orient("left")
-//             .ticks(5)
-//             .tickSize(-width, 0, 0)
-//             .tickFormat( function(d) { return d } );
-//
-//         let xAxis = d3.svg.axis()
-//             .scale(x)
-//             .orient("bottom")
-//             .tickFormat(d3.time.format("%Y"));
-//
-//         svg.append("g")
-//             .attr("class", "y axis")
-//             .call(yAxis);
-//
-//         svg.append("g")
-//             .attr("class", "x axis")
-//             .attr("transform", "translate(0," + height + ")")
-//             .call(xAxis);
-
-
-// Create groups for each series, rects for each segment
-        let groups = svg.selectAll("g.cost")
-            .data(dataset)
-            .enter().append("g")
-            .attr("class", "cost")
-            .style("fill", function(d, i) { return colors[i]; });
-
-        let rect = groups.selectAll("rect")
-            .data(function(d) { return d; })
-            .enter()
-            .append("rect")
-            .attr("x", function(d) { return x(d.x); })
-            .attr("y", function(d) { return y(d.y0 + d.y); })
-            .attr("height", function(d) { return y(d.y0) - y(d.y0 + d.y); })
-            .attr("width", x.rangeBand())
-            .attr('stroke','black');
-            // .on("mouseover", function() { tooltip.style("display", null); })
-            // .on("mouseout", function() { tooltip.style("display", "none"); })
-            // .on("mousemove", function(d) {
-            //     let xPosition = d3.mouse(this)[0] - 15;
-            //     let yPosition = d3.mouse(this)[1] - 25;
-            //     tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-            //     tooltip.select("text").text(d.y);
-            // });
-
-
-// Draw legend
-        let legend = svg.selectAll(".legend")
-            .data(colors)
-            .enter().append("g")
-            .attr("class", "legend")
-            .attr("transform", function(d, i) { return "translate(30," + i * 19 + ")"; });
-
-        legend.append("rect")
-            .attr("x", width - 18)
-            .attr("width", 18)
-            .attr("height", 18)
-            .style("fill", function(d, i) {return colors.slice().reverse()[i];});
-
-        legend.append("text")
-            .attr("x", width + 5)
-            .attr("y", 9)
-            .attr("dy", ".35em")
-            .style("text-anchor", "start")
-            .text(function(d, i) {
-                switch (i) {
-                    case 0: return "Formation1";
-                    case 1: return "Formation2";
-                    case 2: return "Formation3";
-                    case 3: return "Formation4";
-                    case 4: return "Formation5";
-                }
+        DOMbarchartsGroupS
+            .addEventListener("mouseout", function (event) {
+                event.target.setAttribute("style", "fill:" + String(event.target.getAttribute("style")));
             });
 
 
-// Prep the tooltip bits, initial display is hidden
-        let tooltip = svg.append("g")
-            .attr("class", "tooltip")
-            .style("display", "none");
+        // TODO: Select and update the 'b' bar chart bars
 
-        tooltip.append("rect")
-            .attr("width", 30)
-            .attr("height", 20)
-            .attr("fill", "white")
-            .style("opacity", 0.5);
+        let BbarchartsSelection = d3.select("#bBarChart").selectAll("rect").data(data);
 
-        tooltip.append("text")
-            .attr("x", 15)
-            .attr("dy", "1.2em")
-            .style("text-anchor", "middle")
-            .attr("font-size", "12px")
-            .attr("font-weight", "bold");
+        // handle exit selection
+        BbarchartsSelection
+            .exit()
+            .attr("opacity", 1)
+            .transition()
+            .duration(1000)
+            .attr("opacity", 0)
+            .remove();
 
+        //define enter-append selection
+        let BnewBars = BbarchartsSelection.enter().append("rect");
 
+        //merge the new rectangle selection with the original selection
+        BbarchartsSelection = BnewBars.merge(BbarchartsSelection);
+
+        //Apply transitions to new selection containing all original+appended rectangles
+        BbarchartsSelection
+            .transition()
+            .duration(1000)
+            .attr("width", function (d) {
+                return aScale(d.b);
+            })
+            .attr("x", 0)
+            .attr("y", (d, i) => (i + 1) * 10)
+            .attr("height", 10);
 
 
     }
-
-
-
 }

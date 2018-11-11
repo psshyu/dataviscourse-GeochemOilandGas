@@ -60,9 +60,6 @@ class Map {
         let domain = [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60];
         let range = ["#063e78", "#08519c", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15", "#860308"];
 
-        
-
-
     }
 
     update(){
@@ -184,14 +181,14 @@ class Basin {
                 //As this is working, I'll just work from here for now.
 
                 let tocChart = new TOC_barchart();
-                let vanKrevelenPlot = new VanKrevelenPlot();
+                let vanKrevelenPlot = new VanKrevelenPlot(tocChart);
                 let potentialPlot = new PotentialPlot();
                 let inverseKrevPlot = new InverseKrevelen();
 
-                tocChart.update(samplesInClickedBasin,that.colorScale);
+
                 vanKrevelenPlot.update(samplesInClickedBasin,that.colorScale);
-                potentialPlot.update(samplesInClickedBasin,that.colorScale);
-                inverseKrevPlot.update(samplesInClickedBasin,that.colorScale);
+                // potentialPlot.update(samplesInClickedBasin,that.colorScale);
+                // inverseKrevPlot.update(samplesInClickedBasin,that.colorScale);
 
 
                 // console.log(d.geometry);
