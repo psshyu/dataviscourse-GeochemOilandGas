@@ -10,16 +10,18 @@
 
 let projection = d3.geoAlbers();
 
+//color scale to be used across charts/legend
+let domain = [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60];
+let range = ["#063e78", "#08519c", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15", "#860308"];
+colorScale = d3.scaleQuantile();
+
 //pass well geospatial data (locations/coordinates) to map
     d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData => {
 
-        let tocChart = new TOC_barchart();
-        // console.log(tocChart);
-        let vanKrevelenPlot = new VanKrevelenPlot();
-        let potentialPlot = new PotentialPlot();
-        let inverseKrevPlot = new InverseKrevelen();
-        let map = new Map(projection, geospatialData, tocChart, vanKrevelenPlot, potentialPlot, inverseKrevPlot);
-        let basin = new Basin(projection);
+        let formations_list = new Formations_list(colorScale);
+        // let legend = new Legend(colorScale);
+        let map = new Map(projection, geospatialData);
+        let basin = new Basin(projection, formations_list);
         map.update();
     });
 //});

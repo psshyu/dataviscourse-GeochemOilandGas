@@ -10,8 +10,15 @@ class VanKrevelenPlot{
         this.tocChart = tocChart;
 
     }
+
+    //works when a basin is clicked
+    //the samples that are contained in the clicked basin arre plotted in a scatter plot
+    //Only HI vs OI.
+
     update(samples, colorScale){
 
+
+        //filter the data according to this chart data needs
 
         let margin = {top: 20, right: 20, bottom: 30, left: 40},
             width = 960 - margin.left - margin.right,
@@ -23,6 +30,12 @@ class VanKrevelenPlot{
          * map function - maps from data value to display value
          * axis - sets up axis
          */
+
+
+        //filter data that does not contain any HI or OI.
+
+        samples = d3.filter(d=> (d.Hydrogen_Index !== null || d.Oxygen_Index !== null));
+
 
 // setup x
         let xValue = function(d) { return d.Calories;}, // data -> value
@@ -143,10 +156,5 @@ class VanKrevelenPlot{
                 .style("text-anchor", "end")
                 .text(function(d) { return d;})
         });
-
-
-
     }
-
-
 }
