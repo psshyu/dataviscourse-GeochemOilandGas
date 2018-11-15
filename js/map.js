@@ -111,11 +111,10 @@ class Basin {
                 d3.select("#legendSVG").remove();
                 d3.select("#formationListUL").remove();
                 
-                let that = this;
                 let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
                 //console.log(samplesInClickedBasin);
                 
-                let name = d.properties.Name.replace(/\s/g,'');
+                //let name = d.properties.Name.replace(/\s/g,'');
                 //console.log(formationsList);
                 //that.formationsList.update(samplesInClickedBasin);
                 //formationsList.update(samplesInClickedBasin)
@@ -128,15 +127,7 @@ class Basin {
                 //console.log(samplesInClickedBasin);
                 
                 let formations = new formationList(samplesInClickedBasin, colorScale);
-                // console.log(d3.select("#basin-"+name));
-                //console.log(d.geometry.coordinates);
-                //let zoomInPath = d3.geoPath().projection(d.geometry);
-                //console.log(zoomInPath);
-                //let mini = d3.select("#info").append("svg").attr("width", "33vw").attr("height", "33vh");
-                //mini.append("path").attr("d", d3.geoPath().projection(d.geometry));
-                
-
-                //this.tocChart.update(samplesInClickedBasin, this.colorScale);         
+   
             });
         }
 
