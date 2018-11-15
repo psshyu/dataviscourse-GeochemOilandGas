@@ -4,7 +4,7 @@
 class InverseKrevelen{
 
     constructor(defaultData, defaultFormation, colorScale){
-        console.log("inverse krev plot instantiating...", defaultFormation);
+        //console.log("inverse krev plot instantiating...", defaultFormation);
         this.svg = d3.select("#inverseKrevPlot")
                      .append("svg")
                      .attr("id", "inverseKrevePlotSVG")
