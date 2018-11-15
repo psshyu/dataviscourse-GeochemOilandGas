@@ -3,11 +3,11 @@
 
 class VanKrevelenPlot{
 
-    constructor(tocChart){
+    constructor(defaultData, defaultFormation, colorScale){
 
         //Whenever a circle in this scatter plot is clicked, send the
         //  information of the formation to the tocChart
-        this.tocChart = tocChart;
+        //this.tocChart = tocChart;
 
     }
 

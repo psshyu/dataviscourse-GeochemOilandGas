@@ -1,6 +1,6 @@
 class Legend{
 
-    constructor(colorScale){
+    constructor(defaultData, defaultFormation, colorScale){
 
         this.colorScale = colorScale;
 

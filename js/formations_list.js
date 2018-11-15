@@ -12,11 +12,14 @@ class formationList {
         this.defaultFormationData = samplesInBasin.filter(e => e.Formation_Name === this.defaultFormation);
         console.log(this.defaultFormationData);
         // instantiate charts with default information
-        this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.colorScale);;// = new TOC_barchart();
-        this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
-        this.potentialPlot = new PotentialPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
+        this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.colorScale);
         this.inverseKrevPlot = new InverseKrevelen(this.defaultFormationData, this.defaultFormation, this.colorScale);
-        this.legend = new Legend(this.defaultFormationData, this.defaultFormation, this.colorScale);
+        
+        //TODO: instantiate these plots asynchronously to make sure they all... instantiate. 
+
+        //this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
+        //this.potentialPlot = new PotentialPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
+        //this.legend = new Legend(this.defaultFormationData, this.defaultFormation, this.colorScale);
         /* ******************************************* */
         
         this.list = d3.select("#formationList")

@@ -3,7 +3,7 @@
 
 class PotentialPlot{
 
-    constructor(){
+    constructor(defaultData, defaultFormation, colorScale){
 
     }
     update(samples, colorScale){
