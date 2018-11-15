@@ -108,9 +108,9 @@ class Basin {
                 //console.log(samplesInClickedBasin);
                 
                 let name = d.properties.Name.replace(/\s/g,'');
-
-                that.formationsList.update(samplesInClickedBasin);
-
+                console.log(formationsList);
+                //that.formationsList.update(samplesInClickedBasin);
+                formationsList.update(samplesInClickedBasin)
 
                 // console.log(d.geometry);
 
