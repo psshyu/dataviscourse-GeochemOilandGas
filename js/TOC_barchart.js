@@ -3,8 +3,12 @@
 
 class TOC_barchart {
 
-    constructor() {
-
+    constructor(basinData, defaultFormation) {
+        this.svg = d3.select("#tocBarchart")
+                     .append("svg")
+                     .attr("id", "tocBarchartSVG")
+                     .attr("class", "plot")
+                     .style("background-color", "#373737");
 
         // this.margin = {top: 20, right: 160, bottom: 35, left: 30};
         //

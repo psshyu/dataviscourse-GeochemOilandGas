@@ -58,9 +58,9 @@ class Map {
 
 class Basin {
     //when a basin is clicked
-    constructor(projection,  formationsList) {
+    constructor(projection) {
 
-        this.formationsList = formationsList;
+        //this.formationsList = formationsList;
         // this.legend = legend;
         this.svg = d3.select("#mapSVG");
         this.projection = projection;
@@ -100,20 +100,34 @@ class Basin {
 
         function clickHandler(d, i) {
 
-
             d3.csv("data/SRCPhase2GeochemUSA2.csv", geospatialData => {
+                //remove the plot
+                d3.select("#tocBarchartSVG").remove();
+                d3.select("#vanKrevelenPlotSVG").remove();
+                d3.select("#potentialPlotSVG").remove();
+                d3.select("#inverseKrevPlotSVG").remove();
 
+                // remove formation list and legend
+                d3.select("#legendSVG").remove();
+                d3.select("#formationListUL").remove();
+                
                 let that = this;
                 let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
                 //console.log(samplesInClickedBasin);
                 
                 let name = d.properties.Name.replace(/\s/g,'');
-                console.log(formationsList);
+                //console.log(formationsList);
                 //that.formationsList.update(samplesInClickedBasin);
-                formationsList.update(samplesInClickedBasin)
+                //formationsList.update(samplesInClickedBasin)
+                //color scale to be used across charts/legend
+                let domain = [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60];
+                let range = ["#063e78", "#08519c", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15", "#860308"];
+                let colorScale = d3.scaleQuantile();
 
-                // console.log(d.geometry);
-
+                //console.log(d);
+                //console.log(samplesInClickedBasin);
+                
+                let formations = new formationList(samplesInClickedBasin, colorScale);
                 // console.log(d3.select("#basin-"+name));
                 //console.log(d.geometry.coordinates);
                 //let zoomInPath = d3.geoPath().projection(d.geometry);

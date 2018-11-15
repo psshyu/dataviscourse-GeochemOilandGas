@@ -14,7 +14,14 @@
     pointer-events: none;
 }
 
+.plot {
+    height: inherit;
+    width: inherit;
+    display: block;
+    margin: auto;
+}
 
+.formationClass::-webkit-scrollbar { display: none; }
 /** {*/
     /*font-family: 'Roboto', sans-serif;*/
 /*}*/
