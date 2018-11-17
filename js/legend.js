@@ -8,13 +8,12 @@ class Legend{
                      .attr("id", "legendSVG")
                      .attr("class", "plot")
                      .style("background-color", "#ffffff");
+        this.data = defaultData[0];
 
     }
-    update(clickedBasinData){
-
-     //draw the legend showing the formations present in the clicked basin.
-
-
+    update(wellsInFormation){
+        console.log("JFC");
+        console.log(wellsInFormation);
     }
 
 }

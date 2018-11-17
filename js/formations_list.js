@@ -5,49 +5,76 @@ class formationList {
         this.colorScale = colorScale;
 
         // list of formations in the clicked basin
-        this.formationNames = this._getFormations(samplesInBasin);
+        this.formationNames = this._get(samplesInBasin, 'Formation_Name');
 
         // defaults - the formation that is initially displayed when a basin is clicked
         this.defaultFormation = this.formationNames[0];
         this.defaultFormationData = samplesInBasin.filter(e => e.Formation_Name === this.defaultFormation);
-        console.log(this.defaultFormationData);
 
         // instantiate charts with default information
         this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.colorScale);
         this.inverseKrevPlot = new InverseKrevelen(this.defaultFormationData, this.defaultFormation, this.colorScale);
-        this.legend = new Legend(this.defaultFormationData, this.defaultFormation, this.colorScale);
+        //this.legend = new Legend(this.defaultFormationData, this.defaultFormation, this.colorScale);
         //this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
         this.potentialPlot = new PotentialPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
         /* ******************************************* */
-        
-        this.list = d3.select("#formationList")
+        this.testString = "test string";
+        this.formationList = d3.select("#formationList")
                         .append("ul")
                         .attr("id", "formationListUL");
-        this.list.selectAll("li")
+                        
+        this.formationList.selectAll("li")
                 .data(this.formationNames)
                 .enter()
                 .append("li").text((d) => {return d;})
+                .on("click", (d) => { 
+                    let samplesInFormation = samplesInBasin.filter(e => e.Formation_Name === d); 
+                    let wellsInFormation = this._get(samplesInFormation, 'SRCLocationID')
+                    let samplesInWell = samplesInFormation.filter(e => wellsInFormation.includes(e.SRCLocationID));
+                    this.updateWellsList(samplesInWell, wellsInFormation);
+                });
 
-        
+        let wellsInDefaultFormation = this._get(this.defaultFormationData, 'SRCLocationID')
+        let samplesInDefaultFormationWells =  this.defaultFormationData.filter(e => wellsInDefaultFormation.includes(e.SRCLocationID))
+        this.updateWellsList(samplesInDefaultFormationWells, wellsInDefaultFormation);
     }
+    
     /**
-     * This function returns a sorted set of the formation names in the sample basin;
-     * This was done to remove duplicates from appearing in the list
+     * gets the unique values associated with the passed in tag
      */
-    _getFormations(samples){
+    _get(samples, tag){
         let set = new Set()
         let i;
         for(i = 0; i < samples.length; i++){
-            set.add(samples[i]['Formation_Name'])
+            set.add(samples[i][tag])
         }
         return Array.from(set).sort();
     }
 
-    update(clickedBasinData){
+    updateWellsList(wellSamples, well){
+        d3.select("#legendListUL").remove();
+        console.log(wellSamples);
+        console.log(well);
+        let wellList = d3.select("#legend")
+                            .append("ul")
+                            .attr("id", "legendListUL");
+        wellList.selectAll("li")
+            .data(wellSamples)
+            .enter()
+            .append("li").text((d) => {return d.SRCLocationID;});
+            
+            /*.on("click", (d) => { 
+                let samplesInFormation = samplesInBasin.filter(e => e.Formation_Name === d); 
+                let wellsInFormation = this._get(samplesInFormation, 'SRCLocationID')
+                let samplesInWell = samplesInFormation.filter(e => wellsInFormation.includes(e.SRCLocationID));
+                this.updateWellsList(samplesInWell, wellsInFormation);
+            });*/
+        //d3.select("#")
         //create a list that displays all the formations in the clicked basin data
         //that contain useful values
 
         //onclick function that
+        /*
         d3.select('list')
         .on('click', d =>{
 
@@ -61,7 +88,7 @@ class formationList {
             this.vanKrevelenPlot.update(clickedFormationData,this.colorScale);
             this.potentialPlot.update(clickedFormationData,this.colorScale);
             this.inverseKrevPlot.update(clickedFormationData,this.colorScale)
-        })
+        })*/
 
 
 

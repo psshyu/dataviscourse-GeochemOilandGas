@@ -108,7 +108,7 @@ class Basin {
                 d3.select("#inverseKrevPlotSVG").remove();
 
                 // remove formation list and legend
-                d3.select("#legendSVG").remove();
+                d3.select("#legendListUL").remove();
                 d3.select("#formationListUL").remove();
                 
                 let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
@@ -118,6 +118,7 @@ class Basin {
                 //console.log(formationsList);
                 //that.formationsList.update(samplesInClickedBasin);
                 //formationsList.update(samplesInClickedBasin)
+
                 //color scale to be used across charts/legend
                 let domain = [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60];
                 let range = ["#063e78", "#08519c", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15", "#860308"];
