@@ -11,7 +11,8 @@ class InverseKrevelen{
                      .attr("class", "plot")
                      .style("background-color", "#ffffff");
     }
-    update(samples, colorScale){
+    update(data){
+        console.log("TOC chart updated with well: " + data);
         /*
                 *TODO:
                 * */

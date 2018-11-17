@@ -45,8 +45,8 @@ class TOC_barchart {
 
      */
 
-    update(data, colorScale) {
-
+    static update(data) {
+        console.log("TOC chart updated with well: " + data);
     }
         //filter the data according to this chart data needs
 

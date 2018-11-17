@@ -1,7 +1,6 @@
 class formationList {
 
     constructor(samplesInBasin, colorScale) {
-
         this.colorScale = colorScale;
 
         // list of formations in the clicked basin
@@ -15,7 +14,7 @@ class formationList {
         this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.colorScale);
         this.inverseKrevPlot = new InverseKrevelen(this.defaultFormationData, this.defaultFormation, this.colorScale);
         //this.legend = new Legend(this.defaultFormationData, this.defaultFormation, this.colorScale);
-        //this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
+        this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
         this.potentialPlot = new PotentialPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
         /* ******************************************* */
         this.testString = "test string";
@@ -53,16 +52,18 @@ class formationList {
 
     updateWellsList(wellSamples, well){
         d3.select("#legendListUL").remove();
-        console.log(wellSamples);
-        console.log(well);
+        
         let wellList = d3.select("#legend")
                             .append("ul")
                             .attr("id", "legendListUL");
         wellList.selectAll("li")
-            .data(wellSamples)
+            .data(well)
             .enter()
-            .append("li").text((d) => {return d.SRCLocationID;});
-            
+            .append("li").text((d) => {return d;})
+            .on("click", (d) => {
+                this.updateGraphs(d);
+            });
+
             /*.on("click", (d) => { 
                 let samplesInFormation = samplesInBasin.filter(e => e.Formation_Name === d); 
                 let wellsInFormation = this._get(samplesInFormation, 'SRCLocationID')
@@ -89,9 +90,14 @@ class formationList {
             this.potentialPlot.update(clickedFormationData,this.colorScale);
             this.inverseKrevPlot.update(clickedFormationData,this.colorScale)
         })*/
-
-
-
-
+    }
+    updateGraphs(well){
+        let dummyString = well + " was selected!";
+        console.log(dummyString);
+        this.tocChart.update(well);
+        this.inverseKrevPlot.update(well);
+        //this.legend = new Legend(this.defaultFormationData, this.defaultFormation, this.colorScale);
+        //this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
+        this.potentialPlot.update(well);
     }
 }
