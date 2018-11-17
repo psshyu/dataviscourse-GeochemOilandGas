@@ -10,18 +10,18 @@ class TOC_barchart {
                      .attr("class", "plot")
                      .style("background-color", "#ffffff");
 
-        var x = d3.scaleLinear()
+        let x = d3.scaleLinear()
             .domain([0, 500])
             .range([0, 500]);
-        var y = d3.scaleLinear()
+        let y = d3.scaleLinear()
             .domain([0, 500])
             .range([0, 500]);
 
         
-        var xAxis = d3.axisBottom(x);
+        let xAxis = d3.axisBottom(x);
         this.svg.append("g")
             .call(xAxis);
-        var yAxis = d3.axisLeft(y)
+        let yAxis = d3.axisLeft(y)
         this.svg.append("g")
             .call(yAxis);
 
@@ -45,7 +45,7 @@ class TOC_barchart {
 
      */
 
-    static update(data) {
+    update(data) {
         console.log("TOC chart updated with well: " + data);
     }
         //filter the data according to this chart data needs

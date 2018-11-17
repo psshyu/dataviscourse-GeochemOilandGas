@@ -13,7 +13,6 @@ class formationList {
         // instantiate charts with default information
         this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.colorScale);
         this.inverseKrevPlot = new InverseKrevelen(this.defaultFormationData, this.defaultFormation, this.colorScale);
-        //this.legend = new Legend(this.defaultFormationData, this.defaultFormation, this.colorScale);
         this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
         this.potentialPlot = new PotentialPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
         /* ******************************************* */
@@ -94,7 +93,7 @@ class formationList {
     updateGraphs(well){
         let dummyString = well + " was selected!";
         console.log(dummyString);
-        this.tocChart.update(well);
+        //this.tocChart.update(well);
         this.inverseKrevPlot.update(well);
         //this.legend = new Legend(this.defaultFormationData, this.defaultFormation, this.colorScale);
         //this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
