@@ -69,6 +69,7 @@ class TOC_barchart {
 
             let bars = this.svg.selectAll('.bar').data(histogram);
 
+            //remove old bars
             bars.exit()
                 .attr("opacity", 1)
                 // .transition()
@@ -76,6 +77,10 @@ class TOC_barchart {
                 .attr("opacity", 0)
                 .remove();
 
+            // remove old axes
+            d3.select("#toc-xAxis").remove();
+            d3.select("#toc-yAxis").remove();
+            
             let newBars = bars.enter().append('rect');
 
             bars = newBars.merge(bars);
@@ -93,14 +98,15 @@ class TOC_barchart {
                 .style('stroke','black')
                 .attr("transform", "translate(300,250), rotate(180)");
 
-            //
+            // Axis
             let xAxis = d3.axisBottom(xScale);
-
             this.svg.append("g")
+                .attr("id", 'toc-xAxis')
                 .call(xAxis);
-            let yAxis = d3.axisLeft(yScale);
 
+            let yAxis = d3.axisLeft(yScale);
             this.svg.append("g")
+                .attr("id", 'toc-yAxis')
                 .call(yAxis);
 
         }else{
