@@ -7,3 +7,6 @@ class Chart {
         
     }
 }
+
+//Onclicks should not create any object.
+// Objects should be passed as parameters all the way down

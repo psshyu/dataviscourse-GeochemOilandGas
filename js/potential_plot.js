@@ -10,7 +10,7 @@ class PotentialPlot{
                      .attr("class", "plot")
                      .style("background-color", "#ffffff");
     }
-    update(data){
+    update(data,colorScale){
         console.log("TOC chart updated with well: " + data);
         /*
                 *TODO:
