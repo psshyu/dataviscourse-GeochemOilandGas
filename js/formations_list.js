@@ -31,16 +31,14 @@ class formationList {
 
                     // let samplesInWell = samplesOfClickedFormation.filter(e => allWellsInClickedFormation.includes(e.SRCLocationID));//?
 
-                    d3.csv("data/SRCPhase2GeospatialUSA2.csv", function(geospatialData){
-                        formationList.updateWellsList(allWellsInClickedFormation,geospatialData);});
-
-
-
-                });
+                    d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
+                        this.updateWellsList(allWellsInClickedFormation,geospatialData));});
 
         let wellsInDefaultFormation = this._get(this.defaultFormationData, 'SRCLocationID');
         // let samplesInDefaultFormationWells =  this.defaultFormationData.filter(e => wellsInDefaultFormation.includes(e.SRCLocationID));
-        this.updateWellsList(wellsInDefaultFormation);
+        d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
+            this.updateWellsList(wellsInDefaultFormation,geospatialData));
+
     }
     
     /**
@@ -57,13 +55,17 @@ class formationList {
 
     updateWellsList(allWells,geospatialData){
 
-        //look for well name in geospatil table
-        //read in data
+        //getting well names from well & outcrop IDs
+        let allWellNames = [];
 
-
-        console.log(geospatial);
-        console.log(this._get(geospatial,'Well_Name'));
-
+        allWells.forEach( wellID => {
+            geospatialData.forEach(row => {
+                if (row.SRCLocationID === wellID){
+                    if (row.Data_Type === 'Well')
+                        {allWellNames.push(row.Well_Name);}
+                    else if (row.Data_Type === 'Outcrop')
+                        {allWellNames.push(row.Outcrop);}
+            }})});
 
 
         d3.select("#legendListUL").remove();
@@ -72,7 +74,7 @@ class formationList {
                             .append("ul")
                             .attr("id", "legendListUL");
         wellList.selectAll("li")
-            .data(allWells)
+            .data(allWellNames)
             .enter()
             .append("li").text((d) => {return d;})
             .on("click", (d) => {
