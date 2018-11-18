@@ -26,37 +26,53 @@ class formationList {
                 .enter()
                 .append("li").text((d) => {return d;})
                 .on("click", (d) => { 
-                    let samplesInFormation = samplesInBasin.filter(e => e.Formation_Name === d); 
-                    let wellsInFormation = this._get(samplesInFormation, 'SRCLocationID')
-                    let samplesInWell = samplesInFormation.filter(e => wellsInFormation.includes(e.SRCLocationID));
-                    this.updateWellsList(samplesInWell, wellsInFormation);
+                    let samplesOfClickedFormation = samplesInBasin.filter(e => e.Formation_Name === d); //d: clicked formation
+                    let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID');//all wells in clicked formation
+
+                    // let samplesInWell = samplesOfClickedFormation.filter(e => allWellsInClickedFormation.includes(e.SRCLocationID));//?
+
+                    d3.csv("data/SRCPhase2GeospatialUSA2.csv", function(geospatialData){
+                        formationList.updateWellsList(allWellsInClickedFormation,geospatialData);});
+
+
+
                 });
 
-        let wellsInDefaultFormation = this._get(this.defaultFormationData, 'SRCLocationID')
-        let samplesInDefaultFormationWells =  this.defaultFormationData.filter(e => wellsInDefaultFormation.includes(e.SRCLocationID))
-        this.updateWellsList(samplesInDefaultFormationWells, wellsInDefaultFormation);
+        let wellsInDefaultFormation = this._get(this.defaultFormationData, 'SRCLocationID');
+        // let samplesInDefaultFormationWells =  this.defaultFormationData.filter(e => wellsInDefaultFormation.includes(e.SRCLocationID));
+        this.updateWellsList(wellsInDefaultFormation);
     }
     
     /**
      * gets the unique values associated with the passed in tag
      */
-    _get(samples, tag){
-        let set = new Set()
+    _get(rows, tag){
+        let set = new Set();
         let i;
-        for(i = 0; i < samples.length; i++){
-            set.add(samples[i][tag])
+        for(i = 0; i < rows.length; i++){
+            set.add(rows[i][tag])
         }
         return Array.from(set).sort();
     }
 
-    updateWellsList(wellSamples, well){
+    updateWellsList(allWells,geospatialData){
+
+        //look for well name in geospatil table
+        //read in data
+
+
+        console.log(geospatial);
+        console.log(this._get(geospatial,'Well_Name'));
+
+
+
         d3.select("#legendListUL").remove();
         
         let wellList = d3.select("#legend")
                             .append("ul")
                             .attr("id", "legendListUL");
         wellList.selectAll("li")
-            .data(well)
+            .data(allWells)
             .enter()
             .append("li").text((d) => {return d;})
             .on("click", (d) => {
@@ -64,10 +80,10 @@ class formationList {
             });
 
             /*.on("click", (d) => { 
-                let samplesInFormation = samplesInBasin.filter(e => e.Formation_Name === d); 
-                let wellsInFormation = this._get(samplesInFormation, 'SRCLocationID')
-                let samplesInWell = samplesInFormation.filter(e => wellsInFormation.includes(e.SRCLocationID));
-                this.updateWellsList(samplesInWell, wellsInFormation);
+                let samplesOfClickedFormation = samplesInBasin.filter(e => e.Formation_Name === d); 
+                let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID')
+                let samplesInWell = samplesOfClickedFormation.filter(e => allWellsInClickedFormation.includes(e.SRCLocationID));
+                this.updateWellsList(samplesInWell, allWellsInClickedFormation);
             });*/
         //d3.select("#")
         //create a list that displays all the formations in the clicked basin data
