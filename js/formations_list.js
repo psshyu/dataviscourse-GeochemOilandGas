@@ -68,7 +68,7 @@ class formationList {
 
     updateWellsList(allWells,geospatialData){
 
-        //getting well names from well & outcrop IDs
+        //getting well_names from the SRCLocationIDs
         let allWellNames = [];
         allWells.forEach( wellID => {
             geospatialData.forEach(row => {
@@ -80,7 +80,7 @@ class formationList {
             }})});
 
 
-        //change from ulist to table. We'll need to add a colored circle in the left of the
+        //change from ulist to table. We'll need to add a colored circle in the left of the well name
         d3.select("#legendListUL").remove();
         let wellList = d3.select("#legend")
                             .append("ul")

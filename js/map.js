@@ -1,14 +1,6 @@
-/**
- * We should have all the classes for the map here.
- * 
- * This includes the map itself, as well as the basins
- * 
- */
 
 class Map {
-    /**
-     * not sure of the exact params that should be passed into the constructor right now
-     */
+
     constructor(projection, geospatialData) {
 
         this.projection = projection;
@@ -28,8 +20,6 @@ class Map {
 
 
         this.svg = d3.select("#mapSVG");
-
-        // this.basin_group = this.svg.append('g').attr('id','basin_group');
 
     }
 
@@ -51,17 +41,14 @@ class Map {
                 .attr('r', 1.5)
                 .style('fill','#008080')
                 .attr('stroke-width',0.2);
-
     }
 
 }
 
 class Basin {
-    //when a basin is clicked
+
     constructor(projection) {
 
-        //this.formationsList = formationsList;
-        // this.legend = legend;
         this.svg = d3.select("#mapSVG");
         this.projection = projection;
 
@@ -112,20 +99,11 @@ class Basin {
                 d3.select("#formationListUL").remove();
                 
                 let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
-                //console.log(samplesInClickedBasin);
-                
-                //let name = d.properties.Name.replace(/\s/g,'');
-                //console.log(formationsList);
-                //that.formationsList.update(samplesInClickedBasin);
-                //formationsList.update(samplesInClickedBasin)
 
                 //color scale to be used across charts/legend
                 let domain = [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60];
                 let range = ["#063e78", "#08519c", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15", "#860308"];
                 let colorScale = d3.scaleQuantile();
-
-                //console.log(d);
-                //console.log(samplesInClickedBasin);
                 
                 let formations = new formationList(samplesInClickedBasin, colorScale);
    
@@ -150,9 +128,7 @@ class Basin {
             d3.select(id).remove();
         }
 
-
     }
-
 
     update(){
 

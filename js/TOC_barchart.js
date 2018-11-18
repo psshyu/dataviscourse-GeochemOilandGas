@@ -13,8 +13,6 @@ class TOC_barchart {
         this.width = 300;
         this.height = 300;
 
-
-
         this.svg = d3.select("#tocBarchart")
             .append("svg")
             .attr("id", "tocBarchartSVG")
@@ -22,18 +20,6 @@ class TOC_barchart {
             .style("background-color", "#ffffff")
             .attr("width", this.width)
             .attr("height", this.height);
-
-        // this.svgGroup = this.svg.append('g').attr('id','mainTocChartGroup');
-
-        // this.svg = d3.select("#tocBarchart")
-        //     .append("svg")
-        //     .attr("width", this.width)
-        //     .attr("height", this.height)
-        //     .append("g")
-        //     .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
-
-
-
     }
 
 
@@ -81,8 +67,6 @@ class TOC_barchart {
                 .domain([0,maxCount])
                 .range([this.margin.bottom, this.height - this.margin.top]);
 
-
-
             let bars = this.svg.selectAll('.bar').data(histogram);
 
             bars.exit()
@@ -109,18 +93,15 @@ class TOC_barchart {
                 .style('stroke','black')
                 .attr("transform", "translate(300,250), rotate(180)");
 
-            // .transition()
-                // .duration(1000);
+            //
+            let xAxis = d3.axisBottom(xScale);
 
-            //
-            // let xAxis = d3.axisBottom(xScale);
-            //
-            // this.svg.append("g")
-            //     .call(xAxis);
-            // let yAxis = d3.axisLeft(yScale);
-            //
-            // this.svg.append("g")
-            //     .call(yAxis);
+            this.svg.append("g")
+                .call(xAxis);
+            let yAxis = d3.axisLeft(yScale);
+
+            this.svg.append("g")
+                .call(yAxis);
 
         }else{
             this.svg.selectAll('.bar').remove();
@@ -130,19 +111,6 @@ class TOC_barchart {
                 .text('No information available')
                 .attr('id','noInfo')
         }
-
-        //
-        // let xScale = d3.scaleLinear()
-        //     .domain(d3.extent(data)).nice()
-        //     .range([this.margin.left, this.width - this.margin.right]);
-        //
-        // let bins = d3.histogram()
-        //     .domain(xScale.domain())
-        //     .thresholds(xScale.ticks(40))
-        //     (data);
-        //
-        // console.log(bins);
-
 
 
     }
