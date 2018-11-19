@@ -66,7 +66,7 @@ class formationList {
         return Array.from(set).sort();
     }
 
-    updateWellsList(allWells,geospatialData){
+    updateWellsList(allWells, geospatialData){
 
         //getting well_names from the SRCLocationIDs
         let allWellNames = [];
