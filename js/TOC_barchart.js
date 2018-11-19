@@ -99,7 +99,7 @@ class TOC_barchart {
                 .attr('opacity',0.5)
                 .style('fill','grey')
                 .style('stroke','black')
-                .attr("transform", "translate(300,250), rotate(180)");
+                .attr("transform", "translate(300,270), rotate(180)");
 
 
             //scales for the axes. Axes will be fixed from 0 to 10 in steps of 0.5
