@@ -86,10 +86,10 @@ class TOC_barchart {
                 .attr('opacity',1)
                 .style('fill','steelblue')
                 .style('stroke','black')
-                .attr("transform", "translate(300,270), rotate(180)")
-                .on('mouseover',) //show tooltip
-                .on('mouseout',)
-                .on('click',); //highlight samples in other charts that have the clicked TOC
+                .attr("transform", "translate(300,270), rotate(180)");
+                // .on('mouseover',) //show tooltip
+                // .on('mouseout',)
+                // .on('click',); //highlight samples in other charts that have the clicked TOC
 
             //remove old axes
             d3.select("#toc-xAxis").remove();
@@ -123,7 +123,6 @@ class TOC_barchart {
                 .text('No information available')
                 .attr('id','noInfo')
         }
-
 
     }
 }

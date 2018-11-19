@@ -32,7 +32,7 @@ class formationList {
 
                     //passing samples of clicked formation to the charts
                     this.tocChart.update(samplesOfClickedFormation);
-                    // this.vanKrevelenPlot.update(samplesOfClickedFormation,this.colorScale);
+                    this.vanKrevelenPlot.update(samplesOfClickedFormation,this.colorScale);
                     // this.potentialPlot.update(samplesOfClickedFormation,this.colorScale);
                     // this.inverseKrevPlot.update(samplesOfClickedFormation,this.colorScale);
 
@@ -46,7 +46,7 @@ class formationList {
         //passing samples of default formation
         let samplesOfDefaultFormation = samplesInBasin.filter(e => e.Formation_Name === this.defaultFormation);
         this.tocChart.update(samplesOfDefaultFormation);
-        // this.vanKrevelenPlot.update(samplesOfDefaultFormation,this.colorScale);
+        this.vanKrevelenPlot.update(samplesOfDefaultFormation,this.colorScale);
         // this.potentialPlot.update(samplesOfDefaultFormation,this.colorScale);
         // this.inverseKrevPlot.update(samplesOfDefaultFormation,this.colorScale);
 

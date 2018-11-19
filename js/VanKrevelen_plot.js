@@ -5,18 +5,14 @@ class VanKrevelenPlot{
 
     constructor(defaultData, defaultFormation, colorScale){
 
-        // HI vs OI
 
     }
 
-
-
     update(samples, colorScale){
 
-        //filter data that does not contain any HI or OI.
-
-        let samplesWithInformation = samples.filter(d=> (d.Hydrogen_Index !== '' && d.Oxygen_Index !== ''));
-
+        //filter out data that lacks HI && OI
+        let samplesWithInformation = samples.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
+        console.log(samplesWithInformation);
 
 
 
