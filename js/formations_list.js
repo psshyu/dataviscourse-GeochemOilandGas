@@ -38,7 +38,7 @@ class formationList {
 
                     //passing wells in clicked formation to the legend
                     let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID');
-                    // let samplesInWell = samplesOfClickedFormation.filter(e => allWellsInClickedFormation.includes(e.SRCLocationID));//?
+                    // let samplesInWell = samplesOfClickedFormation.filter(e => allWellsInClickedFormation.includes(e.SRCLocationID));//
                     d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
                         this.updateWellsList(allWellsInClickedFormation,geospatialData));});
 

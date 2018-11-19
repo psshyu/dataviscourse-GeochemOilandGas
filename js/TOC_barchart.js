@@ -39,52 +39,32 @@ class TOC_barchart {
             let minToc = d3.min(tocValues);
             let maxToc = d3.max(tocValues);
 
-
             let xScale = d3.scaleLinear()
-                .domain([minToc, maxToc])
+                .domain([0, 10])
                 .range([this.margin.left, this.width - this.margin.right]);
 
-            //building histogram holder. Considering adaptive toc domain if max toc < 10, else cut the data display off at 10
-            let histogram_ = null;
-            if (maxToc > 10) {
-
-                histogram_ = d3.histogram()
+            //creating bin generator
+            let binsGenerator = d3.histogram()
                     .domain([0, 10])
-                    .thresholds(xScale.ticks(9));
-            } else {
-                //
-
-                let adaptive_bins = Math.ceil(maxToc - minToc)*2;
-
-
-                histogram_ = d3.histogram()
-                    .domain([0, maxToc])
-                    .thresholds(xScale.ticks(9));
-            }
-
-            //building histogram
-            let histogram = histogram_(tocValues);
-            console.log(histogram);
+                    .thresholds(xScale.ticks(20));
+            //building bins
+            let bins = binsGenerator(tocValues);
+            bins.pop(); //last bin range <10,10>
+            console.log(bins);
 
             //yScale
-            let maxCount = d3.max(histogram.map(d => d.length));
+            let maxCount = d3.max(bins.map(d => d.length));
             let yScale = d3.scaleLinear()
                 .domain([maxCount,0])
-                .range([this.margin.bottom, this.height - this.margin.top]);
+                .range([this.margin.top, this.height - this.margin.bottom]);
 
-            let bars = this.svg.selectAll('.bar').data(histogram);
+            let bars = this.svg.selectAll('.bar').data(bins);
 
             //remove old bars
             bars.exit()
                 .attr("opacity", 1)
-                // .transition()
-                // .duration(1000)
                 .attr("opacity", 0)
                 .remove();
-
-            // remove old axes
-            d3.select("#toc-xAxis").remove();
-            d3.select("#toc-yAxis").remove();
 
             let newBars = bars.enter().append('rect');
 
@@ -101,22 +81,21 @@ class TOC_barchart {
                 .style('stroke','black')
                 .attr("transform", "translate(300,270), rotate(180)");
 
+            //remove old axes
+            d3.select("#toc-xAxis").remove();
+            d3.select("#toc-yAxis").remove();
 
             //scales for the axes. Axes will be fixed from 0 to 10 in steps of 0.5
-            let xAxisScale = d3.scaleLinear()
-                .domain([0, 10])
-                .range([this.margin.left, this.width - this.margin.right]);
-
-            // Axes
-            let xAxis = d3.axisBottom(xAxisScale).ticks(20);
+            //x axis
+            let xAxis = d3.axisBottom(xScale).ticks(20);
             this.svg.append("g")
                 .attr("transform", "translate(0,270)")
                 .attr("id", 'toc-xAxis')
                 .call(xAxis);
 
+            //y axis
             let num_ticks = 0;
             maxCount < 10 ? num_ticks = maxCount : num_ticks = 10;
-
             let yAxis = d3.axisLeft(yScale).ticks(num_ticks);
             this.svg.append("g")
                 .attr("transform", "translate(30,0)")

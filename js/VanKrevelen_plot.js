@@ -15,7 +15,7 @@ class VanKrevelenPlot{
 
         //filter data that does not contain any HI or OI.
 
-        let samplesWithInformation = samples.filter(d=> (d.Hydrogen_Index !== '' || d.Oxygen_Index !== ''));
+        let samplesWithInformation = samples.filter(d=> (d.Hydrogen_Index !== '' && d.Oxygen_Index !== ''));
 
 
 
