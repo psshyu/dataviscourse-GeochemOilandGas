@@ -41,7 +41,8 @@ class TOC_barchart {
 
             let xScale = d3.scaleLinear()
                 .domain([0, 10])
-                .range([this.margin.left, this.width - this.margin.right]);
+                .range([this.width - this.margin.right, this.margin.left]);
+
 
             //creating bin generator
             let binsGenerator = d3.histogram()
@@ -56,30 +57,39 @@ class TOC_barchart {
             let maxCount = d3.max(bins.map(d => d.length));
             let yScale = d3.scaleLinear()
                 .domain([maxCount,0])
-                .range([this.margin.top, this.height - this.margin.bottom]);
+                .range([this.height - this.margin.bottom,this.margin.top]);
+
+
+            console.log(yScale(0));
+            console.log(yScale(1));
+            console.log(yScale(9));
+
 
             let bars = this.svg.selectAll('.bar').data(bins);
-
-            //remove old bars
-            bars.exit()
-                .attr("opacity", 1)
-                .attr("opacity", 0)
-                .remove();
-
+            bars.exit().remove();
             let newBars = bars.enter().append('rect');
+                // newBars
+                // .transition()
+                // .duration(1000);
 
             bars = newBars.merge(bars);
-
             bars
+                .transition()
+                .duration(1000)
                 .attr('class','bar')
-                .attr('x', d => xScale(+d.x0))
+                .attr('x', d => xScale(+d.x0)-10)
                 .attr('y', 0)
                 .attr('width', 10)
-                .attr('height', d => {return yScale(+d.length)})
-                .attr('opacity',0.5)
-                .style('fill','grey')
+                .attr('height', d => {
+                    // console.log(d.length);
+                    return yScale(d.length) - 30})
+                .attr('opacity',1)
+                .style('fill','steelblue')
                 .style('stroke','black')
-                .attr("transform", "translate(300,270), rotate(180)");
+                .attr("transform", "translate(300,270), rotate(180)")
+                .on('mouseover',) //show tooltip
+                .on('mouseout',)
+                .on('click',); //highlight samples in other charts that have the clicked TOC
 
             //remove old axes
             d3.select("#toc-xAxis").remove();
@@ -101,6 +111,9 @@ class TOC_barchart {
                 .attr("transform", "translate(30,0)")
                 .attr("id", 'toc-yAxis')
                 .call(yAxis);
+
+            //add axes names: TOC (%w) and Frequency
+
 
         }else{
             this.svg.selectAll('.bar').remove();
