@@ -5,6 +5,8 @@ class formationList {
 
         // list of formations in the clicked basin
         this.formationNames = this._get(samplesInBasin, 'Formation_Name');
+        //ignore unknown formations
+        this.formationNames.pop();
 
         // defaults - the formation that is initially displayed when a basin is clicked
         this.defaultFormation = this.formationNames[0];
@@ -20,7 +22,7 @@ class formationList {
         this.formationList = d3.select("#formationList")
                         .append("ul")
                         .attr("id", "formationListUL");
-                        
+
         this.formationList.selectAll("li")
                 .data(this.formationNames)
                 .enter()

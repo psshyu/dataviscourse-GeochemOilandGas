@@ -52,6 +52,11 @@ class TOC_barchart {
                     .domain([0, 10])
                     .thresholds(xScale.ticks(9));
             } else {
+                //
+
+                let adaptive_bins = Math.ceil(maxToc - minToc)*2;
+
+
                 histogram_ = d3.histogram()
                     .domain([0, maxToc])
                     .thresholds(xScale.ticks(9));
@@ -64,7 +69,7 @@ class TOC_barchart {
             //yScale
             let maxCount = d3.max(histogram.map(d => d.length));
             let yScale = d3.scaleLinear()
-                .domain([0,maxCount])
+                .domain([maxCount,0])
                 .range([this.margin.bottom, this.height - this.margin.top]);
 
             let bars = this.svg.selectAll('.bar').data(histogram);
@@ -96,14 +101,23 @@ class TOC_barchart {
                 .style('stroke','black')
                 .attr("transform", "translate(300,250), rotate(180)");
 
-            // Axis
-            let xAxis = d3.axisBottom(xScale);
+
+            //scales for the axes. Axes will be fixed from 0 to 10 in steps of 0.5
+            let xAxisScale = d3.scaleLinear()
+                .domain([0, 10])
+                .range([this.margin.left, this.width - this.margin.right]);
+
+            // Axes
+            let xAxis = d3.axisBottom(xAxisScale).ticks(20);
             this.svg.append("g")
                 .attr("transform", "translate(0,270)")
                 .attr("id", 'toc-xAxis')
                 .call(xAxis);
 
-            let yAxis = d3.axisLeft(yScale);
+            let num_ticks = 0;
+            maxCount < 10 ? num_ticks = maxCount : num_ticks = 10;
+
+            let yAxis = d3.axisLeft(yScale).ticks(num_ticks);
             this.svg.append("g")
                 .attr("transform", "translate(30,0)")
                 .attr("id", 'toc-yAxis')
