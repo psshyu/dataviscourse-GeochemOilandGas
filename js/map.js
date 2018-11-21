@@ -41,9 +41,9 @@ class Map {
             .style('fill','#008080')
             .attr('stroke-width',0.2);
 
-        let xCenter = document.documentElement.clientWidth * 0.20;
-        let yCenter = document.documentElement.clientHeight * 0.20;
-        this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ")");
+        let xCenter = document.documentElement.clientWidth * 0.15;
+        let yCenter = document.documentElement.clientHeight * 0.15;
+        this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ") " + "scale("+1.05+")");
     }
 
 }
@@ -86,9 +86,11 @@ class Basin {
                 .attr('class', "graticule")
                 .attr('d', basin_path)
                 .attr('fill', 'none');
-            let xCenter = document.documentElement.clientWidth * 0.20;
-            let yCenter = document.documentElement.clientHeight * 0.20;
-            this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ")");
+                
+            let xCenter = document.documentElement.clientWidth * 0.15;
+            let yCenter = document.documentElement.clientHeight * 0.15;
+            this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ") " + "scale("+1.05+")");
+
         });
 
         function clickHandler(d, i) {
