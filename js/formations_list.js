@@ -34,7 +34,7 @@ class formationList {
                     this.tocChart.update(samplesOfClickedFormation);
                     this.vanKrevelenPlot.update(samplesOfClickedFormation,this.colorScale);
                     // this.potentialPlot.update(samplesOfClickedFormation,this.colorScale);
-                    // this.inverseKrevPlot.update(samplesOfClickedFormation,this.colorScale);
+                    this.inverseKrevPlot.update(samplesOfClickedFormation,this.colorScale);
 
                     //passing wells in clicked formation to the legend
                     let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID');
@@ -46,7 +46,6 @@ class formationList {
         //passing samples of default formation
         
         this.tocChart.update(this.defaultFormationData);
-        //this.vanKrevelenPlot.update(samplesOfDefaultFormation,this.colorScale);
         // this.potentialPlot.update(samplesOfDefaultFormation,this.colorScale);
         // this.inverseKrevPlot.update(samplesOfDefaultFormation,this.colorScale);
 
