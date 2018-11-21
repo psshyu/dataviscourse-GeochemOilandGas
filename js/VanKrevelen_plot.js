@@ -59,8 +59,6 @@ class VanKrevelenPlot{
             .attr("cx", (d) => { return this.x(d.Oxygen_Index); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
             .attr("fill", "#373737");
-        
-        
     }
     /**
      * 
@@ -88,9 +86,6 @@ class VanKrevelenPlot{
     }
     
     update(samples, colorScale){
-
-        console.log("update van krev plot");
-        console.log(samples);
         let samplesWithInformation = samples.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
         //get minimum and maximum values of HI
         let minmaxHI = this.minmax(samplesWithInformation,'Hydrogen_Index');
@@ -131,10 +126,6 @@ class VanKrevelenPlot{
                     .attr("fill", "#373737")
                     .attr("r", 5);
             });
-
-
-        
-        
 
     }
 }
