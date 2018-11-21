@@ -25,12 +25,12 @@ class TOC_barchart {
 
     update(data) {
 
-        console.log(data);
+        //console.log(data);
 
         let tocValues = data.filter(d => d.TOC_Percent_Measured !== '');
         tocValues = tocValues.map(function(d){ return parseFloat(d.TOC_Percent_Measured)});
 
-        console.log(tocValues);
+        //console.log(tocValues);
 
         if (tocValues.length > 0) {
 
@@ -51,7 +51,7 @@ class TOC_barchart {
             //building bins
             let bins = binsGenerator(tocValues);
             bins.pop(); //last bin range <10,10>
-            console.log(bins);
+            //console.log(bins);
 
             //yScale
             let maxCount = d3.max(bins.map(d => d.length));
@@ -60,9 +60,9 @@ class TOC_barchart {
                 .range([this.height - this.margin.bottom,this.margin.top]);
 
 
-            console.log(yScale(0));
-            console.log(yScale(1));
-            console.log(yScale(9));
+            //console.log(yScale(0));
+            //console.log(yScale(1));
+            //console.log(yScale(9));
 
 
             let bars = this.svg.selectAll('.bar').data(bins);
