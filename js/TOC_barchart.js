@@ -10,27 +10,27 @@ class TOC_barchart {
         this.colorScale = colorScale;
 
         this.margin = {top: 30, right: 30, bottom: 30, left: 30};
-        this.width = 300;
-        this.height = 300;
+        this.width = document.documentElement.clientWidth* 0.30;
+        this.height = document.documentElement.clientHeight * 0.30;
 
         this.svg = d3.select("#tocBarchart")
             .append("svg")
             .attr("id", "tocBarchartSVG")
             .attr("class", "plot")
-            .style("background-color", "#ffffff")
-            .attr("width", this.width)
-            .attr("height", this.height);
+            .style("background-color", "#ffffff");
+            //.attr("width", this.width)
+            //.attr("height", this.height);
     }
 
 
     update(data) {
 
-        console.log(data);
+        //console.log(data);
 
         let tocValues = data.filter(d => d.TOC_Percent_Measured !== '');
         tocValues = tocValues.map(function(d){ return parseFloat(d.TOC_Percent_Measured)});
 
-        console.log(tocValues);
+        //console.log(tocValues);
 
         if (tocValues.length > 0) {
 
@@ -51,7 +51,7 @@ class TOC_barchart {
             //building bins
             let bins = binsGenerator(tocValues);
             bins.pop(); //last bin range <10,10>
-            console.log(bins);
+            //console.log(bins);
 
             //yScale
             let maxCount = d3.max(bins.map(d => d.length));
@@ -60,9 +60,9 @@ class TOC_barchart {
                 .range([this.height - this.margin.bottom,this.margin.top]);
 
 
-            console.log(yScale(0));
-            console.log(yScale(1));
-            console.log(yScale(9));
+            //console.log(yScale(0));
+            //console.log(yScale(1));
+            //console.log(yScale(9));
 
 
             let bars = this.svg.selectAll('.bar').data(bins);
@@ -86,7 +86,7 @@ class TOC_barchart {
                 .attr('opacity',1)
                 .style('fill','steelblue')
                 .style('stroke','black')
-                .attr("transform", "translate(300,270), rotate(180)");
+                .attr("transform", "translate("+this.width+",270), rotate(180)");
                 // .on('mouseover',) //show tooltip
                 // .on('mouseout',)
                 // .on('click',); //highlight samples in other charts that have the clicked TOC
