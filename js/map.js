@@ -3,14 +3,14 @@ class Map {
 
     constructor(projection, geospatialData) {
 
-        this.projection = projection;
+        this.projection = projection.scale(1500);
         this.geospatialData = geospatialData;
 
         let svg = d3.select("#map")
                     .append("svg")
                         .attr("id", "mapSVG")
-                        .attr("width","65vw")
-                        .attr("height", "70vh")
+                        .attr("width","90vw")
+                        .attr("height", "90vh")
                         .attr("fill", "none")
                         .attr("stroke","#000")
                         .attr("stroke-linejoin", "round")
@@ -19,7 +19,7 @@ class Map {
                         .attr("horizontal-align", "middle");
 
 
-        this.svg = d3.select("#mapSVG");
+        this.svg = d3.select("#mapSVG").append('g').attr("id", "mapWellsGroup");
 
     }
 
@@ -41,6 +41,8 @@ class Map {
                 .attr('r', 1.5)
                 .style('fill','#008080')
                 .attr('stroke-width',0.2);
+
+            this.svg.attr("transform", "translate(150, 150)");
     }
 
 }
@@ -49,7 +51,7 @@ class Basin {
 
     constructor(projection) {
 
-        this.svg = d3.select("#mapSVG");
+        this.svg = d3.select("#mapSVG").append("g").attr("id", "mapBasinsGroup");;
         this.projection = projection;
 
         //draw basins from topojson
@@ -61,7 +63,8 @@ class Basin {
             let basin_path = d3.geoPath().projection(this.projection);
 
 
-            this.svg.selectAll('path').data(geofeatures)
+            this.svg.selectAll('.basins')
+                .data(geofeatures)
                 .enter()
                 .append('path')
                 .attr('d', basin_path)
@@ -82,7 +85,8 @@ class Basin {
                 .attr('class', "graticule")
                 .attr('d', basin_path)
                 .attr('fill', 'none');
-
+            
+            this.svg.attr("transform", "translate(150, 150)");
         });
 
         function clickHandler(d, i) {
