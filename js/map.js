@@ -24,25 +24,26 @@ class Map {
     }
 
     update(){
+        //filter wells falling outside geoAlbers projection extent
+        this.geospatialData = this.geospatialData.filter(d => projection([d.Longitude,d.Latitude])!==null);
+        //filter wells falling outside of basin classification
+        this.geospatialData = this.geospatialData.filter(d => d.USGS_Province!==0);
 
-            //filter wells falling outside geoAlbers projection extent
-            this.geospatialData = this.geospatialData.filter(d => projection([d.Longitude,d.Latitude])!==null);
-            //filter wells falling outside of basin classification
-            this.geospatialData = this.geospatialData.filter(d => d.USGS_Province!==0);
+        let wells = this.svg.selectAll('circle').data(this.geospatialData);
+        wells.exit().remove();
+        let new_wells = wells.enter().append('circle');
+        wells = new_wells.merge(wells);
 
-            let wells = this.svg.selectAll('circle').data(this.geospatialData);
-            wells.exit().remove();
-            let new_wells = wells.enter().append('circle');
-            wells = new_wells.merge(wells);
+        wells
+            .attr('cx', d => this.projection([d.Longitude,d.Latitude])[0])
+            .attr('cy', d => this.projection([d.Longitude,d.Latitude])[1])
+            .attr('r', 1.5)
+            .style('fill','#008080')
+            .attr('stroke-width',0.2);
 
-            wells
-                .attr('cx', d => this.projection([d.Longitude,d.Latitude])[0])
-                .attr('cy', d => this.projection([d.Longitude,d.Latitude])[1])
-                .attr('r', 1.5)
-                .style('fill','#008080')
-                .attr('stroke-width',0.2);
-
-            this.svg.attr("transform", "translate(150, 150)");
+        let xCenter = document.documentElement.clientWidth * 0.20;
+        let yCenter = document.documentElement.clientHeight * 0.20;
+        this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ")");
     }
 
 }
@@ -85,8 +86,9 @@ class Basin {
                 .attr('class', "graticule")
                 .attr('d', basin_path)
                 .attr('fill', 'none');
-            
-            this.svg.attr("transform", "translate(150, 150)");
+            let xCenter = document.documentElement.clientWidth * 0.20;
+            let yCenter = document.documentElement.clientHeight * 0.20;
+            this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ")");
         });
 
         function clickHandler(d, i) {
