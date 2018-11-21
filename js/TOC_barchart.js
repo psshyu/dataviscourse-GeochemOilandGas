@@ -10,16 +10,16 @@ class TOC_barchart {
         this.colorScale = colorScale;
 
         this.margin = {top: 30, right: 30, bottom: 30, left: 30};
-        this.width = 300;
-        this.height = 300;
+        this.width = document.documentElement.clientWidth* 0.30;
+        this.height = document.documentElement.clientHeight * 0.30;
 
         this.svg = d3.select("#tocBarchart")
             .append("svg")
             .attr("id", "tocBarchartSVG")
             .attr("class", "plot")
-            .style("background-color", "#ffffff")
-            .attr("width", this.width)
-            .attr("height", this.height);
+            .style("background-color", "#ffffff");
+            //.attr("width", this.width)
+            //.attr("height", this.height);
     }
 
 
@@ -86,7 +86,7 @@ class TOC_barchart {
                 .attr('opacity',1)
                 .style('fill','steelblue')
                 .style('stroke','black')
-                .attr("transform", "translate(300,270), rotate(180)");
+                .attr("transform", "translate("+this.width+",270), rotate(180)");
                 // .on('mouseover',) //show tooltip
                 // .on('mouseout',)
                 // .on('click',); //highlight samples in other charts that have the clicked TOC
