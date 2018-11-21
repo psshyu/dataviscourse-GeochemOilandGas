@@ -11,7 +11,7 @@ class formationList {
         // defaults - the formation that is initially displayed when a basin is clicked
         this.defaultFormation = this.formationNames[0];
         this.defaultFormationData = samplesInBasin.filter(e => e.Formation_Name === this.defaultFormation);
-
+        
         // instantiate charts with default information
         this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.colorScale);
         this.inverseKrevPlot = new InverseKrevelen(this.defaultFormationData, this.defaultFormation, this.colorScale);
@@ -44,9 +44,9 @@ class formationList {
 
 
         //passing samples of default formation
-        let samplesOfDefaultFormation = samplesInBasin.filter(e => e.Formation_Name === this.defaultFormation);
-        this.tocChart.update(samplesOfDefaultFormation);
-        this.vanKrevelenPlot.update(samplesOfDefaultFormation,this.colorScale);
+        
+        this.tocChart.update(this.defaultFormationData);
+        //this.vanKrevelenPlot.update(samplesOfDefaultFormation,this.colorScale);
         // this.potentialPlot.update(samplesOfDefaultFormation,this.colorScale);
         // this.inverseKrevPlot.update(samplesOfDefaultFormation,this.colorScale);
 

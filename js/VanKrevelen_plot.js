@@ -18,6 +18,49 @@ class VanKrevelenPlot{
             .attr("class", "plot")
             .style("background-color", "#ffffff");
 
+        //filter out data that lacks HI && OI
+        let samplesWithInformation = defaultData.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
+        console.log(samplesWithInformation);
+        //get minimum and maximum values of HI
+        let minmaxHI = this.minmax(samplesWithInformation,'Hydrogen_Index');
+        let minHI = minmaxHI[0];
+        let maxHI = minmaxHI[1];
+        
+        //get minimum and maximum values of OI
+        let minmaxOI = this.minmax(samplesWithInformation,'Oxygen_Index');
+        let minOI = minmaxOI[0];
+        let maxOI = minmaxOI[1];
+
+        // X and Y scales 
+        this.x = d3.scaleLinear()
+                .domain([maxOI, minOI])
+                .range([this.width - this.margin.right, this.margin.left]);
+        this.y = d3.scaleLinear()
+                .domain([minHI,maxHI])
+                .range([this.height - this.margin.bottom,this.margin.top]);
+
+        // X-axis
+        this.svg.append("g")
+            .attr("id", "vanKrevPlotX")
+            .attr("transform", "translate(0," + 270 + ")")
+            .call(d3.axisBottom(this.x));
+      
+        // Y Axis
+        this.svg.append("g")
+            .attr("id", "vanKrevPlotY")
+            .attr("transform", "translate("+ this.margin.right + "," + 0 + ")")
+            .call(d3.axisLeft(this.y));
+
+        // Scatterplot circles 
+        this.svg.selectAll("circle")
+            .data(samplesWithInformation)
+            .enter().append("circle")
+            .attr("r", 5)
+            .attr("cx", (d) => { return this.x(d.Oxygen_Index); })
+            .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
+            .attr("fill", "#373737");
+        
+        
     }
     /**
      * 
@@ -45,10 +88,10 @@ class VanKrevelenPlot{
     }
     
     update(samples, colorScale){
-        console.log();
-        //filter out data that lacks HI && OI
+
+        console.log("update van krev plot");
+        console.log(samples);
         let samplesWithInformation = samples.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
-        console.log(samplesWithInformation);
         //get minimum and maximum values of HI
         let minmaxHI = this.minmax(samplesWithInformation,'Hydrogen_Index');
         let minHI = minmaxHI[0];
@@ -59,35 +102,38 @@ class VanKrevelenPlot{
         let minOI = minmaxOI[0];
         let maxOI = minmaxOI[1];
 
+        //transition the X-axis
+        this.x.domain([maxOI, minOI]);
+        this.svg.select("#vanKrevPlotX")
+            .transition()
+            .call(d3.axisBottom(this.x));
 
-        // X and Y scales 
-        let x = d3.scaleLinear()
-                .domain([minOI, maxOI])
-                .range([this.width - this.margin.right, this.margin.left]);
-        let y = d3.scaleLinear()
-                .domain([minHI,maxHI])
-                .range([this.height - this.margin.bottom,this.margin.top]);
+        //transition the Y-axis
+        this.y.domain([minHI,maxHI])
+        this.svg.select("#vanKrevPlotY")
+            .transition()
+            .call(d3.axisLeft(this.y));
 
-        // X-axis
-        this.svg.append("g")
-            .attr("transform", "translate(0," + 270 + ")")
-            .call(d3.axisBottom(x));
-      
-        // Y Axis
-        this.svg.append("g")
-            .attr("transform", "translate("+ this.margin.right + "," + 0 + ")")
-            .call(d3.axisLeft(y));
+        let c = this.svg.selectAll("circle").data(samplesWithInformation);
+        c.exit().remove();
+        let newc = c.enter().append('circle');
+        c = newc.merge(c);
 
-        // Scatterplot circles 
-        this.svg.selectAll("vanKrevCircle")
-            .data(samplesWithInformation)
-            .enter().append("circle")
-            .attr("r", 5)
-            .attr("cx", (d) => { return x(d.Oxygen_Index); })
-            .attr("cy", (d) => { return y(d.Hydrogen_Index); })
-            .attr("fill", "#373737");
+        this.svg.selectAll("circle")
+            .transition()
+            .duration(1000)
+            .attr("fill", "#373737") 
+            .attr("r", 5) 
+            .attr("cx", (d) => { return this.x(d.Oxygen_Index); })
+            .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
+            .on("end", function() {
+                d3.select(this)
+                    .attr("fill", "#373737")
+                    .attr("r", 5);
+            });
 
 
+        
         
 
     }
