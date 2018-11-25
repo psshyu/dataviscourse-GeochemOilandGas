@@ -33,15 +33,6 @@ class formationList {
                                 .attr("id", "formationListUL")
                                 .attr("table-layout", "auto")
                                 .attr("width", "100%");
-/*
-        this.formationList = this.formationList.selectAll("tr")
-                                .data(this.wellDetails)
-                                .enter()
-                                .append("tr");
-
-        this.formationList = d3.select("#formationList")
-                        .append("ul")
-                        .attr("id", "formationListUL");*/
 
         this.formationList.selectAll("tr")
             .data(this.formationNames)
