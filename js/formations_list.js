@@ -15,7 +15,7 @@ class formationList {
         this.defaultFormationData = samplesInBasin.filter(e => e.Formation_Name === this.defaultFormation);
         let wellsInDefaultFormation = this._get(this.defaultFormationData, 'SRCLocationID');
         this.wellDetails = this._setWellDetails(this.defaultFormationData,geospatialData);
-        
+
 
         // instantiate charts with default information
         this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.unselectedColorScale);
@@ -43,19 +43,19 @@ class formationList {
                 this.tocChart.update(samplesOfClickedFormation);
                 this.vanKrevelenPlot.update(samplesOfClickedFormation, wellDetails);
                 this.potentialPlot.update(samplesOfClickedFormation, wellDetails);
-                this.inverseKrevPlot.update(samplesOfClickedFormation,wellDetails);
+                this.inverseKrevPlot.update(samplesOfClickedFormation, wellDetails);
 
                 //passing wells in clicked formation to the legend
                 let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID');
 
                 // let samplesInWell = samplesOfClickedFormation.filter(e => allWellsInClickedFormation.includes(e.SRCLocationID));//
                 d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
-                    this.updateWellsList(samplesOfClickedFormation,geospatialData));});
+                    this.updateWellsList(samplesOfClickedFormation,geospatialData, wellDetails));});
 
         // passing wells of default formation
         
         d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
-            this.updateWellsList(this.defaultFormationData,geospatialData));
+            this.updateWellsList(this.defaultFormationData,geospatialData, this.wellDetails));
     }
     
     /**
@@ -85,16 +85,16 @@ class formationList {
                     wellDetails.push(details);
                     wellSet.push(well.SRCLocationID); 
                 }}});
-
         return wellDetails;
     }
-    updateWellsList(allWells, geospatialData){
+    updateWellsList(allWells, geospatialData, details){
         this.wellDetails = this._setWellDetails(allWells, geospatialData);
-
+        //console.log(this.wellDetails, details);
         //change from ulist to table. We'll need to add a colored circle in the left of the well name
         d3.select("#legendListUL").remove();
         let wellList = d3.select("#legend")
                         .append("table")
+                        .attr("id", "legendListUL")
                         .attr("table-layout", "auto")
                         .attr("width", "100%");
 
@@ -112,7 +112,15 @@ class formationList {
                             .attr("cx", 12.5)
                             .attr("cy", 15.5)
                             .attr("fill", (d) => {
-                                return d.unselectedColor;
+                                //return "red"
+                                let color; 
+                                details.forEach( well => {
+                                    if(d.wellID === well.wellID){
+                                        
+                                        color = well.unselectedColor;
+                                    }})
+                                console.log(color);
+                                return color;
                             })
                             .attr("stroke", "gray"); 
 
