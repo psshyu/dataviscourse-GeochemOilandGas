@@ -45,6 +45,15 @@ class VanKrevelenPlot{
                 .domain([minHI,maxHI])
                 .range([this.height - this.margin.bottom,this.margin.top]);
 
+        //y gridlines
+        this.svg.append("g")
+            .attr("class", "grid")
+            .attr("transform", "translate("+ this.margin.right *2+ "," + 8 + ") scale(0.84,1)")
+            .call(d3.axisLeft(this.y)
+                .tickSize(-this.width, 0, 0)
+                .tickFormat("")
+            );
+
         // X-axis
         this.svg.append("g")
             .attr("id", "vanKrevPlotX")
@@ -62,14 +71,14 @@ class VanKrevelenPlot{
         this.svg.append("text")
             .attr("x", this.width/2.25)
             .attr("y", this.height + this.margin.bottom/2)
-            .text("TOC%");
+            .text("OI");
         // y
         this.svg.append('text')
             .attr('x', -(this.height / 2))
             .attr('y', this.width / 20)
             .attr('transform', 'rotate(-90)')
             .attr('text-anchor', 'middle')
-            .text('S1 + S2')
+            .text('HI')
         
         // Scatterplot circles 
         this.svg.selectAll("circle")

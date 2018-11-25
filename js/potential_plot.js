@@ -46,6 +46,15 @@ class PotentialPlot{
                 .domain([minS1S2,maxS1S2])
                 .range([this.height - this.margin.bottom,this.margin.top]);
 
+        //y gridlines
+        this.svg.append("g")
+            .attr("class", "grid")
+            .attr("transform", "translate("+ this.margin.right *2+ "," + 8 + ") scale(0.84,1)")
+            .call(d3.axisLeft(this.y)
+                .tickSize(-this.width, 0, 0)
+                .tickFormat("")
+            );
+            
         // X-axis
         this.svg.append("g")
             .attr("id", "potentialPlotX")
@@ -57,7 +66,8 @@ class PotentialPlot{
             .attr("id", "potentialPlotY")
             .attr("transform", "translate("+ this.margin.right * 2 + "," + 8 + ")")
             .call(d3.axisLeft(this.y));
-            
+
+        
         // Axis labels
         // x
         this.svg.append("text")
@@ -72,6 +82,7 @@ class PotentialPlot{
             .attr('text-anchor', 'middle')
             .text('S1 + S2')
 
+        
         // Scatterplot circles 
         this.svg.selectAll("circle")
             .data(samplesWithInformation)
