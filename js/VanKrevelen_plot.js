@@ -15,17 +15,15 @@ class VanKrevelenPlot{
         this.svg = d3.select("#vanKrevelenPlot")
             .append("svg")
             .attr("id", "vanKrevelenPlotSVG")
-            .attr("class", "plot")
-            .style("background-color", "#ffffff");
+            .attr("class", "plot");
+            //.style("background-color", "whitesmoke");
 
         // Plot title
         this.svg.append("text")
             .attr("x", this.width/3)
-            .attr("y", () => {//console.log("van krev title");
-                return this.margin.top})
+            .attr("y", this.margin.top)
             .text("Kerogen Type");
 
-            console.log(this.wellDetails);
         //filter out data that lacks HI && OI
         this.samplesWithInformation = defaultData.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
         console.log(this.samplesWithInformation);
@@ -66,19 +64,16 @@ class VanKrevelenPlot{
             .attr("r", 5)
             .attr("cx", (d) => { return this.x(d.Oxygen_Index); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
-            .attr("fill", (d) => { //return "#fddaec";
+            .attr("fill", (d) => {
                 let color;
                 this.wellDetails.forEach( well => {
                     if(d.SRCLocationID === well.wellID){
-                        //console.log(well.unselectedColor)
                         color = well.unselectedColor;
                     }})
-                return color;
-        });
+                return color;})
+            .attr("stroke", "gray");
     }
-    getColor(){
-        
-    }
+
     /**
      * 
      * gets the min and max values of an object, when given a list of the objects.
@@ -141,12 +136,12 @@ class VanKrevelenPlot{
                 let color;
                 wellDetails.forEach( well => {
                     if(d.SRCLocationID === well.wellID){
-                        //console.log(well.unselectedColor)
                         color = well.unselectedColor;
                     }})
                 return color;
             }) 
-            .attr("r", 5) 
+            .attr("r", 5)
+            .attr("stroke", "gray") 
             .attr("cx", (d) => { return this.x(d.Oxygen_Index); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
             .on("end", function() {
@@ -155,13 +150,12 @@ class VanKrevelenPlot{
                         let color;
                         wellDetails.forEach( well => {
                             if(d.SRCLocationID === well.wellID){
-                                //console.log(well.unselectedColor)
                                 color = well.unselectedColor;
                             }})
                         return color;
-                        //return this.wellDetails(i)
                     })
-                    .attr("r", 5);
+                    .attr("r", 5)
+                    .attr("stroke", "gray");
             });
     }
     selectedWell(well){

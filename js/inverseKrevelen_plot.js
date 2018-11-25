@@ -3,10 +3,10 @@
 
 class InverseKrevelen{
 
-    constructor(defaultData, defaultFormation, colorScale){
+    constructor(defaultData, defaultFormation, wellDetails){
         this.defaultData = defaultData;
         this.defaultFormation = defaultFormation;
-        this.colorScale = colorScale;
+        this.wellDetails = wellDetails;
 
         this.margin = {top: 30, right: 30, bottom: 30, left: 30};
         this.width = document.documentElement.clientWidth* 0.30;
@@ -64,7 +64,15 @@ class InverseKrevelen{
             .attr("r", 5)
             .attr("cx", (d) => { return this.x(d.Tmax_C_Pyrolysis); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
-            .attr("fill", "#373737");
+            .attr("fill", (d) => { //return "#fddaec";
+                let color;
+                this.wellDetails.forEach( well => {
+                    if(d.SRCLocationID === well.wellID){
+                        //console.log(well.unselectedColor)
+                        color = well.unselectedColor;
+                    }})
+                return color;})
+            .attr("stroke", "gray");
     }
     /**
      * 
@@ -91,7 +99,7 @@ class InverseKrevelen{
         }
     }
     
-    update(samples, colorScale){
+    update(samples, wellDetails){
         console.log(samples);
         let samplesWithInformation = samples.filter(d => {if (d.Hydrogen_Index !== '' && d.Tmax_C_Pyrolysis !== '') return d});
         //get minimum and maximum values of HI
@@ -124,14 +132,32 @@ class InverseKrevelen{
         this.svg.selectAll("circle")
             .transition()
             .duration(1000)
-            .attr("fill", "#373737") 
-            .attr("r", 5) 
+            .attr("fill", (d,i) => {
+                let color;
+                wellDetails.forEach( well => {
+                    if(d.SRCLocationID === well.wellID){
+                        //console.log(well.unselectedColor)
+                        color = well.unselectedColor;
+                    }})
+                return color;
+            }) 
+            .attr("r", 5)
+            .attr("stroke", "gray") 
             .attr("cx", (d) => { return this.x(d.Tmax_C_Pyrolysis); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
             .on("end", function() {
                 d3.select(this)
-                    .attr("fill", "#373737")
-                    .attr("r", 5);
+                .attr("fill", (d,i) => {
+                    let color;
+                    wellDetails.forEach( well => {
+                        if(d.SRCLocationID === well.wellID){
+                            //console.log(well.unselectedColor)
+                            color = well.unselectedColor;
+                        }})
+                    return color;
+                }) 
+                .attr("r", 5)
+                .attr("stroke", "gray");
             });
 
     }

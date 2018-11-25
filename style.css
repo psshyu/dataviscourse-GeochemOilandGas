@@ -19,8 +19,12 @@
     width: inherit;
     display: block;
     margin: auto;
+    background-color: "whitesmoke";
 }
 
+.plotTitle {
+    text-anchor: middle;
+}
 .formationClass::-webkit-scrollbar { display: none; }
 /** {*/
     /*font-family: 'Roboto', sans-serif;*/

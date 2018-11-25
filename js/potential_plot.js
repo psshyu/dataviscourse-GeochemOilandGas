@@ -3,10 +3,10 @@
 
 class PotentialPlot{
 
-    constructor(defaultData, defaultFormation, colorScale){
+    constructor(defaultData, defaultFormation, wellDetails){
         this.defaultData = defaultData;
         this.defaultFormation = defaultFormation;
-        this.colorScale = colorScale;
+        this.wellDetails = wellDetails;
 
         this.margin = {top: 30, right: 30, bottom: 30, left: 30};
         this.width = document.documentElement.clientWidth* 0.30;
@@ -65,7 +65,14 @@ class PotentialPlot{
             .attr("r", 5)
             .attr("cx", (d) => { return this.x(d.TOC_Percent_Measured); })
             .attr("cy", (d) => { return this.y(d.S1S2__mgHC_gmrock); })
-            .attr("fill", "#373737");
+            .attr("fill", (d) => {
+                let color;
+                this.wellDetails.forEach( well => {
+                    if(d.SRCLocationID === well.wellID){
+                        color = well.unselectedColor;
+                    }})
+                return color;})
+            .attr("stroke", "gray");
 
     }
 
@@ -96,7 +103,7 @@ class PotentialPlot{
         }
         return sampleList;
     }
-    update(samples,colorScale){
+    update(samples,wellDetails){
 
         //filter out data that lacks sum of S1 + S2 && TOC
         let samplesWithInformation = samples.filter(d => {if (d.S1__mgHC_gmrock_ !== '' && d.S2__mgHC_gmrock_ !== '' && d.TOC_Percent_Measured !== '') return d});
@@ -132,14 +139,29 @@ class PotentialPlot{
         this.svg.selectAll("circle")
             .transition()
             .duration(1000)
-            .attr("fill", "#373737") 
+            .attr("fill", (d) => {
+                let color;
+                this.wellDetails.forEach( well => {
+                    if(d.SRCLocationID === well.wellID){
+                        color = well.unselectedColor;
+                    }})
+                return color;})
             .attr("r", 5) 
+            .attr("stroke", "gray")
             .attr("cx", (d) => { return this.x(d.TOC_Percent_Measured); })
             .attr("cy", (d) => { return this.y(d.S1S2__mgHC_gmrock); })
             .on("end", function() {
                 d3.select(this)
-                    .attr("fill", "#373737")
-                    .attr("r", 5);
+                .attr("fill", (d,i) => {
+                    let color;
+                    wellDetails.forEach( well => {
+                        if(d.SRCLocationID === well.wellID){
+                            color = well.unselectedColor;
+                        }})
+                    return color;
+                })
+                .attr("r", 5)
+                .attr("stroke", "gray");
             });
 
     }

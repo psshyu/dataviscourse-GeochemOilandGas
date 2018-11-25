@@ -33,8 +33,8 @@ class formationList {
                     //passing samples of clicked formation to the charts
                     this.tocChart.update(samplesOfClickedFormation);
                     this.vanKrevelenPlot.update(samplesOfClickedFormation, wellDetails);
-                    this.potentialPlot.update(samplesOfClickedFormation,this.unselectedColorScale);
-                    this.inverseKrevPlot.update(samplesOfClickedFormation,this.unselectedColorScale);
+                    this.potentialPlot.update(samplesOfClickedFormation, wellDetails);
+                    this.inverseKrevPlot.update(samplesOfClickedFormation,wellDetails);
 
                     //passing wells in clicked formation to the legend
                     let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID');
@@ -53,9 +53,9 @@ class formationList {
         
         console.log(this.wellDetails);
         this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.unselectedColorScale);
-        this.inverseKrevPlot = new InverseKrevelen(this.defaultFormationData, this.defaultFormation, this.unselectedColorScale);
+        this.inverseKrevPlot = new InverseKrevelen(this.defaultFormationData, this.defaultFormation, this.wellDetails);
         this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.wellDetails);
-        this.potentialPlot = new PotentialPlot(this.defaultFormationData, this.defaultFormation, this.unselectedColorScale);
+        this.potentialPlot = new PotentialPlot(this.defaultFormationData, this.defaultFormation, this.wellDetails);
 
         //passing samples of default formation
         this.tocChart.update(this.defaultFormationData);
@@ -89,14 +89,11 @@ class formationList {
                     wellSet.push(well.SRCLocationID); 
                 }}});
 
-        console.log(wellDetails);
         return wellDetails;
     }
     updateWellsList(allWells, geospatialData){
-        //getting well_names from the SRCLocationIDs 
         this.wellDetails = this._setWellDetails(allWells, geospatialData);
-        console.log(this.wellDetails);
-        let wellNames = this._get(allWells, 'SRCLocationID');
+
         //change from ulist to table. We'll need to add a colored circle in the left of the well name
         d3.select("#legendListUL").remove();
         let wellList = d3.select("#legend")
