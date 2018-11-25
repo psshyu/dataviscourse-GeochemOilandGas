@@ -70,7 +70,10 @@ class VanKrevelenPlot{
                     if(d.SRCLocationID === well.wellID){
                         color = well.unselectedColor;
                     }})
-                return color;});
+                return color;})
+            .attr("stroke", "gray")
+            .attr("r", 5)
+            .style("opacity", 1);
     }
 
     /**

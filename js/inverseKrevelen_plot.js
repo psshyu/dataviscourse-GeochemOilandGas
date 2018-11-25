@@ -71,7 +71,10 @@ class InverseKrevelen{
                         //console.log(well.unselectedColor)
                         color = well.unselectedColor;
                     }})
-                return color;});
+                return color;})
+            .attr("stroke", "gray")
+            .attr("r", 5)
+            .style("opacity", 1);
     }
     /**
      * 
