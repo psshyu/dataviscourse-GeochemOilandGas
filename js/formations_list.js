@@ -13,7 +13,6 @@ class formationList {
         // defaults - the formation that is initially displayed when a basin is clicked
         this.defaultFormation = this.formationNames[0];
         this.defaultFormationData = samplesInBasin.filter(e => e.Formation_Name === this.defaultFormation);
-        let wellsInDefaultFormation = this._get(this.defaultFormationData, 'SRCLocationID');
         this.wellDetails = this._setWellDetails(this.defaultFormationData,geospatialData);
 
 
@@ -37,7 +36,7 @@ class formationList {
         this.formationList.selectAll("tr")
             .data(this.formationNames)
             .enter()
-            .append("tr").append("td").text((d) => {return d;})
+            .append("tr").append("td").style("padding-left", "15px").text((d) => {return d;})
             .on("click", (d) => { 
                 let samplesOfClickedFormation = samplesInBasin.filter(e => e.Formation_Name === d); //d: clicked formation
                 let wellDetails = this._setWellDetails(samplesOfClickedFormation, geospatialData);
@@ -49,14 +48,10 @@ class formationList {
                 this.inverseKrevPlot.update(samplesOfClickedFormation, wellDetails);
 
                 //passing wells in clicked formation to the legend
-                let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID');
-
-                // let samplesInWell = samplesOfClickedFormation.filter(e => allWellsInClickedFormation.includes(e.SRCLocationID));//
                 d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
                     this.updateWellsList(samplesOfClickedFormation,geospatialData, wellDetails));});
 
         // passing wells of default formation
-        
         d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
             this.updateWellsList(this.defaultFormationData,geospatialData, this.wellDetails));
     }
