@@ -26,7 +26,7 @@ class VanKrevelenPlot{
 
         //filter out data that lacks HI && OI
         this.samplesWithInformation = defaultData.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
-        console.log(this.samplesWithInformation);
+        
         //get minimum and maximum values of HI
         let minmaxHI = this.minmax(this.samplesWithInformation,'Hydrogen_Index');
         let minHI = minmaxHI[0];
@@ -100,7 +100,6 @@ class VanKrevelenPlot{
     }
     
     update(samples, wellDetails){
-        console.log("updating Van Krev")
         this.samplesWithInformation = samples.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
         //get minimum and maximum values of HI
         let minmaxHI = this.minmax(this.samplesWithInformation,'Hydrogen_Index');

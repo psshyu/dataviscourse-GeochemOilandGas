@@ -16,42 +16,8 @@ class formationList {
         let wellsInDefaultFormation = this._get(this.defaultFormationData, 'SRCLocationID');
         this.wellDetails = this._setWellDetails(this.defaultFormationData,geospatialData);
         
-        /* ******************************************* */
-        this.testString = "test string";
-        this.formationList = d3.select("#formationList")
-                        .append("ul")
-                        .attr("id", "formationListUL");
-
-        this.formationList.selectAll("li")
-                .data(this.formationNames)
-                .enter()
-                .append("li").text((d) => {return d;})
-                .on("click", (d) => { 
-                    let samplesOfClickedFormation = samplesInBasin.filter(e => e.Formation_Name === d); //d: clicked formation
-                    let wellDetails = this._setWellDetails(samplesOfClickedFormation, geospatialData);
-
-                    //passing samples of clicked formation to the charts
-                    this.tocChart.update(samplesOfClickedFormation);
-                    this.vanKrevelenPlot.update(samplesOfClickedFormation, wellDetails);
-                    this.potentialPlot.update(samplesOfClickedFormation, wellDetails);
-                    this.inverseKrevPlot.update(samplesOfClickedFormation,wellDetails);
-
-                    //passing wells in clicked formation to the legend
-                    let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID');
-                    console.log(allWellsInClickedFormation);
-                    // let samplesInWell = samplesOfClickedFormation.filter(e => allWellsInClickedFormation.includes(e.SRCLocationID));//
-                    d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
-                        this.updateWellsList(samplesOfClickedFormation,geospatialData));});
-
-        // passing wells of default formation
-        
-        d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
-            this.updateWellsList(this.defaultFormationData,geospatialData));
-
 
         // instantiate charts with default information
-        
-        console.log(this.wellDetails);
         this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.unselectedColorScale);
         this.inverseKrevPlot = new InverseKrevelen(this.defaultFormationData, this.defaultFormation, this.wellDetails);
         this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.wellDetails);
@@ -59,6 +25,37 @@ class formationList {
 
         //passing samples of default formation
         this.tocChart.update(this.defaultFormationData);
+        /* ******************************************* */
+        this.testString = "test string";
+        this.formationList = d3.select("#formationList")
+                        .append("ul")
+                        .attr("id", "formationListUL");
+
+        this.formationList.selectAll("li")
+            .data(this.formationNames)
+            .enter()
+            .append("li").text((d) => {return d;})
+            .on("click", (d) => { 
+                let samplesOfClickedFormation = samplesInBasin.filter(e => e.Formation_Name === d); //d: clicked formation
+                let wellDetails = this._setWellDetails(samplesOfClickedFormation, geospatialData);
+
+                //passing samples of clicked formation to the charts
+                this.tocChart.update(samplesOfClickedFormation);
+                this.vanKrevelenPlot.update(samplesOfClickedFormation, wellDetails);
+                this.potentialPlot.update(samplesOfClickedFormation, wellDetails);
+                this.inverseKrevPlot.update(samplesOfClickedFormation,wellDetails);
+
+                //passing wells in clicked formation to the legend
+                let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID');
+
+                // let samplesInWell = samplesOfClickedFormation.filter(e => allWellsInClickedFormation.includes(e.SRCLocationID));//
+                d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
+                    this.updateWellsList(samplesOfClickedFormation,geospatialData));});
+
+        // passing wells of default formation
+        
+        d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
+            this.updateWellsList(this.defaultFormationData,geospatialData));
     }
     
     /**

@@ -26,7 +26,7 @@ class InverseKrevelen{
 
         //filter out data that lacks HI && OI
         let samplesWithInformation = defaultData.filter(d => {if (d.Hydrogen_Index !== '' && d.Tmax_C_Pyrolysis !== '') return d});
-        console.log(samplesWithInformation);
+
         //get minimum and maximum values of HI
         let minmaxHI = this.minmax(samplesWithInformation,'Hydrogen_Index');
         let minHI = minmaxHI[0];
@@ -100,7 +100,6 @@ class InverseKrevelen{
     }
     
     update(samples, wellDetails){
-        console.log(samples);
         let samplesWithInformation = samples.filter(d => {if (d.Hydrogen_Index !== '' && d.Tmax_C_Pyrolysis !== '') return d});
         //get minimum and maximum values of HI
         let minmaxHI = this.minmax(samplesWithInformation,'Hydrogen_Index');

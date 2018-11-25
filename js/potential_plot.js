@@ -45,7 +45,7 @@ class PotentialPlot{
         this.y = d3.scaleLinear()
                 .domain([minS1S2,maxS1S2])
                 .range([this.height - this.margin.bottom,this.margin.top]);
-        console.log([minS1S2,maxS1S2])
+
         // X-axis
         this.svg.append("g")
             .attr("id", "potentialPlotX")
