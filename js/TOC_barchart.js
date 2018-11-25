@@ -18,8 +18,11 @@ class TOC_barchart {
             .attr("id", "tocBarchartSVG")
             .attr("class", "plot")
             .style("background-color", "#ffffff");
-            //.attr("width", this.width)
-            //.attr("height", this.height);
+        
+        this.svg.append("text")
+            .attr("x", this.width/4)
+            .attr("y", this.margin.top)
+            .text("Total Organic Carbon Content (TOC)");
     }
 
 

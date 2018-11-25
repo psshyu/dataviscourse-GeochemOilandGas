@@ -18,6 +18,14 @@ class VanKrevelenPlot{
             .attr("class", "plot")
             .style("background-color", "#ffffff");
 
+        // Plot title
+        this.svg.append("text")
+            .attr("x", this.width/3)
+            .attr("y", () => {console.log("van krev title");
+                return this.margin.top})
+            .text("Kerogen Type");
+
+
         //filter out data that lacks HI && OI
         let samplesWithInformation = defaultData.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
         console.log(samplesWithInformation);

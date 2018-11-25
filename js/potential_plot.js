@@ -17,6 +17,12 @@ class PotentialPlot{
                      .attr("id", "potentialPlotSVG")
                      .attr("class", "plot")
                      .style("background-color", "#ffffff");
+                     
+        // Plot title
+        this.svg.append("text")
+            .attr("x", this.width/3)
+            .attr("y", this.margin.top)
+            .text("Potential Generation");
 
         //filter out data that lacks sum of S1 + S2 && TOC
         let samplesWithInformation = defaultData.filter(d => {if (d.S1__mgHC_gmrock_ !== '' && d.S2__mgHC_gmrock_ !== '' && d.TOC_Percent_Measured !== '') return d});    

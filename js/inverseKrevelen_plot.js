@@ -18,6 +18,12 @@ class InverseKrevelen{
             .attr("class", "plot")
             .style("background-color", "#ffffff");
 
+        // Plot title
+        this.svg.append("text")
+            .attr("x", this.width/3)
+            .attr("y", this.margin.top)
+            .text("Inverse Van Krevelen");
+
         //filter out data that lacks HI && OI
         let samplesWithInformation = defaultData.filter(d => {if (d.Hydrogen_Index !== '' && d.Tmax_C_Pyrolysis !== '') return d});
         console.log(samplesWithInformation);
