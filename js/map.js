@@ -112,6 +112,8 @@ class Basin {
                 let unselectedColorScale = d3.scaleOrdinal(d3.schemePastel1);
                 let selectedColorScale = d3.scaleOrdinal(d3.schemeSet1);
                 let formations = new formationList(samplesInClickedBasin, unselectedColorScale, selectedColorScale, geospatialData);
+                d3.select("#screen1").style("display", "none");
+                d3.select("#screen2").style("display", "block");
    
             });
         }

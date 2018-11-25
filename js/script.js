@@ -10,6 +10,13 @@
 
 let projection = d3.geoAlbers();
 
+d3.select("#toggleButton").on("click", toggle);
+
+function toggle(){
+    d3.select("#screen1").style("display", "block");
+    d3.select("#screen2").style("display", "none");
+}
+
 //pass well geospatial data (locations/coordinates) to map
     d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData => {
         //remove the plot
@@ -21,7 +28,6 @@ let projection = d3.geoAlbers();
         // remove formation list and legend
         d3.select("#legendSVG").remove();
         d3.select("#formationListUL").remove();
-
         
         //let formations_list = new formationList(colorScale);
         // let legend = new Legend(colorScale);
