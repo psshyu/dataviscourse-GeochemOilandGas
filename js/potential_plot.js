@@ -41,7 +41,7 @@ class PotentialPlot{
         // X and Y scales 
         this.x = d3.scaleLinear()
                 .domain([maxTOC, minTOC])
-                .range([this.width - this.margin.right, this.margin.left]);
+                .range([this.width - this.margin.right, this.margin.left*2]);
         this.y = d3.scaleLinear()
                 .domain([minS1S2,maxS1S2])
                 .range([this.height - this.margin.bottom,this.margin.top]);
@@ -55,8 +55,22 @@ class PotentialPlot{
         // Y Axis
         this.svg.append("g")
             .attr("id", "potentialPlotY")
-            .attr("transform", "translate("+ this.margin.right + "," + 0 + ")")
+            .attr("transform", "translate("+ this.margin.right * 2 + "," + 8 + ")")
             .call(d3.axisLeft(this.y));
+            
+        // Axis labels
+        // x
+        this.svg.append("text")
+            .attr("x", this.width/2.25)
+            .attr("y", this.height + this.margin.bottom/2)
+            .text("TOC%");
+        // y
+        this.svg.append('text')
+            .attr('x', -(this.height / 2))
+            .attr('y', this.width / 20)
+            .attr('transform', 'rotate(-90)')
+            .attr('text-anchor', 'middle')
+            .text('S1 + S2')
 
         // Scatterplot circles 
         this.svg.selectAll("circle")
