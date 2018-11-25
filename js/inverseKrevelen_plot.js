@@ -71,8 +71,7 @@ class InverseKrevelen{
                         //console.log(well.unselectedColor)
                         color = well.unselectedColor;
                     }})
-                return color;})
-            .attr("stroke", "gray");
+                return color;});
     }
     /**
      * 
@@ -141,7 +140,6 @@ class InverseKrevelen{
                     }})
                 return color;
             }) 
-            .attr("stroke", "gray") 
             .attr("cx", (d) => { return this.x(d.Tmax_C_Pyrolysis); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
             .on("end", function() {
@@ -154,10 +152,9 @@ class InverseKrevelen{
                             color = well.unselectedColor;
                         }})
                     return color;
-                }) 
-                .attr("stroke", "gray");
+                });
             });
-        this.svg.selectAll("circle").attr("r", 5).style("opacity", 1);
+        this.svg.selectAll("circle").attr("stroke", "gray").attr("r", 5).style("opacity", 1);
     }
     updateWells(selectedWells){
         this.svg.selectAll("circle").style("opacity", 0.25).attr("stroke", "white");

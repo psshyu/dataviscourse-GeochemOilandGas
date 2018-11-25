@@ -70,8 +70,7 @@ class VanKrevelenPlot{
                     if(d.SRCLocationID === well.wellID){
                         color = well.unselectedColor;
                     }})
-                return color;})
-            .attr("stroke", "gray");
+                return color;});
     }
 
     /**
@@ -139,8 +138,7 @@ class VanKrevelenPlot{
                         color = well.unselectedColor;
                     }})
                 return color;
-            }) 
-            .attr("stroke", "gray")
+            })
             .attr("cx", (d) => { return this.x(d.Oxygen_Index); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
             .on("end", function() {
@@ -153,10 +151,9 @@ class VanKrevelenPlot{
                                 color = well.unselectedColor;
                             }})
                         return color;
-                    })
-                    .attr("stroke", "gray");
+                    });
             });
-        this.svg.selectAll("circle").attr("r", 5).style("opacity", 1);
+        this.svg.selectAll("circle").attr("stroke", "gray").attr("r", 5).style("opacity", 1);
     }
 
     updateWells(selectedWells){
