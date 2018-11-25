@@ -74,7 +74,7 @@ class Basin {
                     return "basin-"+name.replace(/\s/g,'');
                 })
                 .style("fill-opacity", 0.05)
-                .attr('fill','#373737')
+                .attr('fill','#575757')
                 .attr('stroke', 'grey')
                 .on('mouseover', mouseOverHandler)
                 .on('mouseout', mouseOutHandler)
@@ -109,9 +109,6 @@ class Basin {
                 let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
 
                 //color scale to be used across charts/legend
-                //let domain = [-60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60];
-                //let range = ["#063e78", "#08519c", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15", "#860308"];
-                //let colorScale = d3.scaleQuantile();
                 let unselectedColorScale = d3.scaleOrdinal(d3.schemePastel1);
                 let selectedColorScale = d3.scaleOrdinal(d3.schemeSet1);
                 let formations = new formationList(samplesInClickedBasin, unselectedColorScale, selectedColorScale, geospatialData);
