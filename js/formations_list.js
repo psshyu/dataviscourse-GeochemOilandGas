@@ -1,8 +1,10 @@
 class formationList {
 
-    constructor(samplesInBasin, colorScale) {
-        this.colorScale = colorScale;
-
+    constructor(samplesInBasin, unselectedColorScale, selectedColorScale, geospatialData) {
+        
+        this.unselectedColorScale = unselectedColorScale;
+        this.selectedColorScale = selectedColorScale;
+        
         // list of formations in the clicked basin
         this.formationNames = this._get(samplesInBasin, 'Formation_Name');
         //ignore unknown formations
@@ -11,12 +13,9 @@ class formationList {
         // defaults - the formation that is initially displayed when a basin is clicked
         this.defaultFormation = this.formationNames[0];
         this.defaultFormationData = samplesInBasin.filter(e => e.Formation_Name === this.defaultFormation);
+        let wellsInDefaultFormation = this._get(this.defaultFormationData, 'SRCLocationID');
+        this.wellDetails = this._setWellDetails(this.defaultFormationData,geospatialData);
         
-        // instantiate charts with default information
-        this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.colorScale);
-        this.inverseKrevPlot = new InverseKrevelen(this.defaultFormationData, this.defaultFormation, this.colorScale);
-        this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
-        this.potentialPlot = new PotentialPlot(this.defaultFormationData, this.defaultFormation, this.colorScale);
         /* ******************************************* */
         this.testString = "test string";
         this.formationList = d3.select("#formationList")
@@ -29,28 +28,37 @@ class formationList {
                 .append("li").text((d) => {return d;})
                 .on("click", (d) => { 
                     let samplesOfClickedFormation = samplesInBasin.filter(e => e.Formation_Name === d); //d: clicked formation
+                    let wellDetails = this._setWellDetails(samplesOfClickedFormation, geospatialData);
 
                     //passing samples of clicked formation to the charts
                     this.tocChart.update(samplesOfClickedFormation);
-                    this.vanKrevelenPlot.update(samplesOfClickedFormation,this.colorScale);
-                    this.potentialPlot.update(samplesOfClickedFormation,this.colorScale);
-                    this.inverseKrevPlot.update(samplesOfClickedFormation,this.colorScale);
+                    this.vanKrevelenPlot.update(samplesOfClickedFormation, wellDetails);
+                    this.potentialPlot.update(samplesOfClickedFormation,this.unselectedColorScale);
+                    this.inverseKrevPlot.update(samplesOfClickedFormation,this.unselectedColorScale);
 
                     //passing wells in clicked formation to the legend
                     let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID');
+                    console.log(allWellsInClickedFormation);
                     // let samplesInWell = samplesOfClickedFormation.filter(e => allWellsInClickedFormation.includes(e.SRCLocationID));//
                     d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
-                        this.updateWellsList(allWellsInClickedFormation,geospatialData));});
-
-
-        //passing samples of default formation
-        
-        this.tocChart.update(this.defaultFormationData);
+                        this.updateWellsList(samplesOfClickedFormation,geospatialData));});
 
         // passing wells of default formation
-        let wellsInDefaultFormation = this._get(this.defaultFormationData, 'SRCLocationID');
+        
         d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData =>
-            this.updateWellsList(wellsInDefaultFormation,geospatialData));
+            this.updateWellsList(this.defaultFormationData,geospatialData));
+
+
+        // instantiate charts with default information
+        
+        console.log(this.wellDetails);
+        this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.unselectedColorScale);
+        this.inverseKrevPlot = new InverseKrevelen(this.defaultFormationData, this.defaultFormation, this.unselectedColorScale);
+        this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.wellDetails);
+        this.potentialPlot = new PotentialPlot(this.defaultFormationData, this.defaultFormation, this.unselectedColorScale);
+
+        //passing samples of default formation
+        this.tocChart.update(this.defaultFormationData);
     }
     
     /**
@@ -64,30 +72,42 @@ class formationList {
         }
         return Array.from(set).sort();
     }
+    _setWellDetails(wellsInSample, geospatialData){
+        let wellDetails = [];
+        let wellSet = []
+        wellsInSample.forEach( well => {
+            for (let i = 0; i < geospatialData.length; i++){
+                let row = geospatialData[i];
+                if (row.SRCLocationID === well.SRCLocationID && wellSet.includes(well.SRCLocationID) == false){
+                    let details = {};
+                    details['wellID'] = well.SRCLocationID;
+                    if (row.Data_Type === 'Well'){ details['wellName'] = row.Well_Name;}
+                    else { details['wellName'] = row.Outcrop; }
+                    details['unselectedColor'] = this.unselectedColorScale(i); 
+                    details['selectedColor'] = this.selectedColorScale(i);
+                    wellDetails.push(details);
+                    wellSet.push(well.SRCLocationID); 
+                }}});
 
+        console.log(wellDetails);
+        return wellDetails;
+    }
     updateWellsList(allWells, geospatialData){
-
-        //getting well_names from the SRCLocationIDs
-        let allWellNames = [];
-        allWells.forEach( wellID => {
-            geospatialData.forEach(row => {
-                if (row.SRCLocationID === wellID){
-                    if (row.Data_Type === 'Well')
-                        {allWellNames.push(row.Well_Name);}
-                    else if (row.Data_Type === 'Outcrop')
-                        {allWellNames.push(row.Outcrop);}
-            }})});
-
-
+        //getting well_names from the SRCLocationIDs 
+        this.wellDetails = this._setWellDetails(allWells, geospatialData);
+        console.log(this.wellDetails);
+        let wellNames = this._get(allWells, 'SRCLocationID');
         //change from ulist to table. We'll need to add a colored circle in the left of the well name
         d3.select("#legendListUL").remove();
         let wellList = d3.select("#legend")
                             .append("ul")
                             .attr("id", "legendListUL");
+
         wellList.selectAll("li")
-            .data(allWellNames)
+            .data(this.wellDetails)
             .enter()
-            .append("li").text((d) => {return d;})
+            .append("li").text((d) => {
+                return d.wellName;})
             .on("click", (d) => {
                 this.updateGraphs(d);
             });
@@ -112,19 +132,17 @@ class formationList {
 
             //pass the respective data to the charts
 
-            this.legend.update(clickedFormationData,this.colorScale);
-            //this.tocChart.update(clickedFormationData,this.colorScale);
-            this.vanKrevelenPlot.update(clickedFormationData,this.colorScale);
-            this.potentialPlot.update(clickedFormationData,this.colorScale);
-            this.inverseKrevPlot.update(clickedFormationData,this.colorScale)
+            this.legend.update(clickedFormationData,this.unselectedColorScale);
+            //this.tocChart.update(clickedFormationData,this.unselectedColorScale);
+            this.vanKrevelenPlot.update(clickedFormationData,this.unselectedColorScale);
+            this.potentialPlot.update(clickedFormationData,this.unselectedColorScale);
+            this.inverseKrevPlot.update(clickedFormationData,this.unselectedColorScale)
         })*/
     }
     updateGraphs(well){
 
         //This function should highlight the samples (in all charts) corresponding to the well that has been clicked.
-
-        let dummyString = well + " was selected!";
-        console.log(dummyString);
+        this.vanKrevelenPlot.selectedWell(well);
 
     }
 }

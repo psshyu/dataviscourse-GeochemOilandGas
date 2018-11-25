@@ -3,10 +3,10 @@
 
 class VanKrevelenPlot{
 
-    constructor(defaultData, defaultFormation, colorScale){
+    constructor(defaultData, defaultFormation, wellDetails){
         this.defaultData = defaultData;
         this.defaultFormation = defaultFormation;
-        this.colorScale = colorScale;
+        this.wellDetails = wellDetails;
 
         this.margin = {top: 30, right: 30, bottom: 30, left: 30};
         this.width = document.documentElement.clientWidth* 0.30;
@@ -21,21 +21,21 @@ class VanKrevelenPlot{
         // Plot title
         this.svg.append("text")
             .attr("x", this.width/3)
-            .attr("y", () => {console.log("van krev title");
+            .attr("y", () => {//console.log("van krev title");
                 return this.margin.top})
             .text("Kerogen Type");
 
-
+            console.log(this.wellDetails);
         //filter out data that lacks HI && OI
-        let samplesWithInformation = defaultData.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
-        console.log(samplesWithInformation);
+        this.samplesWithInformation = defaultData.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
+        console.log(this.samplesWithInformation);
         //get minimum and maximum values of HI
-        let minmaxHI = this.minmax(samplesWithInformation,'Hydrogen_Index');
+        let minmaxHI = this.minmax(this.samplesWithInformation,'Hydrogen_Index');
         let minHI = minmaxHI[0];
         let maxHI = minmaxHI[1];
         
         //get minimum and maximum values of OI
-        let minmaxOI = this.minmax(samplesWithInformation,'Oxygen_Index');
+        let minmaxOI = this.minmax(this.samplesWithInformation,'Oxygen_Index');
         let minOI = minmaxOI[0];
         let maxOI = minmaxOI[1];
 
@@ -61,12 +61,23 @@ class VanKrevelenPlot{
 
         // Scatterplot circles 
         this.svg.selectAll("circle")
-            .data(samplesWithInformation)
+            .data(this.samplesWithInformation)
             .enter().append("circle")
             .attr("r", 5)
             .attr("cx", (d) => { return this.x(d.Oxygen_Index); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
-            .attr("fill", "#373737");
+            .attr("fill", (d) => { //return "#fddaec";
+                let color;
+                this.wellDetails.forEach( well => {
+                    if(d.SRCLocationID === well.wellID){
+                        //console.log(well.unselectedColor)
+                        color = well.unselectedColor;
+                    }})
+                return color;
+        });
+    }
+    getColor(){
+        
     }
     /**
      * 
@@ -93,15 +104,16 @@ class VanKrevelenPlot{
         }
     }
     
-    update(samples, colorScale){
-        let samplesWithInformation = samples.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
+    update(samples, wellDetails){
+        console.log("updating Van Krev")
+        this.samplesWithInformation = samples.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
         //get minimum and maximum values of HI
-        let minmaxHI = this.minmax(samplesWithInformation,'Hydrogen_Index');
+        let minmaxHI = this.minmax(this.samplesWithInformation,'Hydrogen_Index');
         let minHI = minmaxHI[0];
         let maxHI = minmaxHI[1];
         
         //get minimum and maximum values of OI
-        let minmaxOI = this.minmax(samplesWithInformation,'Oxygen_Index');
+        let minmaxOI = this.minmax(this.samplesWithInformation,'Oxygen_Index');
         let minOI = minmaxOI[0];
         let maxOI = minmaxOI[1];
 
@@ -117,7 +129,7 @@ class VanKrevelenPlot{
             .transition()
             .call(d3.axisLeft(this.y));
 
-        let c = this.svg.selectAll("circle").data(samplesWithInformation);
+        let c = this.svg.selectAll("circle").data(this.samplesWithInformation);
         c.exit().remove();
         let newc = c.enter().append('circle');
         c = newc.merge(c);
@@ -125,15 +137,35 @@ class VanKrevelenPlot{
         this.svg.selectAll("circle")
             .transition()
             .duration(1000)
-            .attr("fill", "#373737") 
+            .attr("fill", (d,i) => {
+                let color;
+                wellDetails.forEach( well => {
+                    if(d.SRCLocationID === well.wellID){
+                        //console.log(well.unselectedColor)
+                        color = well.unselectedColor;
+                    }})
+                return color;
+            }) 
             .attr("r", 5) 
             .attr("cx", (d) => { return this.x(d.Oxygen_Index); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
             .on("end", function() {
                 d3.select(this)
-                    .attr("fill", "#373737")
+                    .attr("fill", (d,i) => {
+                        let color;
+                        wellDetails.forEach( well => {
+                            if(d.SRCLocationID === well.wellID){
+                                //console.log(well.unselectedColor)
+                                color = well.unselectedColor;
+                            }})
+                        return color;
+                        //return this.wellDetails(i)
+                    })
                     .attr("r", 5);
             });
-
+    }
+    selectedWell(well){
+        console.log(well + " was selected");
+        this.svg.selectAll("circle")
     }
 }
