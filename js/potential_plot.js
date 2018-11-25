@@ -63,7 +63,7 @@ class PotentialPlot{
             .data(samplesWithInformation)
             .enter().append("circle")
             .attr("id", (d)=>{return d.SRCLocationID})
-            .attr("r", 5)
+            //.attr("r", 5)
             .attr("cx", (d) => { return this.x(d.TOC_Percent_Measured); })
             .attr("cy", (d) => { return this.y(d.S1S2__mgHC_gmrock); })
             .attr("fill", (d) => {
@@ -148,7 +148,7 @@ class PotentialPlot{
                         color = well.unselectedColor;
                     }})
                 return color;})
-            .attr("r", 5) 
+            //.attr("r", 5) 
             .attr("stroke", "gray")
             .attr("cx", (d) => { return this.x(d.TOC_Percent_Measured); })
             .attr("cy", (d) => { return this.y(d.S1S2__mgHC_gmrock); })
@@ -163,14 +163,15 @@ class PotentialPlot{
                         }})
                     return color;
                 })
-                .attr("r", 5)
+                //.attr("r", 5)
                 .attr("stroke", "gray");
             });
-
+        this.svg.selectAll("circle").attr("r",5).style("opacity", 1);
     }
     updateWells(selectedWells){
-        this.svg.selectAll("circle").style("opacity", 0.15).attr("stroke", "white");
+        this.svg.selectAll("circle").style("opacity", 0.25).attr("stroke", "white");
         selectedWells.forEach(id => {
+            this.svg.selectAll("#"+id).raise(); //brings the selected elements to the top
             this.svg.selectAll("#"+id).style("opacity", 1).attr("stroke", "black");
         });
     }

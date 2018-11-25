@@ -112,6 +112,7 @@ class formationList {
                         .attr("width", "25px")
                         .attr("height", "25px")
                         .append("circle")
+                            .attr("id", (d)=>{return d.wellID})
                             .attr("r", 7)
                             .attr("cx", 12.5)
                             .attr("cy", 15.5)
@@ -167,6 +168,11 @@ class formationList {
         else{
             this.selected.push(well.wellID);
         }
+        d3.select("#legend").selectAll("circle")
+            .style("opacity", 0.25).attr("stroke", "gray");
+        this.selected.forEach(id => {
+            d3.select("#legend").selectAll("#"+id).style("opacity", 1).attr("stroke", "black");
+        });
         this.vanKrevelenPlot.updateWells(this.selected);
         this.potentialPlot.updateWells(this.selected);
         this.inverseKrevPlot.updateWells(this.selected);

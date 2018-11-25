@@ -62,7 +62,6 @@ class InverseKrevelen{
             .data(samplesWithInformation)
             .enter().append("circle")
             .attr("id", (d)=>{return d.SRCLocationID})
-            .attr("r", 5)
             .attr("cx", (d) => { return this.x(d.Tmax_C_Pyrolysis); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
             .attr("fill", (d) => { //return "#fddaec";
@@ -142,7 +141,6 @@ class InverseKrevelen{
                     }})
                 return color;
             }) 
-            .attr("r", 5)
             .attr("stroke", "gray") 
             .attr("cx", (d) => { return this.x(d.Tmax_C_Pyrolysis); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
@@ -153,19 +151,18 @@ class InverseKrevelen{
                     let color;
                     wellDetails.forEach( well => {
                         if(d.SRCLocationID === well.wellID){
-                            //console.log(well.unselectedColor)
                             color = well.unselectedColor;
                         }})
                     return color;
                 }) 
-                .attr("r", 5)
                 .attr("stroke", "gray");
             });
-
+        this.svg.selectAll("circle").attr("r", 5).style("opacity", 1);
     }
     updateWells(selectedWells){
-        this.svg.selectAll("circle").style("opacity", 0.15).attr("stroke", "white");
+        this.svg.selectAll("circle").style("opacity", 0.25).attr("stroke", "white");
         selectedWells.forEach(id => {
+            this.svg.selectAll("#"+id).raise(); //brings the selected elements to the top
             this.svg.selectAll("#"+id).style("opacity", 1).attr("stroke", "black");
         });
     }
