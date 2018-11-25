@@ -18,20 +18,16 @@ class PotentialPlot{
                      .attr("class", "plot")
                      .style("background-color", "#ffffff");
 
-        //filter out data that lacks HI && OI
-        let samplesWithInformation = defaultData.filter(d => {if (d.S1__mgHC_gmrock_ !== '' && d.S2__mgHC_gmrock_ !== '' && d.TOC_Percent_Measured !== '') return d});
-    
-       for(let i = 0; i < samplesWithInformation.length; i++){
-           let sumS1S2 = parseFloat(samplesWithInformation[i]['S1__mgHC_gmrock_']) + parseFloat(samplesWithInformation[i]['S2__mgHC_gmrock_']);
-           samplesWithInformation[i]["S1S2__mgHC_gmrock"] = sumS1S2;
-       }
-       console.log(samplesWithInformation);
-        //get minimum and maximum values of HI
+        //filter out data that lacks sum of S1 + S2 && TOC
+        let samplesWithInformation = defaultData.filter(d => {if (d.S1__mgHC_gmrock_ !== '' && d.S2__mgHC_gmrock_ !== '' && d.TOC_Percent_Measured !== '') return d});    
+        samplesWithInformation = this.calcAndAppendS1S2Sum(samplesWithInformation);
+
+        //get minimum and maximum values of sum of S1 + S2
         let minmaxS1S2 = this.minmax(samplesWithInformation,'S1S2__mgHC_gmrock');
         let minS1S2 = minmaxS1S2[0];
         let maxS1S2 = minmaxS1S2[1];
         
-        //get minimum and maximum values of OI
+        //get minimum and maximum values of TOC
         let minmaxTOC = this.minmax(samplesWithInformation,'TOC_Percent_Measured');
         let minTOC = minmaxTOC[0];
         let maxTOC = minmaxTOC[1];
@@ -87,23 +83,25 @@ class PotentialPlot{
             return[0,10];
         }
     }
-    
+    calcAndAppendS1S2Sum(sampleList){
+        for(let i = 0; i < sampleList.length; i++){
+            let sumS1S2 = parseFloat(sampleList[i]['S1__mgHC_gmrock_']) + parseFloat(sampleList[i]['S2__mgHC_gmrock_']);
+            sampleList[i]["S1S2__mgHC_gmrock"] = sumS1S2;
+        }
+        return sampleList;
+    }
     update(samples,colorScale){
-        console.log("updating potential" );
-        //filter out data that lacks HI && OI
+
+        //filter out data that lacks sum of S1 + S2 && TOC
         let samplesWithInformation = samples.filter(d => {if (d.S1__mgHC_gmrock_ !== '' && d.S2__mgHC_gmrock_ !== '' && d.TOC_Percent_Measured !== '') return d});
-    
-       for(let i = 0; i < samplesWithInformation.length; i++){
-           let sumS1S2 = parseFloat(samplesWithInformation[i]['S1__mgHC_gmrock_']) + parseFloat(samplesWithInformation[i]['S2__mgHC_gmrock_']);
-           samplesWithInformation[i]["S1S2__mgHC_gmrock"] = sumS1S2;
-       }
-       console.log(samplesWithInformation);
-        //get minimum and maximum values of HI
+        samplesWithInformation = this.calcAndAppendS1S2Sum(samplesWithInformation);
+
+        //get minimum and maximum values of sum of S1 + S2
         let minmaxS1S2 = this.minmax(samplesWithInformation,'S1S2__mgHC_gmrock');
         let minS1S2 = minmaxS1S2[0];
         let maxS1S2 = minmaxS1S2[1];
         
-        //get minimum and maximum values of OI
+        //get minimum and maximum values of TOC
         let minmaxTOC = this.minmax(samplesWithInformation,'TOC_Percent_Measured');
         let minTOC = minmaxTOC[0];
         let maxTOC = minmaxTOC[1];
