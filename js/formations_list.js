@@ -94,6 +94,34 @@ class formationList {
         //change from ulist to table. We'll need to add a colored circle in the left of the well name
         d3.select("#legendListUL").remove();
         let wellList = d3.select("#legend")
+                        .append("table")
+                        .attr("table-layout", "auto")
+                        .attr("width", "100%");
+
+        wellList = wellList.selectAll("tr")
+                    .data(this.wellDetails)
+                    .enter()
+                    .append("tr");
+
+        wellList.append("td")
+                    .append("svg")
+                        .attr("width", "25px")
+                        .attr("height", "25px")
+                        .append("circle")
+                            .attr("r", 7)
+                            .attr("cx", 12.5)
+                            .attr("cy", 15.5)
+                            .attr("fill", (d) => {
+                                return d.unselectedColor;
+                            })
+                            .attr("stroke", "gray"); 
+
+        wellList.append("td").text((d) => {
+                    return d.wellName;})
+                .on("click", (d) => {
+                    this.updateGraphs(d);});
+        /*
+        let wellList = d3.select("#legend")
                             .append("ul")
                             .attr("id", "legendListUL");
 
@@ -105,7 +133,7 @@ class formationList {
             .on("click", (d) => {
                 this.updateGraphs(d);
             });
-
+        */
             /*.on("click", (d) => { 
                 let samplesOfClickedFormation = samplesInBasin.filter(e => e.Formation_Name === d); 
                 let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID')

@@ -25,7 +25,9 @@
 .plotTitle {
     text-anchor: middle;
 }
+
 .formationClass::-webkit-scrollbar { display: none; }
+
 /** {*/
     /*font-family: 'Roboto', sans-serif;*/
 /*}*/
