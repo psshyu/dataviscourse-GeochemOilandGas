@@ -4,9 +4,13 @@ class formationList {
         
         this.unselectedColorScale = unselectedColorScale;
         this.selectedColorScale = selectedColorScale;
+
+        // list of wells the user has clicked on
         this.selected = [];
+
         // list of formations in the clicked basin
         this.formationNames = this._get(samplesInBasin, 'Formation_Name');
+
         //ignore unknown formations
         this.formationNames.pop();
 
@@ -24,15 +28,18 @@ class formationList {
 
         //passing samples of default formation
         this.tocChart.update(this.defaultFormationData);
-        /* ******************************************* */
-        this.testString = "test string";
 
+
+        /* ******************************************* */
+
+        // Create list of formations
         this.formationList = d3.select("#formationList")
                                 .append("table")
                                 .attr("id", "formationListUL")
                                 .attr("table-layout", "auto")
                                 .attr("width", "100%");
 
+        // row for each formation
         this.formationList.selectAll("tr")
             .data(this.formationNames)
             .enter()
@@ -67,6 +74,19 @@ class formationList {
         }
         return Array.from(set).sort();
     }
+
+    /**
+     * creates a list of dictionaries containing all the unique wells in a formation to ensure consistency in color
+     * and referencing
+     * 
+     * each dictionary entry is as follows:
+     * {'wellID' : SRCLocationID
+     *  'wellName' : Well_Name OR Outcrop
+     *  'unselectedColor' : hex from d3.schemePastel1
+     *  'selectedColor' : hex from d3.schemeSet1 }
+     * 
+     *  **selectedColor was ultimately unused; need to clean up.  
+     */
     _setWellDetails(wellsInSample, geospatialData){
         let wellDetails = [];
         let wellSet = []
@@ -89,19 +109,20 @@ class formationList {
         this.selected = [];
         this.wellDetails = this._setWellDetails(allWells, geospatialData);
 
-        //change from ulist to table. We'll need to add a colored circle in the left of the well name
+        // creating legend for wells
         d3.select("#legendListUL").remove();
         let wellList = d3.select("#legend")
                         .append("table")
                         .attr("id", "legendListUL")
                         .attr("table-layout", "auto")
                         .attr("width", "100%");
-
+        // well row 
         wellList = wellList.selectAll("tr")
                     .data(this.wellDetails)
                     .enter()
                     .append("tr");
 
+        // the circle part of the legend with the color
         wellList.append("td")
                     .append("svg")
                         .attr("width", "25px")
@@ -121,33 +142,11 @@ class formationList {
                             })
                             .attr("stroke", "gray"); 
 
+        // tack on the well name as text
         wellList.append("td").text((d) => {
                     return d.wellName;})
                 .on("click", (d) => {
                     this.updateGraphs(d);});
-
-            /*.on("click", (d) => { 
-                let samplesOfClickedFormation = samplesInBasin.filter(e => e.Formation_Name === d); 
-                let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID')
-                let samplesInWell = samplesOfClickedFormation.filter(e => allWellsInClickedFormation.includes(e.SRCLocationID));
-                this.updateWellsList(samplesInWell, allWellsInClickedFormation);
-            });*/
-
-        /*
-        d3.select('list')
-        .on('click', d =>{
-
-            //filter data based on the clicked formation name
-            let clickedFormationData = clickedBasinData.filter(e => e.formation_name === d);
-
-            //pass the respective data to the charts
-
-            this.legend.update(clickedFormationData,this.unselectedColorScale);
-            //this.tocChart.update(clickedFormationData,this.unselectedColorScale);
-            this.vanKrevelenPlot.update(clickedFormationData,this.unselectedColorScale);
-            this.potentialPlot.update(clickedFormationData,this.unselectedColorScale);
-            this.inverseKrevPlot.update(clickedFormationData,this.unselectedColorScale)
-        })*/
     }
 
     // click once to select
