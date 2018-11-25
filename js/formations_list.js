@@ -27,14 +27,26 @@ class formationList {
         this.tocChart.update(this.defaultFormationData);
         /* ******************************************* */
         this.testString = "test string";
+
+        this.formationList = d3.select("#formationList")
+                                .append("table")
+                                .attr("id", "formationListUL")
+                                .attr("table-layout", "auto")
+                                .attr("width", "100%");
+/*
+        this.formationList = this.formationList.selectAll("tr")
+                                .data(this.wellDetails)
+                                .enter()
+                                .append("tr");
+
         this.formationList = d3.select("#formationList")
                         .append("ul")
-                        .attr("id", "formationListUL");
+                        .attr("id", "formationListUL");*/
 
-        this.formationList.selectAll("li")
+        this.formationList.selectAll("tr")
             .data(this.formationNames)
             .enter()
-            .append("li").text((d) => {return d;})
+            .append("tr").append("td").text((d) => {return d;})
             .on("click", (d) => { 
                 let samplesOfClickedFormation = samplesInBasin.filter(e => e.Formation_Name === d); //d: clicked formation
                 let wellDetails = this._setWellDetails(samplesOfClickedFormation, geospatialData);
@@ -89,7 +101,7 @@ class formationList {
     }
     updateWellsList(allWells, geospatialData, details){
         this.wellDetails = this._setWellDetails(allWells, geospatialData);
-        //console.log(this.wellDetails, details);
+
         //change from ulist to table. We'll need to add a colored circle in the left of the well name
         d3.select("#legendListUL").remove();
         let wellList = d3.select("#legend")
@@ -112,14 +124,11 @@ class formationList {
                             .attr("cx", 12.5)
                             .attr("cy", 15.5)
                             .attr("fill", (d) => {
-                                //return "red"
                                 let color; 
                                 details.forEach( well => {
                                     if(d.wellID === well.wellID){
-                                        
                                         color = well.unselectedColor;
                                     }})
-                                console.log(color);
                                 return color;
                             })
                             .attr("stroke", "gray"); 
@@ -128,31 +137,14 @@ class formationList {
                     return d.wellName;})
                 .on("click", (d) => {
                     this.updateGraphs(d);});
-        /*
-        let wellList = d3.select("#legend")
-                            .append("ul")
-                            .attr("id", "legendListUL");
 
-        wellList.selectAll("li")
-            .data(this.wellDetails)
-            .enter()
-            .append("li").text((d) => {
-                return d.wellName;})
-            .on("click", (d) => {
-                this.updateGraphs(d);
-            });
-        */
             /*.on("click", (d) => { 
                 let samplesOfClickedFormation = samplesInBasin.filter(e => e.Formation_Name === d); 
                 let allWellsInClickedFormation = this._get(samplesOfClickedFormation, 'SRCLocationID')
                 let samplesInWell = samplesOfClickedFormation.filter(e => allWellsInClickedFormation.includes(e.SRCLocationID));
                 this.updateWellsList(samplesInWell, allWellsInClickedFormation);
             });*/
-        //d3.select("#")
-        //create a list that displays all the formations in the clicked basin data
-        //that contain useful values
 
-        //onclick function that
         /*
         d3.select('list')
         .on('click', d =>{
