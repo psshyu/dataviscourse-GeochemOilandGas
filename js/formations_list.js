@@ -4,7 +4,7 @@ class formationList {
         
         this.unselectedColorScale = unselectedColorScale;
         this.selectedColorScale = selectedColorScale;
-        
+        this.selected = [];
         // list of formations in the clicked basin
         this.formationNames = this._get(samplesInBasin, 'Formation_Name');
         //ignore unknown formations
@@ -91,6 +91,7 @@ class formationList {
         return wellDetails;
     }
     updateWellsList(allWells, geospatialData, details){
+        this.selected = [];
         this.wellDetails = this._setWellDetails(allWells, geospatialData);
 
         //change from ulist to table. We'll need to add a colored circle in the left of the well name
@@ -152,10 +153,23 @@ class formationList {
             this.inverseKrevPlot.update(clickedFormationData,this.unselectedColorScale)
         })*/
     }
-    updateGraphs(well){
 
-        //This function should highlight the samples (in all charts) corresponding to the well that has been clicked.
-        this.vanKrevelenPlot.selectedWell(well);
+    // click once to select
+    // click again to deselect
+    updateGraphs(well){
+        // Check to see if the wells has already been selected (clicked on)
+        if(this.selected.includes(well.wellID)){ 
+            let index = this.selected.indexOf(well.wellID);
+            if(index >= 0){
+                this.selected.splice(index, 1);
+            }
+        }
+        else{
+            this.selected.push(well.wellID);
+        }
+        this.vanKrevelenPlot.updateWells(this.selected);
+        this.potentialPlot.updateWells(this.selected);
+        this.inverseKrevPlot.updateWells(this.selected);
 
     }
 }

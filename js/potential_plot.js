@@ -62,6 +62,7 @@ class PotentialPlot{
         this.svg.selectAll("circle")
             .data(samplesWithInformation)
             .enter().append("circle")
+            .attr("id", (d)=>{return d.SRCLocationID})
             .attr("r", 5)
             .attr("cx", (d) => { return this.x(d.TOC_Percent_Measured); })
             .attr("cy", (d) => { return this.y(d.S1S2__mgHC_gmrock); })
@@ -139,6 +140,7 @@ class PotentialPlot{
         this.svg.selectAll("circle")
             .transition()
             .duration(1000)
+            .attr("id", (d)=>{return d.SRCLocationID})
             .attr("fill", (d) => {
                 let color;
                 this.wellDetails.forEach( well => {
@@ -152,6 +154,7 @@ class PotentialPlot{
             .attr("cy", (d) => { return this.y(d.S1S2__mgHC_gmrock); })
             .on("end", function() {
                 d3.select(this)
+                .attr("id", (d)=>{return d.SRCLocationID})
                 .attr("fill", (d,i) => {
                     let color;
                     wellDetails.forEach( well => {
@@ -164,5 +167,11 @@ class PotentialPlot{
                 .attr("stroke", "gray");
             });
 
+    }
+    updateWells(selectedWells){
+        this.svg.selectAll("circle").style("opacity", 0.15).attr("stroke", "white");
+        selectedWells.forEach(id => {
+            this.svg.selectAll("#"+id).style("opacity", 1).attr("stroke", "black");
+        });
     }
 }

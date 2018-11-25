@@ -15,8 +15,8 @@ class VanKrevelenPlot{
         this.svg = d3.select("#vanKrevelenPlot")
             .append("svg")
             .attr("id", "vanKrevelenPlotSVG")
-            .attr("class", "plot");
-            //.style("background-color", "whitesmoke");
+            .attr("class", "plot")
+            .style("background-color", "#ffffff");
 
         // Plot title
         this.svg.append("text")
@@ -61,6 +61,7 @@ class VanKrevelenPlot{
         this.svg.selectAll("circle")
             .data(this.samplesWithInformation)
             .enter().append("circle")
+            .attr("id", (d)=>{ return d.SRCLocationID })
             .attr("r", 5)
             .attr("cx", (d) => { return this.x(d.Oxygen_Index); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
@@ -131,6 +132,7 @@ class VanKrevelenPlot{
         this.svg.selectAll("circle")
             .transition()
             .duration(1000)
+            .attr("id", (d)=>{return d.SRCLocationID})
             .attr("fill", (d,i) => {
                 let color;
                 wellDetails.forEach( well => {
@@ -140,11 +142,12 @@ class VanKrevelenPlot{
                 return color;
             }) 
             .attr("r", 5)
-            .attr("stroke", "gray") 
+            .attr("stroke", "gray")
             .attr("cx", (d) => { return this.x(d.Oxygen_Index); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
             .on("end", function() {
                 d3.select(this)
+                    .attr("id", (d)=>{return d.SRCLocationID})
                     .attr("fill", (d,i) => {
                         let color;
                         wellDetails.forEach( well => {
@@ -157,8 +160,11 @@ class VanKrevelenPlot{
                     .attr("stroke", "gray");
             });
     }
-    selectedWell(well){
-        console.log(well + " was selected");
-        this.svg.selectAll("circle")
+    
+    updateWells(selectedWells){
+        this.svg.selectAll("circle").style("opacity", 0.15).attr("stroke", "white");
+        selectedWells.forEach(id => {
+            this.svg.selectAll("#"+id).style("opacity", 1).attr("stroke", "black");
+        });
     }
 }
