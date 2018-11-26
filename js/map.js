@@ -21,20 +21,14 @@ class Map {
 
         this.svg = d3.select("#mapSVG").append('g').attr("id", "mapWellsGroup");
 
-    }
-
-    update(){
         //filter wells falling outside geoAlbers projection extent
         this.geospatialData = this.geospatialData.filter(d => projection([d.Longitude,d.Latitude])!==null);
         //filter wells falling outside of basin classification
         this.geospatialData = this.geospatialData.filter(d => d.USGS_Province!==0);
 
-        let wells = this.svg.selectAll('circle').data(this.geospatialData);
-        wells.exit().remove();
-        let new_wells = wells.enter().append('circle');
-        wells = new_wells.merge(wells);
-
-        wells
+        let wells = this.svg.selectAll('circle').data(this.geospatialData).enter()
+        
+        wells.append('circle')
             .attr('cx', d => this.projection([d.Longitude,d.Latitude])[0])
             .attr('cy', d => this.projection([d.Longitude,d.Latitude])[1])
             .attr('r', 1.5)
@@ -136,9 +130,5 @@ class Basin {
             d3.select(id).remove();
         }
 
-    }
-
-    update(){
-        //highlight when a basin polygon is clicked
     }
 }

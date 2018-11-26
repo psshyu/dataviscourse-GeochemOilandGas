@@ -18,21 +18,19 @@ function toggle(){
 }
 
 //pass well geospatial data (locations/coordinates) to map
-    d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData => {
-        //remove the plot
-        d3.select("#tocBarchartSVG").remove();
-        d3.select("#vanKrevelenPlotSVG").remove();
-        d3.select("#potentialPlotSVG").remove();
-        d3.select("#inverseKrevPlotSVG").remove();
+d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData => {
+    //remove the plot
+    d3.select("#tocBarchartSVG").remove();
+    d3.select("#vanKrevelenPlotSVG").remove();
+    d3.select("#potentialPlotSVG").remove();
+    d3.select("#inverseKrevPlotSVG").remove();
 
-        // remove formation list and legend
-        d3.select("#legendSVG").remove();
-        d3.select("#formationListUL").remove();
-        
-        //let formations_list = new formationList(colorScale);
-        // let legend = new Legend(colorScale);
-        let map = new Map(projection, geospatialData);
-        let basin = new Basin(projection);
-        map.update();
-    });
-//});
+    // remove formation list and legend
+    d3.select("#legendSVG").remove();
+    d3.select("#formationListUL").remove();
+    
+    //let formations_list = new formationList(colorScale);
+    // let legend = new Legend(colorScale);
+    let map = new Map(projection, geospatialData);
+    let basin = new Basin(projection);
+});
