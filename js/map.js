@@ -109,9 +109,9 @@ class Basin {
                 let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
 
                 //color scale to be used across charts/legend
-                let unselectedColorScale = d3.scaleOrdinal(d3.schemePastel1);
-                let selectedColorScale = d3.scaleOrdinal(d3.schemeSet1);
-                let formations = new formationList(samplesInClickedBasin, unselectedColorScale, selectedColorScale, geospatialData);
+                let colorScale = d3.scaleOrdinal(d3.schemePastel1);
+                //let selectedColorScale = d3.scaleOrdinal(d3.schemeSet1);
+                let formations = new formationList(samplesInClickedBasin, colorScale, geospatialData);
                 d3.select("#screen1").style("display", "none");
                 d3.select("#screen2").style("display", "block");
    
@@ -139,8 +139,6 @@ class Basin {
     }
 
     update(){
-
         //highlight when a basin polygon is clicked
-
     }
 }

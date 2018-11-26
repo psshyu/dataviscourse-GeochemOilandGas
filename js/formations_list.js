@@ -1,9 +1,8 @@
 class formationList {
 
-    constructor(samplesInBasin, unselectedColorScale, selectedColorScale, geospatialData) {
+    constructor(samplesInBasin, colorScale, geospatialData) {
         
-        this.unselectedColorScale = unselectedColorScale;
-        this.selectedColorScale = selectedColorScale;
+        this.colorScale = colorScale;
 
         // list of wells the user has clicked on
         this.selected = [];
@@ -21,7 +20,7 @@ class formationList {
 
 
         // instantiate charts with default information
-        this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.unselectedColorScale);
+        this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.colorScale);
         this.inverseKrevPlot = new InverseKrevelen(this.defaultFormationData, this.defaultFormation, this.wellDetails);
         this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.wellDetails);
         this.potentialPlot = new PotentialPlot(this.defaultFormationData, this.defaultFormation, this.wellDetails);
@@ -82,10 +81,8 @@ class formationList {
      * each dictionary entry is as follows:
      * {'wellID' : SRCLocationID
      *  'wellName' : Well_Name OR Outcrop
-     *  'unselectedColor' : hex from d3.schemePastel1
-     *  'selectedColor' : hex from d3.schemeSet1 }
+     *  'color' : hex from d3.schemePastel1 }
      * 
-     *  **selectedColor was ultimately unused; need to clean up.  
      */
     _setWellDetails(wellsInSample, geospatialData){
         let wellDetails = [];
@@ -98,8 +95,7 @@ class formationList {
                     details['wellID'] = well.SRCLocationID;
                     if (row.Data_Type === 'Well'){ details['wellName'] = row.Well_Name;}
                     else { details['wellName'] = row.Outcrop; }
-                    details['unselectedColor'] = this.unselectedColorScale(i); 
-                    details['selectedColor'] = this.selectedColorScale(i);
+                    details['color'] = this.colorScale(i); 
                     wellDetails.push(details);
                     wellSet.push(well.SRCLocationID); 
                 }}});
@@ -136,7 +132,7 @@ class formationList {
                                 let color; 
                                 details.forEach( well => {
                                     if(d.wellID === well.wellID){
-                                        color = well.unselectedColor;
+                                        color = well.color;
                                     }})
                                 return color;
                             })

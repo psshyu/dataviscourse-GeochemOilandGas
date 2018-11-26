@@ -94,7 +94,7 @@ class PotentialPlot{
                 let color;
                 this.wellDetails.forEach( well => {
                     if(d.SRCLocationID === well.wellID){
-                        color = well.unselectedColor;
+                        color = well.color;
                     }})
                 return color;})
             .attr("stroke", "gray")
@@ -170,7 +170,7 @@ class PotentialPlot{
                 let color;
                 this.wellDetails.forEach( well => {
                     if(d.SRCLocationID === well.wellID){
-                        color = well.unselectedColor;
+                        color = well.color;
                     }})
                 return color;})
             .attr("cx", (d) => { return this.x(d.TOC_Percent_Measured); })
@@ -182,7 +182,7 @@ class PotentialPlot{
                     let color;
                     wellDetails.forEach( well => {
                         if(d.SRCLocationID === well.wellID){
-                            color = well.unselectedColor;
+                            color = well.color;
                         }})
                     return color;
                 });

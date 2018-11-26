@@ -84,16 +84,13 @@ class InverseKrevelen{
         this.svg.selectAll("circle")
             .data(samplesWithInformation)
             .enter().append("circle")
-            .attr("id", (d)=>{return d.SRCLocationID})
+            .attr("id", (d)=>{ return d.SRCLocationID; })
             .attr("cx", (d) => { return this.x(d.Tmax_C_Pyrolysis); })
             .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
             .attr("fill", (d) => { //return "#fddaec";
                 let color;
                 this.wellDetails.forEach( well => {
-                    if(d.SRCLocationID === well.wellID){
-                        //console.log(well.unselectedColor)
-                        color = well.unselectedColor;
-                    }})
+                    if(d.SRCLocationID === well.wellID){ color = well.color; }})
                 return color;})
             .attr("stroke", "gray")
             .attr("r", 5)
@@ -161,8 +158,8 @@ class InverseKrevelen{
                 let color;
                 wellDetails.forEach( well => {
                     if(d.SRCLocationID === well.wellID){
-                        //console.log(well.unselectedColor)
-                        color = well.unselectedColor;
+                        //console.log(well.color)
+                        color = well.color;
                     }})
                 return color;
             }) 
@@ -175,7 +172,7 @@ class InverseKrevelen{
                     let color;
                     wellDetails.forEach( well => {
                         if(d.SRCLocationID === well.wellID){
-                            color = well.unselectedColor;
+                            color = well.color;
                         }})
                     return color;
                 });

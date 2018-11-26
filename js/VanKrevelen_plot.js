@@ -91,7 +91,7 @@ class VanKrevelenPlot{
                 let color;
                 this.wellDetails.forEach( well => {
                     if(d.SRCLocationID === well.wellID){
-                        color = well.unselectedColor;
+                        color = well.color;
                     }})
                 return color;})
             .attr("stroke", "gray")
@@ -161,7 +161,7 @@ class VanKrevelenPlot{
                 let color;
                 wellDetails.forEach( well => {
                     if(d.SRCLocationID === well.wellID){
-                        color = well.unselectedColor;
+                        color = well.color;
                     }})
                 return color;
             })
@@ -174,7 +174,7 @@ class VanKrevelenPlot{
                         let color;
                         wellDetails.forEach( well => {
                             if(d.SRCLocationID === well.wellID){
-                                color = well.unselectedColor;
+                                color = well.color;
                             }})
                         return color;
                     });
