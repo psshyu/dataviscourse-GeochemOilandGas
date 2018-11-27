@@ -93,7 +93,7 @@ class VanKrevelenPlot{
             .attr('transform', 'rotate(-90)')
             .attr('text-anchor', 'middle')
             .text('HI')
-        console.log(this.samplesWithInformation);
+
         // Scatterplot circles 
         this.svg.selectAll("circle")
             .data(this.samplesWithInformation)
