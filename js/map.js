@@ -22,10 +22,8 @@ class Map {
         this.svg = d3.select("#mapSVG").append('g').attr("id", "mapWellsGroup");
 
         //filter wells falling outside geoAlbers projection extent
-        this.geospatialData = this.geospatialData.filter(d => projection([d.Longitude,d.Latitude])!==null);
-        //filter wells falling outside of basin classification
-        this.geospatialData = this.geospatialData.filter(d => d.USGS_Province!==0);
-
+        
+        console.log(geospatialData);
         let wells = this.svg.selectAll('circle').data(this.geospatialData).enter()
         
         wells.append('circle')
@@ -44,9 +42,9 @@ class Map {
 
 class Basin {
 
-    constructor(projection) {
+    constructor(projection, geospatialData) {
 
-        this.svg = d3.select("#mapSVG").append("g").attr("id", "mapBasinsGroup");;
+        this.svg = d3.select("#mapSVG").append("g").attr("id", "mapBasinsGroup").style("z-index", -1);
         this.projection = projection;
 
         //draw basins from topojson
@@ -118,12 +116,22 @@ class Basin {
             let name = d.properties.Name;
             let id = name.replace(/\s/g,'');
 
-            d3.select("#mapSVG").append("text").attr("y", "47.5vh").attr("id", id)
-                .text((d) => { return name; });
+            d3.select("#map")
+                .append("div")
+                .style("left", d3.event.pageX+"px")
+                .style("top", d3.event.pageY-50+"px")
+                .style("width", 300+"px")
+                .style("position", "absolute")
+                .style("z-index", 10)
+                .style("background-color", d3.rgb(255,255,255,0.7))
+                .style("border", "2px solid black")
+                .attr("id", id)
+                .html(() => {console.log(d); 
+                    return "<strong>" + name + "</strong>"; });
         }
 
         function mouseOutHandler(d, i) {
-            d3.select(this).attr('fill', 'grey');
+            d3.select(this).attr('fill', '#575757');
 
             let name = d.properties.Name;
             let id = "#" + name.replace(/\s/g,'');
