@@ -45,8 +45,7 @@ class Basin {
             //let wellsWithRelevantData = this.geospatialData.filter(e=>e.USGS_province === d.properties.Name);
             let listOfProvinces = geofeatures.map(f => { return f.properties.Name; });
             console.log(listOfProvinces);
-            this.geospatialData = this.geospatialData.filter(e => listOfProvinces.includes(e.USGS_Province) 
-            && )
+            this.geospatialData = this.geospatialData.filter(e => listOfProvinces.includes(e.USGS_Province))
             console.log(this.geospatialData);
             /*
             for(let i = 0; i < geofeatures.length; i++){
