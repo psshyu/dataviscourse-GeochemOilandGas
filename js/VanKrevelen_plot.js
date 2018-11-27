@@ -3,7 +3,7 @@
 
 class VanKrevelenPlot{
     mouseOverHandler(d, i){
-        let id = d.SRCLocationID+"Tip";
+        let id = d.SRCLocationID+"VKTip";
         //let samplesInBasin = geospatialData.filter(e=>e.USGS_Province === name);
 
         d3.select("#vanKrevelenPlot")
@@ -24,7 +24,7 @@ class VanKrevelenPlot{
     }
 
     mouseOutHandler(d, i) {
-        let id = d.SRCLocationID+"Tip";
+        let id = d.SRCLocationID+"VKTip";
         d3.select("#"+id).remove();
     }
     constructor(defaultData, defaultFormation, wellDetails){
@@ -56,7 +56,7 @@ class VanKrevelenPlot{
                 .domain([200, 0])
                 .range([this.width - this.margin.right, this.margin.left*2]);
         this.y = d3.scaleLinear()
-                .domain([0,1000])
+                .domain([0,900])
                 .range([this.height - this.margin.bottom*2, this.margin.top *2]);
 
         //y gridlines
@@ -117,17 +117,6 @@ class VanKrevelenPlot{
     
     update(samples, wellDetails){
         this.samplesWithInformation = samples.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
-        //transition the X-axis
-        this.x.domain([200, 0]);
-        this.svg.select("#vanKrevPlotX")
-            .transition()
-            .call(d3.axisBottom(this.x));
-
-        //transition the Y-axis
-        this.y.domain([0,1000])
-        this.svg.select("#vanKrevPlotY")
-            .transition()
-            .call(d3.axisLeft(this.y));
 
         let c = this.svg.selectAll("circle").data(this.samplesWithInformation);
         c.exit().remove();
@@ -136,7 +125,7 @@ class VanKrevelenPlot{
 
         this.svg.selectAll("circle")
             .transition()
-            .duration(1000)
+            .duration(900)
             .attr("id", (d)=>{return d.SRCLocationID})
             .attr("fill", (d,i) => {
                 let color;
@@ -160,14 +149,27 @@ class VanKrevelenPlot{
                         return color;
                     });
             });
-        this.svg.selectAll("circle").attr("stroke", "gray").attr("r", 5).style("opacity", 1);
+        this.svg.selectAll("circle")
+                .attr("stroke", "gray")
+                .attr("r", 5)
+                .style("opacity", 1)
+                .on("mouseover", this.mouseOverHandler)
+                .on("mouseout", this.mouseOutHandler);
     }
 
     updateWells(selectedWells){
-        this.svg.selectAll("circle").style("opacity", 0.25).attr("stroke", "white");
+        this.svg.selectAll("circle")
+                .style("opacity", 0.25)
+                .attr("stroke", "white")
+                .on("mouseover", null)
+                .on("mouseout", null);
         selectedWells.forEach(id => {
             this.svg.selectAll("#"+id).raise(); //brings the selected elements to the top
-            this.svg.selectAll("#"+id).style("opacity", 1).attr("stroke", "black");
+            this.svg.selectAll("#"+id)
+                    .style("opacity", 1)
+                    .attr("stroke", "black")
+                    .on("mouseover", this.mouseOverHandler)
+                    .on("mouseout", this.mouseOutHandler);
         });
     }
 }
