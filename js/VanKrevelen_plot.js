@@ -34,7 +34,7 @@ class VanKrevelenPlot{
 
         this.margin = {top: 30, right: 30, bottom: 30, left: 30};
         this.width = document.documentElement.clientWidth* 0.30;
-        this.height = document.documentElement.clientHeight * 0.30;
+        this.height = document.documentElement.clientHeight * 0.45;
 
         this.svg = d3.select("#vanKrevelenPlot")
             .append("svg")
@@ -50,29 +50,19 @@ class VanKrevelenPlot{
 
         //filter out data that lacks HI && OI
         this.samplesWithInformation = defaultData.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
-        
-        //get minimum and maximum values of HI
-        let minmaxHI = this.minmax(this.samplesWithInformation,'Hydrogen_Index');
-        let minHI = minmaxHI[0];
-        let maxHI = minmaxHI[1];
-        
-        //get minimum and maximum values of OI
-        let minmaxOI = this.minmax(this.samplesWithInformation,'Oxygen_Index');
-        let minOI = minmaxOI[0];
-        let maxOI = minmaxOI[1];
 
         // X and Y scales 
         this.x = d3.scaleLinear()
-                .domain([maxOI, minOI])
+                .domain([200, 0])
                 .range([this.width - this.margin.right, this.margin.left*2]);
         this.y = d3.scaleLinear()
-                .domain([minHI,maxHI])
-                .range([this.height - this.margin.bottom/2+1, this.margin.top]);
+                .domain([0,1000])
+                .range([this.height - this.margin.bottom*2, this.margin.top *2]);
 
         //y gridlines
         this.svg.append("g")
             .attr("class", "grid")
-            .attr("transform", "translate("+ this.margin.right *2+ "," + 0 + ") scale(0.84,1)")
+            .attr("transform", "translate("+ this.margin.right *2+ "," + 0 + ") scale(0.79,1)")
             .call(d3.axisLeft(this.y)
                 .tickSize(-this.width, 0, 0)
                 .tickFormat("")
@@ -81,7 +71,7 @@ class VanKrevelenPlot{
         // X-axis
         this.svg.append("g")
             .attr("id", "vanKrevPlotX")
-            .attr("transform", "translate(0," + 278 + ")")
+            .attr("transform", "translate(0," + parseInt(this.height - this.margin.bottom*2) + ")")
             .call(d3.axisBottom(this.x));
       
         // Y Axis
@@ -94,7 +84,7 @@ class VanKrevelenPlot{
         // x
         this.svg.append("text")
             .attr("x", this.width/2.25)
-            .attr("y", this.height + this.margin.bottom/2)
+            .attr("y", parseInt(this.height - this.margin.bottom))
             .text("OI");
         // y
         this.svg.append('text')
@@ -124,52 +114,17 @@ class VanKrevelenPlot{
             .on("mouseover", this.mouseOverHandler)
             .on("mouseout", this.mouseOutHandler);
     }
-
-    /**
-     * 
-     * gets the min and max values of an object, when given a list of the objects.
-     */
-    minmax(samples, tag){
-        
-        if(samples.length > 0){
-            let min = parseFloat(samples[0][tag]);
-            let max = parseFloat(samples[0][tag]);
-            for(let i = 0; i < samples.length; i++){
-                let currentValue = parseFloat(samples[i][tag]);
-                if(currentValue < min){
-                    min = currentValue;
-                }
-                if(currentValue > max){
-                    max = currentValue;
-                }
-            }
-            return [min, max];
-        }
-        else{
-            return[0,10];
-        }
-    }
     
     update(samples, wellDetails){
         this.samplesWithInformation = samples.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
-        //get minimum and maximum values of HI
-        let minmaxHI = this.minmax(this.samplesWithInformation,'Hydrogen_Index');
-        let minHI = minmaxHI[0];
-        let maxHI = minmaxHI[1];
-        
-        //get minimum and maximum values of OI
-        let minmaxOI = this.minmax(this.samplesWithInformation,'Oxygen_Index');
-        let minOI = minmaxOI[0];
-        let maxOI = minmaxOI[1];
-
         //transition the X-axis
-        this.x.domain([maxOI, minOI]);
+        this.x.domain([200, 0]);
         this.svg.select("#vanKrevPlotX")
             .transition()
             .call(d3.axisBottom(this.x));
 
         //transition the Y-axis
-        this.y.domain([minHI,maxHI])
+        this.y.domain([0,1000])
         this.svg.select("#vanKrevPlotY")
             .transition()
             .call(d3.axisLeft(this.y));
