@@ -6,21 +6,17 @@ class Map {
         this.projection = projection.scale(1500);
         this.geospatialData = geospatialData;
 
-        let svg = d3.select("#map")
-                    .append("svg")
-                        .attr("id", "mapSVG")
-                        .attr("width","90vw")
-                        .attr("height", "90vh")
-                        .attr("fill", "none")
-                        .attr("stroke","#000")
-                        .attr("stroke-linejoin", "round")
-                        .attr("stroke-linecap", "round")
-                        .attr("vertical-align", "middle")
-                        .attr("horizontal-align", "middle");
-
-        //let xCenter = document.documentElement.clientWidth * 0.15;
-        //let yCenter = document.documentElement.clientHeight * 0.15;
-        //this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ") " + "scale("+1.05+")");
+        d3.select("#map")
+            .append("svg")
+                .attr("id", "mapSVG")
+                .attr("width","90vw")
+                .attr("height", "90vh")
+                .attr("fill", "none")
+                .attr("stroke","#000")
+                .attr("stroke-linejoin", "round")
+                .attr("stroke-linecap", "round")
+                .attr("vertical-align", "middle")
+                .attr("horizontal-align", "middle");
     }
 
 }
@@ -34,26 +30,16 @@ class Basin {
         this.geospatialData = geospatialData;
 
         //draw basins from topojson
-
         d3.json("data/USGS_Provinces_topo.json", (error, basins) => {
             let xCenter = document.documentElement.clientWidth * 0.075;
             let yCenter = document.documentElement.clientHeight * 0.125;
+
             let basin_path = d3.geoPath().projection(this.projection);
             let geojson = topojson.feature(basins, basins.objects.USGS_Provinces);
             let geofeatures = geojson.features;
 
-            //let wellsWithRelevantData = this.geospatialData.filter(e=>e.USGS_province === d.properties.Name);
             let listOfProvinces = geofeatures.map(f => { return f.properties.Name; });
-            console.log(listOfProvinces);
             this.geospatialData = this.geospatialData.filter(e => listOfProvinces.includes(e.USGS_Province))
-            console.log(this.geospatialData);
-            /*
-            for(let i = 0; i < geofeatures.length; i++){
-                console.log(geofeatures[i].properties.Name);
-            }
-*/
-
-            
 
             //basins
             this.svg.selectAll('.basins')
@@ -80,13 +66,8 @@ class Basin {
                 .attr('fill', 'none');
             this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ") " + "scale("+1.00+")");   
             
-            
             // wells
             this.svg = d3.select("#mapSVG").append('g').attr("id", "mapWellsGroup").style("z-index", 1);
-            //let wellsWithRelevantData = this.geospatialData.filter(e=>e.USGS_province === d.properties.Name);
-            console.log(this.geospatialData);
-            //console.log(wellsWithRelevantData);
-
             let wells = this.svg.selectAll('circle').data(this.geospatialData).enter()
             
             wells.append('circle')
