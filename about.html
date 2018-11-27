@@ -29,13 +29,11 @@
         <script src="js/formations_list.js" async></script>
 
 
-
         <!-- SCRIPT.JS -->
         <script src="js/script.js" async></script>
-
         <script src="https://d3js.org/d3-geo-projection.v2.js"></script>
 
-        <title>Visualization of Oil and Gas Basins - Main</title>
+        <title>Visualization of Oil and Gas Basins - About</title>
     </head>
     <body>
         <!-- Optional JavaScript -->
@@ -69,22 +67,56 @@
             </div>
         </nav>
         <!-- Begin div layers -->
-        <div>
-            <div id="screen1" style="display:block">
-                <div id="map" style="position: relative; text-align: center; float: left; width: 100%; height: 100%; top: 0%; right:0%; background-color: whitesmoke"></div>
+        <div class="container-fluid">
+            <div class="row">
+            <div class="col-sm-2 col-md-2"></div>
+              <div class="col-sm-8 col-md-8">
+                  <h3>Intro</h3>
+                    <p>Lorem ipsum...</p>
+              </div>
+              <div class="col-sm-2 col-md-2"></div>
             </div>
-            <div id="screen2" style="display:none"> 
-                <div id="formationList" style="float: left; width: 16vw; height: 90vh; top: 33%; left:0%; overflow-y: auto; background-color: whitesmoke" class="formationClass">
-                    <text>Formations</text>
+            <div class="row">
+                <div class="col-sm-2 col-md-2"></div>
+                <div class="col-sm-8 col-md-8">
+                    <h3>Definitions</h3>
+                    <table cellpadding=5 style="width: 100%;">
+                        <tr style="text-align: center">
+                            <th style="width: 15%">Term</th>
+                            <th style="width: 10%">Abbr.</th>
+                            <th style="width: 75%">Definition</th>
+                        </tr>
+                        <tr style="text-align: justify">
+                            <td>Hydrogen Index</td>
+                            <td>HI</td>
+                            <td>The Hydrogen Index is the amount of hydrogen in relation to the amount organic carbon in a sample.
+                                As the source rock of the sample matures, the HI of the sample will decrease.
+                            </td>
+                        </tr>
+                        <tr style="text-align: justify">
+                            <td>Oxygen Index</td>
+                            <td>OI</td>
+                            <td>Similar to Hydrogen Index, Oxygen Index is the amount of oxygen in relation to the amount organic carbon in a sample.
+                                As the source rock of the sample matures, the OI of the sample will also decrease.
+                            </td>
+                        </tr>
+                        <tr style="text-align: justify">
+                            <td style="text-align:left">Temperature (max)</td>
+                            <td>Tmax</td>
+                            <td>Tmax describes the temperature where the maximum rate of hydrocarbon generation occurs in a 
+                                sample during pyrolysis analysis (decomposition of organic matter via heating in an enviroment void
+                                of oxygen.
+                            </td>
+                        </tr>
+                        <tr style="text-align: justify">
+                            <td style="text-align:left">Total Organic Carbon</td>
+                            <td>TOC</td>
+                            <td>SOMETHING SOMETHING PERCENTAGE</td>
+                        </tr>
+                    </table>
                 </div>
-                <div id="vanKrevelenPlot" style="float: left; width: 32vw; height: 45vh; top: 33%; left:0%; overflow-y: auto; background-color: whitesmoke" class="plotDiv"></div>
-                <div id="inverseKrevPlot" style="float: left; width: 32vw; height: 45vh; top: 33%; left:0%; background-color: cadetblue"></div>
-                <div id="legend" style="float: right; width: 16vw; height: 90vh; top: 33%; left:0%; overflow-y: auto; background-color: whitesmoke" class="formationClass">
-                    <text>Wells in Formation</text>
-                </div>
-                <div id="potentialPlot" style="float: left; display:inline-block; width: 32vw; height: 45vh; top: 33%; left:0%; background-color: indianred"></div>
-                <div id="tocBarchart" style="float: left; display:inline-block; width: 32vw; height: 45vh; top: 33%; left:0%; background-color: darkseagreen"></div>
+                <div class="col-sm-2 col-md-2"></div>
             </div>
-        </div>
+          </div>
     </body>
 </html>
