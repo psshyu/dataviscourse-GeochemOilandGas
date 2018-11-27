@@ -2,7 +2,31 @@
 // Lower left in reference image
 
 class PotentialPlot{
+    mouseOverHandler(d, i){
+        let id = d.SRCLocationID+"potTip";
+        //let samplesInBasin = geospatialData.filter(e=>e.USGS_Province === name);
 
+        d3.select("#potentialPlot")
+            .append("div")
+            .style("left", d3.event.pageX + 15+"px")
+            .style("top", d3.event.pageY+ 15+"px")
+            .style("padding", "5px 5px 5px 5px")
+            .style("position", "absolute")
+            .style("z-index", 10)
+            .style("background-color", d3.rgb(255,255,255,0.8))
+            .style("border", "1px solid black")
+            .attr("id", id)
+            .html(() => { 
+                return "<h6>" + d.SRCLocationID + "</h6>"
+                    + "<text style='text-align: left;'>TOC%: "+ d.TOC_Percent_Measured+"</text>"
+                    + "<br>"
+                    + "<text style='text-align: left;'>S1 + S2: "+ d.S1S2__mgHC_gmrock+"</text>"; });
+    }
+
+    mouseOutHandler(d, i) {
+        let id = d.SRCLocationID+"potTip";
+        d3.select("#"+id).remove();
+    }
     constructor(defaultData, defaultFormation, wellDetails){
         this.defaultData = defaultData;
         this.defaultFormation = defaultFormation;
@@ -10,7 +34,7 @@ class PotentialPlot{
 
         this.margin = {top: 30, right: 30, bottom: 30, left: 30};
         this.width = document.documentElement.clientWidth* 0.30;
-        this.height = document.documentElement.clientHeight * 0.30;
+        this.height = document.documentElement.clientHeight * 0.45;
 
         this.svg = d3.select("#potentialPlot")
                      .append("svg")
@@ -28,28 +52,18 @@ class PotentialPlot{
         let samplesWithInformation = defaultData.filter(d => {if (d.S1__mgHC_gmrock_ !== '' && d.S2__mgHC_gmrock_ !== '' && d.TOC_Percent_Measured !== '') return d});    
         samplesWithInformation = this.calcAndAppendS1S2Sum(samplesWithInformation);
 
-        //get minimum and maximum values of sum of S1 + S2
-        let minmaxS1S2 = this.minmax(samplesWithInformation,'S1S2__mgHC_gmrock');
-        let minS1S2 = minmaxS1S2[0];
-        let maxS1S2 = minmaxS1S2[1];
-        
-        //get minimum and maximum values of TOC
-        let minmaxTOC = this.minmax(samplesWithInformation,'TOC_Percent_Measured');
-        let minTOC = minmaxTOC[0];
-        let maxTOC = minmaxTOC[1];
-
         // X and Y scales 
         this.x = d3.scaleLinear()
-                .domain([maxTOC, minTOC])
+                .domain([100, 0])
                 .range([this.width - this.margin.right, this.margin.left*2]);
         this.y = d3.scaleLinear()
-                .domain([minS1S2,maxS1S2])
-                .range([this.height - this.margin.bottom,this.margin.top]);
+                .domain([0,1000])
+                .range([this.height - this.margin.bottom*2, this.margin.top *2]);
 
         //y gridlines
         this.svg.append("g")
             .attr("class", "grid")
-            .attr("transform", "translate("+ this.margin.right *2+ "," + 8 + ") scale(0.84,1)")
+            .attr("transform", "translate("+ this.margin.right *2+ "," + 0 + ") scale(0.79,1)")
             .call(d3.axisLeft(this.y)
                 .tickSize(-this.width, 0, 0)
                 .tickFormat("")
@@ -58,13 +72,13 @@ class PotentialPlot{
         // X-axis
         this.svg.append("g")
             .attr("id", "potentialPlotX")
-            .attr("transform", "translate(0," + 270 + ")")
+            .attr("transform", "translate(0," + parseInt(this.height - this.margin.bottom*2) + ")")
             .call(d3.axisBottom(this.x));
       
         // Y Axis
         this.svg.append("g")
             .attr("id", "potentialPlotY")
-            .attr("transform", "translate("+ this.margin.right * 2 + "," + 8 + ")")
+            .attr("transform", "translate("+ this.margin.right * 2 + "," + 0 + ")")
             .call(d3.axisLeft(this.y));
 
         
@@ -72,7 +86,7 @@ class PotentialPlot{
         // x
         this.svg.append("text")
             .attr("x", this.width/2.25)
-            .attr("y", this.height + this.margin.bottom/2)
+            .attr("y", parseInt(this.height - this.margin.bottom))
             .text("TOC%");
         // y
         this.svg.append('text')
@@ -99,7 +113,9 @@ class PotentialPlot{
                 return color;})
             .attr("stroke", "gray")
             .attr("r", 5)
-            .style("opacity", 1);
+            .style("opacity", 1)
+            .on("mouseover", this.mouseOverHandler)
+            .on("mouseout", this.mouseOutHandler);
     }
 
     minmax(samples, tag){
@@ -135,28 +151,6 @@ class PotentialPlot{
         let samplesWithInformation = samples.filter(d => {if (d.S1__mgHC_gmrock_ !== '' && d.S2__mgHC_gmrock_ !== '' && d.TOC_Percent_Measured !== '') return d});
         samplesWithInformation = this.calcAndAppendS1S2Sum(samplesWithInformation);
 
-        //get minimum and maximum values of sum of S1 + S2
-        let minmaxS1S2 = this.minmax(samplesWithInformation,'S1S2__mgHC_gmrock');
-        let minS1S2 = minmaxS1S2[0];
-        let maxS1S2 = minmaxS1S2[1];
-        
-        //get minimum and maximum values of TOC
-        let minmaxTOC = this.minmax(samplesWithInformation,'TOC_Percent_Measured');
-        let minTOC = minmaxTOC[0];
-        let maxTOC = minmaxTOC[1];
-
-        //transition the X-axis
-        this.x.domain([maxTOC, minTOC]);
-        this.svg.select("#potentialPlotX")
-            .transition()
-            .call(d3.axisBottom(this.x));
-
-        //transition the Y-axis
-        this.y.domain([minS1S2,maxS1S2])
-        this.svg.select("#potentialPlotY")
-            .transition()
-            .call(d3.axisLeft(this.y));
-
         let c = this.svg.selectAll("circle").data(samplesWithInformation);
         c.exit().remove();
         let newc = c.enter().append('circle');
@@ -190,10 +184,18 @@ class PotentialPlot{
         this.svg.selectAll("circle").attr("stroke", "gray").attr("r",5).style("opacity", 1);
     }
     updateWells(selectedWells){
-        this.svg.selectAll("circle").style("opacity", 0.25).attr("stroke", "white");
+        this.svg.selectAll("circle")
+                .style("opacity", 0.25)
+                .attr("stroke", "white")
+                .on("mouseover", null)
+                .on("mouseout", null);
         selectedWells.forEach(id => {
             this.svg.selectAll("#"+id).raise(); //brings the selected elements to the top
-            this.svg.selectAll("#"+id).style("opacity", 1).attr("stroke", "black");
+            this.svg.selectAll("#"+id)
+                    .style("opacity", 1)
+                    .attr("stroke", "black")
+                    .on("mouseover", this.mouseOverHandler)
+                    .on("mouseout", this.mouseOutHandler);
         });
     }
 }
