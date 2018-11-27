@@ -38,10 +38,23 @@ class Basin {
         d3.json("data/USGS_Provinces_topo.json", (error, basins) => {
             let xCenter = document.documentElement.clientWidth * 0.075;
             let yCenter = document.documentElement.clientHeight * 0.125;
-            
+            let basin_path = d3.geoPath().projection(this.projection);
             let geojson = topojson.feature(basins, basins.objects.USGS_Provinces);
             let geofeatures = geojson.features;
-            let basin_path = d3.geoPath().projection(this.projection);
+
+            //let wellsWithRelevantData = this.geospatialData.filter(e=>e.USGS_province === d.properties.Name);
+            let listOfProvinces = geofeatures.map(f => { return f.properties.Name; });
+            console.log(listOfProvinces);
+            this.geospatialData = this.geospatialData.filter(e => listOfProvinces.includes(e.USGS_Province) 
+            && )
+            console.log(this.geospatialData);
+            /*
+            for(let i = 0; i < geofeatures.length; i++){
+                console.log(geofeatures[i].properties.Name);
+            }
+*/
+
+            
 
             //basins
             this.svg.selectAll('.basins')
