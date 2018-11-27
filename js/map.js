@@ -18,21 +18,9 @@ class Map {
                         .attr("vertical-align", "middle")
                         .attr("horizontal-align", "middle");
 
-
-        this.svg = d3.select("#mapSVG").append('g').attr("id", "mapWellsGroup");
-
-        let wells = this.svg.selectAll('circle').data(this.geospatialData).enter()
-        
-        wells.append('circle')
-            .attr('cx', d => this.projection([d.Longitude,d.Latitude])[0])
-            .attr('cy', d => this.projection([d.Longitude,d.Latitude])[1])
-            .attr('r', 1.5)
-            .style('fill','#008080')
-            .attr('stroke-width',0.2);
-
-        let xCenter = document.documentElement.clientWidth * 0.15;
-        let yCenter = document.documentElement.clientHeight * 0.15;
-        this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ") " + "scale("+1.05+")");
+        //let xCenter = document.documentElement.clientWidth * 0.15;
+        //let yCenter = document.documentElement.clientHeight * 0.15;
+        //this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ") " + "scale("+1.05+")");
     }
 
 }
@@ -43,16 +31,19 @@ class Basin {
 
         this.svg = d3.select("#mapSVG").append("g").attr("id", "mapBasinsGroup").style("z-index", -1);
         this.projection = projection;
+        this.geospatialData = geospatialData;
 
         //draw basins from topojson
 
         d3.json("data/USGS_Provinces_topo.json", (error, basins) => {
-
+            let xCenter = document.documentElement.clientWidth * 0.075;
+            let yCenter = document.documentElement.clientHeight * 0.125;
+            
             let geojson = topojson.feature(basins, basins.objects.USGS_Provinces);
             let geofeatures = geojson.features;
             let basin_path = d3.geoPath().projection(this.projection);
 
-
+            //basins
             this.svg.selectAll('.basins')
                 .data(geofeatures)
                 .enter()
@@ -75,11 +66,25 @@ class Basin {
                 .attr('class', "graticule")
                 .attr('d', basin_path)
                 .attr('fill', 'none');
-                
-            let xCenter = document.documentElement.clientWidth * 0.15;
-            let yCenter = document.documentElement.clientHeight * 0.15;
-            this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ") " + "scale("+1.05+")");
+            this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ") " + "scale("+1.00+")");   
+            
+            
+            // wells
+            this.svg = d3.select("#mapSVG").append('g').attr("id", "mapWellsGroup").style("z-index", 1);
+            //let wellsWithRelevantData = this.geospatialData.filter(e=>e.USGS_province === d.properties.Name);
+            console.log(this.geospatialData);
+            //console.log(wellsWithRelevantData);
 
+            let wells = this.svg.selectAll('circle').data(this.geospatialData).enter()
+            
+            wells.append('circle')
+                .attr('cx', d => this.projection([d.Longitude,d.Latitude])[0])
+                .attr('cy', d => this.projection([d.Longitude,d.Latitude])[1])
+                .attr('r', 1.5)
+                .style('fill','#008080')
+                .attr('stroke-width',0.2);
+            
+            this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ") " + "scale("+1.00+")");
         });
 
         function clickHandler(d, i) {
