@@ -67,12 +67,12 @@ class VanKrevelenPlot{
                 .range([this.width - this.margin.right, this.margin.left*2]);
         this.y = d3.scaleLinear()
                 .domain([minHI,maxHI])
-                .range([this.height - this.margin.bottom,this.margin.top]);
+                .range([this.height - this.margin.bottom/2+1, this.margin.top]);
 
         //y gridlines
         this.svg.append("g")
             .attr("class", "grid")
-            .attr("transform", "translate("+ this.margin.right *2+ "," + 8 + ") scale(0.84,1)")
+            .attr("transform", "translate("+ this.margin.right *2+ "," + 0 + ") scale(0.84,1)")
             .call(d3.axisLeft(this.y)
                 .tickSize(-this.width, 0, 0)
                 .tickFormat("")
@@ -81,13 +81,13 @@ class VanKrevelenPlot{
         // X-axis
         this.svg.append("g")
             .attr("id", "vanKrevPlotX")
-            .attr("transform", "translate(0," + 270 + ")")
+            .attr("transform", "translate(0," + 278 + ")")
             .call(d3.axisBottom(this.x));
       
         // Y Axis
         this.svg.append("g")
             .attr("id", "vanKrevPlotY")
-            .attr("transform", "translate("+ this.margin.right * 2 + "," + 8 + ")")
+            .attr("transform", "translate("+ this.margin.right * 2 + "," + 0 + ")")
             .call(d3.axisLeft(this.y));
 
         // Axis labels
