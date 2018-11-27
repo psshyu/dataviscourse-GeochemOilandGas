@@ -2,7 +2,31 @@
 // upper right in reference image
 
 class VanKrevelenPlot{
+    mouseOverHandler(d, i){
+        let id = d.SRCLocationID+"Tip";
+        //let samplesInBasin = geospatialData.filter(e=>e.USGS_Province === name);
 
+        d3.select("#vanKrevelenPlot")
+            .append("div")
+            .style("left", d3.event.pageX + 15+"px")
+            .style("top", d3.event.pageY+ 15+"px")
+            .style("padding", "5px 5px 5px 5px")
+            .style("position", "absolute")
+            .style("z-index", 10)
+            .style("background-color", d3.rgb(255,255,255,0.8))
+            .style("border", "1px solid black")
+            .attr("id", id)
+            .html(() => { 
+                return "<h6>" + d.SRCLocationID + "</h6>"
+                    + "<text style='text-align: left;'>Hydrogen Index: "+ d.Hydrogen_Index+"</text>"
+                    + "<br>"
+                    + "<text style='text-align: left;'>Oxygen Index: "+ d.Oxygen_Index+"</text>"; });
+    }
+
+    mouseOutHandler(d, i) {
+        let id = d.SRCLocationID+"Tip";
+        d3.select("#"+id).remove();
+    }
     constructor(defaultData, defaultFormation, wellDetails){
         this.defaultData = defaultData;
         this.defaultFormation = defaultFormation;
@@ -79,7 +103,7 @@ class VanKrevelenPlot{
             .attr('transform', 'rotate(-90)')
             .attr('text-anchor', 'middle')
             .text('HI')
-        
+        console.log(this.samplesWithInformation);
         // Scatterplot circles 
         this.svg.selectAll("circle")
             .data(this.samplesWithInformation)
@@ -96,7 +120,9 @@ class VanKrevelenPlot{
                 return color;})
             .attr("stroke", "gray")
             .attr("r", 5)
-            .style("opacity", 1);
+            .style("opacity", 1)
+            .on("mouseover", this.mouseOverHandler)
+            .on("mouseout", this.mouseOutHandler);
     }
 
     /**

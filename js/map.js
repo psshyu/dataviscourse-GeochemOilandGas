@@ -21,9 +21,6 @@ class Map {
 
         this.svg = d3.select("#mapSVG").append('g').attr("id", "mapWellsGroup");
 
-        //filter wells falling outside geoAlbers projection extent
-        
-        console.log(geospatialData);
         let wells = this.svg.selectAll('circle').data(this.geospatialData).enter()
         
         wells.append('circle')
@@ -102,7 +99,7 @@ class Basin {
 
                 //color scale to be used across charts/legend
                 let colorScale = d3.scaleOrdinal(d3.schemePastel1);
-                //let selectedColorScale = d3.scaleOrdinal(d3.schemeSet1);
+
                 let formations = new formationList(samplesInClickedBasin, colorScale, geospatialData);
                 d3.select("#screen1").style("display", "none");
                 d3.select("#screen2").style("display", "block");
