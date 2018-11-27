@@ -31,6 +31,9 @@ d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData => {
     
     //let formations_list = new formationList(colorScale);
     // let legend = new Legend(colorScale);
+    geospatialData = geospatialData.filter(d => projection([d.Longitude,d.Latitude])!==null || d.USGS_Province!==0);
+        //filter wells falling outside of basin classification
+    //geospatialData = geospatialData.filter(d => );
     let map = new Map(projection, geospatialData);
-    let basin = new Basin(projection);
+    let basin = new Basin(projection, geospatialData);
 });
