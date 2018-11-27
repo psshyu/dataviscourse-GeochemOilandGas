@@ -115,19 +115,23 @@ class Basin {
 
             let name = d.properties.Name;
             let id = name.replace(/\s/g,'');
-
+            let samplesInBasin = geospatialData.filter(e=>e.USGS_Province === name);
+            console.log(d);
+            console.log(samplesInBasin);
             d3.select("#map")
                 .append("div")
                 .style("left", d3.event.pageX+"px")
                 .style("top", d3.event.pageY-50+"px")
-                .style("width", 300+"px")
+                .style("padding", "10px 10px 10px 10px")
+                //.style("width", 300+"px")
                 .style("position", "absolute")
                 .style("z-index", 10)
-                .style("background-color", d3.rgb(255,255,255,0.7))
+                .style("background-color", d3.rgb(255,255,255,0.8))
                 .style("border", "2px solid black")
                 .attr("id", id)
-                .html(() => {console.log(d); 
-                    return "<strong>" + name + "</strong>"; });
+                .html(() => { 
+                    return "<h6>" + name + "</h6>"
+                        + "<text style='text-align: left;'>Samples in Basin: "+ samplesInBasin.length +"</text>"; });
         }
 
         function mouseOutHandler(d, i) {
