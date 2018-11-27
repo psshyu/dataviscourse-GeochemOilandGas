@@ -61,17 +61,21 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Screencast</a>
                     </li>
-                    <li>
-                        <button class="btn btn-outline-success my-2 my-sm-0" id="toggleButton">Back to Map</button>
-                    </li>
+                    
                 </ul>
+
+                    <button style="padding: 0px 10px" class="btn btn-outline-success my-2 my-sm-0" id="toggleInfoButton">Info Panel</button>
+
+                    <button style="padding: 0px 10px" class="btn btn-outline-success my-2 my-sm-0" id="backToMapButton">Back to Map</button>
                 
             </div>
         </nav>
         <!-- Begin div layers -->
         <div>
             <div id="screen1" style="display:block">
-                <div id="map" style="position: relative; text-align: center; float: left; width: 100%; height: 100%; top: 0%; right:0%; background-color: whitesmoke"></div>
+                <div id="map" style="position: relative; text-align: center; float: left; width: 100%; height: 100%; top: 0%; right:0%; background-color: whitesmoke">
+                <div id="infoPanel"></div>
+                </div>
             </div>
             <div id="screen2" style="display:none"> 
                 <div id="formationList" style="float: left; width: 16vw; height: 90vh; top: 33%; left:0%; overflow-y: auto; background-color: whitesmoke" class="formationClass">

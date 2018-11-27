@@ -10,7 +10,7 @@ class Map {
             .append("svg")
                 .attr("id", "mapSVG")
                 .attr("width","90vw")
-                .attr("height", "90vh")
+                .attr("height", window.innerHeight-64+"px")
                 .attr("fill", "none")
                 .attr("stroke","#000")
                 .attr("stroke-linejoin", "round")
@@ -25,7 +25,10 @@ class Basin {
 
     constructor(projection, geospatialData) {
 
-        this.svg = d3.select("#mapSVG").append("g").attr("id", "mapBasinsGroup").style("z-index", -1);
+        this.svg = d3.select("#mapSVG")
+            .append("g")
+            .attr("id", "mapBasinsGroup")
+            .style("z-index", -1);
         this.projection = projection;
         this.geospatialData = geospatialData;
 
@@ -67,8 +70,14 @@ class Basin {
             this.svg.attr("transform", "translate("+ xCenter +", " + yCenter+ ") " + "scale("+1.00+")");   
             
             // wells
-            this.svg = d3.select("#mapSVG").append('g').attr("id", "mapWellsGroup").style("z-index", 1);
-            let wells = this.svg.selectAll('circle').data(this.geospatialData).enter()
+            this.svg = d3.select("#mapSVG")
+                .append('g')
+                .attr("id", "mapWellsGroup")
+                .style("z-index", 1);
+
+            let wells = this.svg.selectAll('circle')
+                                .data(this.geospatialData)
+                                .enter()
             
             wells.append('circle')
                 .attr('cx', d => this.projection([d.Longitude,d.Latitude])[0])
