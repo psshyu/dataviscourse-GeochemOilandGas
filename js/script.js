@@ -22,18 +22,17 @@ d3.select("#infoPanel")
     .style("background-color", d3.rgb(0,0,0,0.8))
     .style("border", "2px solid black")
     .style("display", "block")
-    //.attr("id", "infoPanel")
 
 d3.select("#backToMapButton").on("click", backToMap);
 d3.select("#toggleInfoButton").on("click", toggleInfo);
-console.log(d3.select("#infoPanel").style("display"));
+
 function backToMap(){
     d3.select("#screen1").style("display", "block");
     d3.select("#screen2").style("display", "none");
 }
 
 function toggleInfo(){
-    //d3.select("#infoPanel").style("display", "block");
+
     if(d3.select("#infoPanel").style("display") === 'block'){
         d3.select("#infoPanel").style("display", "none");
     }

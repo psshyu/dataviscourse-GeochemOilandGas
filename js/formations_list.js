@@ -1,23 +1,28 @@
 class formationList {
 
     constructor(samplesInBasin, colorScale, geospatialData) {
-        
+        this.samplesInBasin = samplesInBasin;
         this.colorScale = colorScale;
+
+        let wellAttr = ['Hydrogen_Index', 'Oxygen_Index',
+                        'TOC_Percent_Measured', 'Tmax_C_Pyrolysis',
+                        'S1__mgHC_gmrock_', 'S2__mgHC_gmrock_'];
+
+        // filter out only the samples that have at least one of the attributes we're looking at (in wellAttr)
+        this.samplesInBasin = this.samplesInBasin.filter(e => new Set(wellAttr.map( f => { return e[f]; })).size > 1);
 
         // list of wells the user has clicked on
         this.selected = [];
 
         // list of formations in the clicked basin
-        this.formationNames = this._get(samplesInBasin, 'Formation_Name');
-
+        this.formationNames = this._get(this.samplesInBasin, 'Formation_Name');
         //ignore unknown formations
         this.formationNames.pop();
 
         // defaults - the formation that is initially displayed when a basin is clicked
         this.defaultFormation = this.formationNames[0];
-        this.defaultFormationData = samplesInBasin.filter(e => e.Formation_Name === this.defaultFormation);
-        this.wellDetails = this._setWellDetails(this.defaultFormationData,geospatialData);
-
+        this.defaultFormationData = this.samplesInBasin.filter(e => e.Formation_Name === this.defaultFormation);
+        this.wellDetails = this._setWellDetails(this.defaultFormationData,geospatialData);3
 
         // instantiate charts with default information
         this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.colorScale);
@@ -44,7 +49,7 @@ class formationList {
             .enter()
             .append("tr").append("td").style("padding-left", "15px").text((d) => {return d;})
             .on("click", (d) => { 
-                let samplesOfClickedFormation = samplesInBasin.filter(e => e.Formation_Name === d); //d: clicked formation
+                let samplesOfClickedFormation = this.samplesInBasin.filter(e => e.Formation_Name === d); //d: clicked formation
                 let wellDetails = this._setWellDetails(samplesOfClickedFormation, geospatialData);
 
                 //passing samples of clicked formation to the charts
