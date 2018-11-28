@@ -146,23 +146,29 @@ class formationList {
         // tack on the well name as text
         wellList.append("td").text((d) => {
                     return d.wellName;})
+                .attr("id", (d) => {return "legend"+d.wellID;})
                 .on("click", (d) => {
-                    this.updateGraphs(d);});
+                    // Check to see if the wells has already been selected (clicked on)
+                    if(this.selected.includes(d.wellID)){ 
+                        let index = this.selected.indexOf(d.wellID);
+                        if(index >= 0){
+                            this.selected.splice(index, 1);
+                            d3.select("#legend"+d.wellID).style("font-weight", "normal");
+                        }
+                    }
+                    else{
+                        this.selected.push(d.wellID);
+                        d3.select("#legend"+d.wellID).style("font-weight", "bold");
+                    }
+                    
+                    this.updateGraphs(d);
+                });
     }
 
     // click once to select
     // click again to deselect
     updateGraphs(well){
-        // Check to see if the wells has already been selected (clicked on)
-        if(this.selected.includes(well.wellID)){ 
-            let index = this.selected.indexOf(well.wellID);
-            if(index >= 0){
-                this.selected.splice(index, 1);
-            }
-        }
-        else{
-            this.selected.push(well.wellID);
-        }
+        
         d3.select("#legend").selectAll("circle")
             .style("opacity", 0.25).attr("stroke", "gray");
         this.selected.forEach(id => {
