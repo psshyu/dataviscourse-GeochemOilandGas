@@ -55,11 +55,9 @@ d3.csv("data/SRCPhase2GeospatialUSA2.csv", geospatialData => {
     d3.select("#legendSVG").remove();
     d3.select("#formationListUL").remove();
     
-    //let formations_list = new formationList(colorScale);
-    // let legend = new Legend(colorScale);
+    // filtering out some of the basins that lack location info
     geospatialData = geospatialData.filter(d => projection([d.Longitude,d.Latitude])!==null || d.USGS_Province!==0);
-        //filter wells falling outside of basin classification
-    //geospatialData = geospatialData.filter(d => );
+
     let map = new Map(projection, geospatialData);
     let basin = new Basin(projection, geospatialData);
     
