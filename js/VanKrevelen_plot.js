@@ -110,6 +110,88 @@ class VanKrevelenPlot{
             .style("opacity", 1)
             .on("mouseover", this.mouseOverHandler)
             .on("mouseout", this.mouseOutHandler);
+
+
+        //appending delimiters
+
+        let that = this;
+        function _scalePoints(curve){
+
+            let curvex = curve.map((d) => {
+                return [that.x(d[0]),that.y(d[1])];});
+            return curvex;
+        }
+
+        let lineGenerator = d3.line()
+            .curve(d3.curveCardinal);
+        //data
+        let curve1 = [[12.138728323699468, 15.91724977182821],
+            [29.47976878612718, 41.36294493459059],
+            [49.4219653179191, 47.88865226650432],
+            [59.826589595375765, 51.15606936416157],
+            [92.7745664739885, 54.66078491025246],
+            [136.99421965317924, 58.28414968055972],
+            [201.1560693641619, 55.80164283541217]];
+
+        let curve2 =[[6.069364161849705, 15.853361728019308],
+            [9.537572254335316, 66.41618497109812],
+            [13.872832369942216, 98.04076665652553],
+            [23.410404624277476, 129.72010952236064],
+            [35.54913294797689, 151.95314876787336],
+            [54.62427745664746, 174.2592029205963],
+            [84.10404624277459, 180.88530574992387],
+            [108.38150289017346, 181.1408579251596],
+            [122.25433526011562, 184.44478247642223],
+            [137.8612716763006, 209.87222391238208],
+            [150.0000000000001, 232.1052631578948]];
+
+        let curve3 = [[4.335260115606957, 18.993002738058976],
+            [7.803468208092511, 85.3452996653482],
+            [10.404624277456662, 195.89899604502568],
+            [16.473988439306368, 394.9102525098873],
+            [26.011560693641627, 486.5895953757224],
+            [39.0173410404625, 530.937024642531],
+            [52.02312138728331, 562.6528749619713],
+            [66.76300578034687, 578.5975053240035],];
+
+        let curve4 = [[2.6011560693641513, 22.132643748098417],
+            [4.335260115606957, 151.6245816854273],
+            [       3.468208092485554, 375.8259811378156],
+            [       5.202312138728303, 533.7389717067233],
+            [       6.936416184971108, 593.7572254335258],
+            [       9.537572254335316, 653.7846060237298],
+            [       18.208092485549116, 717.0337693945846],
+            [       27.745664739884432, 777.1341648919986],
+            [       39.88439306358384, 821.472467295406]];
+
+        curve1 = _scalePoints(curve1);
+        curve2 = _scalePoints(curve2);
+        curve3 = _scalePoints(curve3);
+        curve4 = _scalePoints(curve4);
+        //generate line
+        let path1 = lineGenerator(curve1);
+        let path2 = lineGenerator(curve2);
+        let path3 = lineGenerator(curve3);
+        let path4 = lineGenerator(curve4);
+
+
+        this.svg.selectAll('.delimiter').remove();
+
+        let paths = [path1, path2, path3, path4];
+
+        for(let i=0; i < paths.length; i++){
+
+            this.svg.append('path')
+                .attr('class','delimiter')
+                .attr('d', paths[i])
+                .style('fill','none')
+                .style('stroke','darkred')
+                .style('opacity',0.5)
+                .style('stroke-width','2px');
+
+        }
+
+
     }
     
     update(samples, wellDetails){
@@ -163,7 +245,6 @@ class VanKrevelenPlot{
                 return [that.x(d[0]),that.y(d[1])];});
             return curvex;
         }
-
 
         let lineGenerator = d3.line()
             .curve(d3.curveCardinal);
@@ -233,10 +314,6 @@ class VanKrevelenPlot{
                 .style('stroke-width','2px');
 
         }
-
-
-
-
 
 
     }
