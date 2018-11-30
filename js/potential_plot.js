@@ -191,7 +191,7 @@ class PotentialPlot{
         }
 
         let lineGenerator = d3.line()
-            .curve(d3.curveCardinal);
+            ;
         //data
 
         let curve1 = [[0.1, 1.5],
