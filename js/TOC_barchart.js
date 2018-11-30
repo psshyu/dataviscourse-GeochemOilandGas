@@ -16,15 +16,13 @@ class TOC_barchart {
             .attr("class", "plot")
             .style("background-color", "#ffffff");
 
-        // this.svg = d3.select('#tocBarchartSVG').apend('g').attr('transform','rotate(-90)');
-        //plot title
         this.svg.append("text")
             .attr("x", this.width/4)
             .attr("y", this.margin.top)
             .text("Total Organic Carbon Content (TOC)");
 
-        this.samplesWithInformation = defaultData.filter(d => d.TOC_Percent_Measured !== '');
-        this.samplesWithInformation = this.samplesWithInformation.map(function(d){ return parseFloat(d.TOC_Percent_Measured)});
+        // this.samplesWithInformation = defaultData.filter(d => d.TOC_Percent_Measured !== '');
+        // this.samplesWithInformation = this.samplesWithInformation.map(function(d){ return parseFloat(d.TOC_Percent_Measured)});
 
         this.update(defaultData);
     }
@@ -36,8 +34,6 @@ class TOC_barchart {
 
         let tocValues = data.filter(d => d.TOC_Percent_Measured !== '');
         tocValues = tocValues.map(function(d){ return parseFloat(d.TOC_Percent_Measured)});
-
-        // console.log(tocValues);
 
         if (tocValues.length > 0) {
 
@@ -56,7 +52,7 @@ class TOC_barchart {
             //building bins
             let bins = binsGenerator(tocValues);
             bins.pop(); //last bin range <10,10>
-            console.log(bins);
+            // console.log(bins);
 
             //yScale
             let maxCount = d3.max(bins.map(d => d.length));
@@ -67,27 +63,29 @@ class TOC_barchart {
 
             let yScale = d3.scaleLinear()
                 .domain([0, maxCount])
-                .range([ this.margin.top *2, this.height - this.margin.bottom*2]);
+                .range([0, this.height - this.margin.bottom*2]);
 
-            //y gridlines
-            //remove first
-            d3.select('#toc_grid').remove();
-
-            this.svg.append("g")
-                .attr("class", "grid")
-                .attr('id','toc_grid')
-                .attr("transform", "translate("+ this.margin.right *2+ "," + 0 + ") scale(0.79,1)")
-                .call(d3.axisLeft(yScale)
-                    .tickSize(-this.width, 0, 0)
-                    .tickFormat("")
-                );
+            // y gridlines
+            // remove first
+            // d3.select('#toc_grid').remove();
+            //
+            // this.svg.append("g")
+            //     .attr("class", "grid")
+            //     .attr('id','toc_grid')
+            //     .attr("transform", "translate("+ this.margin.right *2+ "," + 0 + ") scale(0.79,1)")
+            //     .call(d3.axisLeft(yScale)
+            //         .tickSize(-this.width, 0, 0)
+            //         .tickFormat("")
+            //     );
 
             //bars
 
             //let's append a group to insert the bars
 
             this.group = d3.select('#tocBarchartSVG').append('g').attr('transform','translate(0,350) scale(1,-0.8)');
+
             let bars = this.group.selectAll('.bar').data(bins);
+            bars.exit().remove();
             let newBars = bars.enter().append('rect');
             bars = newBars.merge(bars);
 
@@ -98,9 +96,9 @@ class TOC_barchart {
                 .attr('x', d => xScale(+d.x0)+2)
                 .attr('y', 0)
                 .attr('width', 12)
-                .attr('height', (d,i) => {
-                    console.log(d.length);
-                    return yScale(d.length)
+                .attr('height', d => {
+                    // console.log(d.length);
+                    return (yScale(d.length))
 
                 })
                 .attr('opacity',1)
