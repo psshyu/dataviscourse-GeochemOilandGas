@@ -44,7 +44,7 @@ class VanKrevelenPlot{
             .attr("class", "plotTitle")
             .attr("x", this.width/2)
             .attr("y", this.margin.top)
-            .text("Kerogen Type");
+            .text("Van Krevelen");
 
         //filter out data that lacks HI && OI
         this.samplesWithInformation = defaultData.filter(d => {if (d.Hydrogen_Index !== '' && d.Oxygen_Index !== '') return d});
