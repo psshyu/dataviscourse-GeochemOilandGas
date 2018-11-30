@@ -40,11 +40,12 @@ class TOC_barchart {
 
             //creating bin generator
             let binsGenerator = d3.histogram()
-                    .domain([0, 10])
-                    .thresholds(xScale.ticks(20));
+                    .domain([0, 100])
+                    .thresholds(xScale.ticks(10));
 
             //building bins
             let bins = binsGenerator(tocValues);
+            console.log(tocValues);
             bins.pop(); //last bin range <10,10>
 
             //yScale
@@ -59,10 +60,9 @@ class TOC_barchart {
                             .range([0,this.height - this.margin.bottom*2]);
 
             //bars
-            console.log(this.height);
+            console.log(bins);
             //let's append a group to insert the bars
             this.group = d3.select('#tocBarchartSVG').append('g').attr('transform','translate(0,'+ (this.height - this.margin.top*2)+') scale(1,-1)');
-            //this.group = d3.select('#tocBarchartSVG').append('g').attr("transform", "translate(0," + 250 + ")");
             let bars = this.group.selectAll('.bar').data(bins);
             bars.exit().remove();
             let newBars = bars.enter().append('rect');
@@ -71,7 +71,9 @@ class TOC_barchart {
             bars.transition()
                 .duration(1000)
                 .attr('class','bar')
-                .attr('x', d => xScale(+d.x0)+2)
+                .attr('x', d => {
+                    //console.log(d);
+                    return xScale(+d.x0)+2;})
                 .attr('y', 0)
                 .attr('width', 12)
                 .attr('height', (d) => {
