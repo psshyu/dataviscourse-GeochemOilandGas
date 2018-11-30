@@ -20,7 +20,12 @@ class TOC_barchart {
             .attr("x", this.width/4)
             .attr("y", this.margin.top)
             .text("Total Organic Carbon Content (TOC)");
-            
+        
+        // X Scale
+        this.x = d3.scaleLinear()
+        .domain([100, 0])
+        .range([this.width - this.margin.right, this.margin.left*2]);
+        
         // Axis labels
         // x
         this.svg.append("text")
@@ -37,6 +42,14 @@ class TOC_barchart {
         this.update(defaultData);
     }
 
+    binGenerate(data){
+        let bins = d3.histogram()
+                        .domain([0, 100])
+                        .thresholds(20)
+                        (data);
+        bins.pop()
+        return bins;
+    }
 
     update(data) {
 
@@ -46,33 +59,19 @@ class TOC_barchart {
         if (tocValues.length > 0) {
             this.svg.select('#noInfo').remove();
 
-            //xScale
-            let xScale = d3.scaleLinear()
-                .domain([100, 0])
-                .range([this.width - this.margin.right, this.margin.left*2]);
-
-            //creating bin generator
-            let bins = d3.histogram()
-                    .domain([0, 100])
-                    .thresholds(20)
-                    (tocValues);
-
-            bins.pop(); 
+            let bins = this.binGenerate(tocValues);
 
             //yScale
             let maxCount = d3.max(bins.map(d => d.length));
 
-            let yScaleAxis = d3.scaleLinear()
+            this.yScaleAxis = d3.scaleLinear()
                                 .domain([0, maxCount])
                                 .range([this.height - this.margin.bottom*2, this.margin.top *2]);
 
-            let yScale = d3.scaleLinear()
+            this.yScale = d3.scaleLinear()
                             .domain([0, maxCount])
                             .range([0,this.height - this.margin.bottom*4]);
 
-
-            //bars
-            console.log(bins);
             //let's append a group to insert the bars
             this.group = d3.select('#tocBarchartSVG').append('g').attr('transform','translate(0,'+ (this.height - this.margin.top*2)+') scale(1,-1)');
             let bars = this.group.selectAll('.bar').data(bins);
@@ -85,11 +84,11 @@ class TOC_barchart {
                 .attr('class','bar')
                 .attr('x', d => {
                     //console.log(d);
-                    return xScale(+d.x0)+2;})
+                    return this.x(+d.x0)+2;})
                 .attr('y', 0)
                 .attr('width', 12)
                 .attr('height', (d) => {
-                    return yScale(d.length)
+                    return this.yScale(d.length)
                 })
                 .attr('opacity',1)
                 .style('fill','steelblue')
@@ -102,7 +101,7 @@ class TOC_barchart {
             d3.select('#toc-yAxis').remove();
 
             // X-axis
-            let xAxis = d3.axisBottom(xScale).ticks(20);
+            let xAxis = d3.axisBottom(this.x).ticks(20);
             this.svg.append("g")
                 .attr("id", "toc-xAxis")
                 .attr("transform", "translate(0," + parseInt(this.height - this.margin.bottom*2) + ")")
@@ -112,7 +111,7 @@ class TOC_barchart {
             let num_ticks = 0;
             maxCount < 10 ? num_ticks = maxCount : num_ticks = 10;
 
-            let yAxis = d3.axisLeft(yScaleAxis).ticks(num_ticks);
+            let yAxis = d3.axisLeft(this.yScaleAxis).ticks(num_ticks);
             this.svg.append("g")
                 .attr("transform", "translate("+ this.margin.right * 2 + "," + 0 + ")")
                 .attr("id", 'toc-yAxis')
