@@ -7,7 +7,7 @@ class TOC_barchart {
         this.defaultData = defaultData;
         this.defaultFormation = defaultFormation;
         this.colorScale = colorScale;
-        
+
         this.margin = {top: 30, right: 30, bottom: 30, left: 30};
         this.width = document.documentElement.clientWidth* 0.30;
         this.height = document.documentElement.clientHeight * 0.45;
@@ -144,13 +144,12 @@ class TOC_barchart {
             .style('stroke','black');
 
         //remove initial axis
-        d3.select('#TOCPlotYinit').remove();
-        d3.select('#toc-yAxis').remove();
+        //d3.select('#toc-yAxis').remove();
 
         //Y-Axis
-        this.svg.append("g")
-            .attr("transform", "translate("+ this.margin.right * 2 + "," + 0 + ")")
+        d3.select("#toc-yAxis")
             .attr("id", 'toc-yAxis')
+            .transition(900)
             .call(d3.axisLeft(this.yScaleAxis));
 
 
