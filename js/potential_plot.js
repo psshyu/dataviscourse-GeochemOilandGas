@@ -112,7 +112,67 @@ class PotentialPlot{
             .style("opacity", 1)
             .on("mouseover", this.mouseOverHandler)
             .on("mouseout", this.mouseOutHandler);
+
+        //appending delimiters
+
+        let that = this;
+        function _scalePoints(curve){
+
+            let curvex = curve.map((d) => {
+                return [that.x(d[0]),that.y(d[1])];});
+            return curvex;
+        }
+
+        let lineGenerator = d3.line()
+        ;
+        //data
+
+        let curve1 = [[0.1, 1.5],
+            [100, 1.5]];
+
+        let curve2 =[[1, 1000],
+            [1, 3.5],
+            [100, 3.5]];
+
+        let curve3 = [[2, 1000],
+            [2, 10],
+            [100, 10]];
+
+        let curve4 = [[3, 1000],
+            [3, 20],
+            [100, 20]];
+
+        curve1 = _scalePoints(curve1);
+        curve2 = _scalePoints(curve2);
+        curve3 = _scalePoints(curve3);
+        curve4 = _scalePoints(curve4);
+        //generate line
+        let path1 = lineGenerator(curve1);
+        let path2 = lineGenerator(curve2);
+        let path3 = lineGenerator(curve3);
+        let path4 = lineGenerator(curve4);
+
+
+        this.svg.selectAll('.delimiter').remove();
+
+        let paths = [path1, path2, path3, path4];
+
+        for(let i=0; i < paths.length; i++){
+
+            this.svg.append('path')
+                .attr('class','delimiter')
+                .attr('d', paths[i])
+                .style('fill','none')
+                .style('stroke','darkred')
+                .style('opacity',0.5)
+                .style('stroke-width','2px');
+
+        }
+
+
+
     }
+
 
     minmax(samples, tag){
         
