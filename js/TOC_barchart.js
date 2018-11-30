@@ -5,10 +5,6 @@ class TOC_barchart {
 
     constructor(defaultData, defaultFormation, colorScale) {
 
-        // this.defaultData = defaultData;
-        // this.defaultFormation = defaultFormation;
-        // this.colorScale = colorScale;
-
         this.margin = {top: 30, right: 30, bottom: 30, left: 30};
         this.width = document.documentElement.clientWidth* 0.30;
         this.height = document.documentElement.clientHeight * 0.45;
@@ -20,6 +16,7 @@ class TOC_barchart {
             .attr("class", "plot")
             .style("background-color", "#ffffff");
 
+        // this.svg = d3.select('#tocBarchartSVG').apend('g').attr('transform','rotate(-90)');
         //plot title
         this.svg.append("text")
             .attr("x", this.width/4)
@@ -29,47 +26,7 @@ class TOC_barchart {
         this.samplesWithInformation = defaultData.filter(d => d.TOC_Percent_Measured !== '');
         this.samplesWithInformation = this.samplesWithInformation.map(function(d){ return parseFloat(d.TOC_Percent_Measured)});
 
-       // //X scale
-       //  this.xScale = d3.scaleLinear()
-       //      .domain([10, 0])
-       //      .range([this.width - this.margin.right, this.margin.left*2]);
-
-        //Yscale
-        //creating bin generator
-        // let binsGenerator = d3.histogram()
-        //     .domain([0, 10])
-        //     .thresholds(this.xScale.ticks(20));
-        //
-        // let bins = binsGenerator(this.samplesWithInformation);
-        // bins.pop(); //last bin range <10,10>
-        // //console.log(bins);
-        //
-        // let maxCount = d3.max(bins.map(d => d.length));
-        //
-        // console.log(maxCount);
-        // this.yScale = d3.scaleLinear()
-        //     .domain([maxCount,0])
-        //     .range([this.margin.top *2, this.height - this.margin.bottom*2]);
-
-
-
-
         this.update(defaultData);
-        // X-axis
-        // this.svg.append("g")
-        //     .attr("id", "TOCPlotX")
-        //     .attr("transform", "translate(0," + parseInt(this.height - this.margin.bottom*2) + ")")
-        //     .call(d3.axisBottom(this.xScale).ticks(20));
-        //
-        // //Y-axis
-        // let num_ticks = 0;
-        // maxCount < 10 ? num_ticks = maxCount : num_ticks = 10;
-        // let yAxis = d3.axisLeft(this.yScale).ticks(num_ticks);
-        // this.svg.append("g")
-        //     .attr("id", "TOCPlotYinit")
-        //     .attr("transform", "translate("+ this.margin.right * 2 + "," + 0 + ")")
-        //     .call(yAxis);
-
     }
 
 
@@ -86,12 +43,10 @@ class TOC_barchart {
 
             this.svg.select('#noInfo').remove();
 
-
             //xScale
             let xScale = d3.scaleLinear()
-                .domain([10, 0])
-                .range([this.width - this.margin.right, this.margin.left*2]);
-
+                .domain([0, 10])
+                .range([this.margin.left*2, this.width - this.margin.right]);
 
             //creating bin generator
             let binsGenerator = d3.histogram()
@@ -105,13 +60,17 @@ class TOC_barchart {
 
             //yScale
             let maxCount = d3.max(bins.map(d => d.length));
+            let yScaleAxis = d3.scaleLinear()
+                .domain([0, maxCount])
+                .range([ this.height - this.margin.bottom*2,  this.margin.top *2]);
+
+
             let yScale = d3.scaleLinear()
-                .domain([0,maxCount])
-                .range([this.height - this.margin.bottom*2, this.margin.top *2]);
+                .domain([0, maxCount])
+                .range([ this.margin.top *2, this.height - this.margin.bottom*2]);
 
             //y gridlines
             //remove first
-
             d3.select('#toc_grid').remove();
 
             this.svg.append("g")
@@ -123,9 +82,12 @@ class TOC_barchart {
                     .tickFormat("")
                 );
 
+            //bars
 
-            let bars = this.svg.selectAll('.bar').data(bins);
-            bars.exit().remove();
+            //let's append a group to insert the bars
+
+            this.group = d3.select('#tocBarchartSVG').append('g').attr('transform','translate(0,350) scale(1,-0.8)');
+            let bars = this.group.selectAll('.bar').data(bins);
             let newBars = bars.enter().append('rect');
             bars = newBars.merge(bars);
 
@@ -133,16 +95,19 @@ class TOC_barchart {
                 .transition()
                 .duration(1000)
                 .attr('class','bar')
-                .attr('x', d => xScale(+d.x0)-10)
+                .attr('x', d => xScale(+d.x0)+2)
                 .attr('y', 0)
-                .attr('width', 10)
-                .attr('height', d => {
-                    // console.log(d.length);
-                    return yScale(d.length)})
+                .attr('width', 12)
+                .attr('height', (d,i) => {
+                    console.log(d.length);
+                    return yScale(d.length)
+
+                })
                 .attr('opacity',1)
                 .style('fill','steelblue')
-                .style('stroke','black')
-                .attr("transform", "translate("+this.width+",270), rotate(180)");
+                .style('stroke','black');
+                // .attr("transform", "translate(0," + parseInt(this.height - this.margin.bottom*2) + ")");
+                // .attr("transform", "rotate(0,-1)");
                 // .on('mouseover',) //show tooltip
                 // .on('mouseout',)
                 // .on('click',); //highlight samples in other charts that have the clicked TOC
@@ -163,7 +128,7 @@ class TOC_barchart {
             //Y-Axis
             let num_ticks = 0;
             maxCount < 10 ? num_ticks = maxCount : num_ticks = 10;
-            let yAxis = d3.axisLeft(yScale).ticks(num_ticks);
+            let yAxis = d3.axisLeft(yScaleAxis).ticks(num_ticks);
             this.svg.append("g")
                 .attr("transform", "translate("+ this.margin.right * 2 + "," + 0 + ")")
                 .attr("id", 'toc-yAxis')
@@ -171,6 +136,7 @@ class TOC_barchart {
 
 
         }else{
+
             this.svg.selectAll('.bar').remove();
             this.svg.append('text')
                 .attr('x',this.width/2)
