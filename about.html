@@ -20,12 +20,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
         <script src="https://unpkg.com/topojson-client@3"></script>
         <script src="js/map.js" async></script>
-        <script src="js/chart.js" async></script>
         <script src="js/TOC_barchart.js" async></script>
         <script src="js/VanKrevelen_plot.js" async></script>
         <script src="js/potential_plot.js" async></script>
         <script src="js/inverseKrevelen_plot.js" async></script>
-        <script src="js/legend.js" async></script>
         <script src="js/formations_list.js" async></script>
 
 
@@ -65,14 +63,51 @@
         </nav>
         <!-- Begin div layers -->
         <div class="container-fluid">
+
             <div class="row">
-            <div class="col-sm-2 col-md-2"></div>
-              <div class="col-sm-8 col-md-8">
-                  <h3>Intro</h3>
-                    <p>Lorem ipsum...</p>
-              </div>
-              <div class="col-sm-2 col-md-2"></div>
+                <div class="col-sm-2 col-md-2"></div>
+                <div class="col-sm-8 col-md-8">
+                    <h3>Expanded Introduction</h3>
+                        <p>As mentioned in the info panel, there's quite a bit of risk involved when it comes to drilling for oil and gas. This project is 
+                            less of an exercise in story-telling, and more of an attempt to allow curious users to explore the data that is made available by
+                            the Energy and Geoscience Institute at the University of Utah. Our visualization, in particular, hedges the user to explore the data
+                            in a 'drill-down' fashion by focusing on a particular basin, then wells in the basin and the samples the wells have produced.
+                        </p>
+                        <p>
+                            Given that scientific exploration and analysis on basins and the samples collected from them, the data is incomplete at some parts.
+                            For example, while a basin may have multiple wells with multiple samples retrieved, not all the data may have been evaluated. In these instances,
+                            we have done our best to remove such samples from the visualization as they won't be displayed in our charts. 
+                        </p>
+                </div>
+                <div class="col-sm-2 col-md-2"></div>
             </div>
+            <div class="row">
+                <div class="col-sm-2 col-md-2"></div>
+                <div class="col-sm-8 col-md-8">
+                    <h3>Chart Explanations</h3>
+                    <h5>Total Organic Carbon Content</h5>
+                    <strong>X-axis: </strong> Total Organic Carbon (%) <br>
+                    <strong>Y-axis: </strong> Frequency
+                    <p>This chart is a histogram of the samples in the selection with respect to the TOC%. </p>
+
+                    <h5>Van Krevelen </h5>
+                    <strong>X-axis: </strong> Oxygen Index <br>
+                    <strong>Y-axis: </strong> Hydrogen Index
+                    <p>Lorem ipsum...</p>
+
+                    <h5>Inverse Van Krevelen </h5>
+                    <strong>X-axis: </strong> Tmax <br>
+                    <strong>Y-axis: </strong> Hydrogen Index
+                    <p>Lorem ipsum...</p>
+
+                    <h5>Potential Generation</h5>
+                    <strong>X-axis: </strong> Total Organic Carbon (%) <br>
+                    <strong>Y-axis: </strong> S1 + S2
+                    <p>Lorem ipsum...</p>
+                </div>
+                <div class="col-sm-2 col-md-2"></div>
+            </div>
+
             <div class="row">
                 <div class="col-sm-2 col-md-2"></div>
                 <div class="col-sm-8 col-md-8">
