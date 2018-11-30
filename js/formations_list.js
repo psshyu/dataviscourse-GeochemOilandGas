@@ -55,8 +55,7 @@ class formationList {
             .text((d) => { return d; })
             .on("click", (d) => {
                 this.currentFormation = d;
-                row.style("padding-left", "15px")
-                .style("font-weight", (d) =>{
+                row.style("font-weight", (d) =>{
                     if(d === this.currentFormation){ return "bold"; }
                     else { return "normal" }
                 });
@@ -98,7 +97,6 @@ class formationList {
      * {'wellID' : SRCLocationID
      *  'wellName' : Well_Name OR Outcrop
      *  'color' : hex from d3.schemePastel1 }
-     * 
      */
     _setWellDetails(wellsInSample, geospatialData){
         let wellDetails = [];
