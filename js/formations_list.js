@@ -30,10 +30,6 @@ class formationList {
         this.vanKrevelenPlot = new VanKrevelenPlot(this.defaultFormationData, this.defaultFormation, this.wellDetails);
         this.potentialPlot = new PotentialPlot(this.defaultFormationData, this.defaultFormation, this.wellDetails);
 
-        //passing samples of default formation
-        // this.tocChart.update(this.defaultFormationData);
-
-
         /* ******************************************* */
 
         // Create list of formations
@@ -53,7 +49,7 @@ class formationList {
                 let wellDetails = this._setWellDetails(samplesOfClickedFormation, geospatialData);
 
                 //passing samples of clicked formation to the charts
-                this.tocChart.update(samplesOfClickedFormation);
+                this.tocChart.update(samplesOfClickedFormation, true);
                 this.vanKrevelenPlot.update(samplesOfClickedFormation, wellDetails);
                 this.potentialPlot.update(samplesOfClickedFormation, wellDetails);
                 this.inverseKrevPlot.update(samplesOfClickedFormation, wellDetails);

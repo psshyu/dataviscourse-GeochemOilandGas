@@ -126,7 +126,7 @@ class TOC_barchart {
                         .domain([0, maxCount])
                         .range([0,this.height - this.margin.bottom*4]);
 
-        //let's append a group to insert the bars
+        // gather the bars and update them
         let bars = this.barGroup.selectAll('rect').data(bins);
         bars.exit().remove();
         let newBars = bars.enter().append('rect');
@@ -151,6 +151,7 @@ class TOC_barchart {
             .transition(900)
             .call(d3.axisLeft(this.yScaleAxis));
     }
+
     updateWells(selectedWells){
         let selection = this.currentData.filter((e) => selectedWells.includes(e.SRCLocationID));
         this.update(selection, false);
