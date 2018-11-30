@@ -7,5 +7,5 @@ the U.S. source rocks geochemical data (TOC, S1, S2, etc.) by displaying the dat
 so it facilitates geoscientists in the analysis/exploration of the data at different
 scales: data point, oil well and basin-wise.
 
-*The data is property of the Energy and Geoscience Institute at the University of Utah. Currently, the dataset values/names have been modified
+*The data is property of the Energy and Geoscience Institute at the University of Utah. The data values have been modified
 for confidentiality purposes.
