@@ -22,7 +22,7 @@ class formationList {
         // defaults - the formation that is initially displayed when a basin is clicked
         this.defaultFormation = this.formationNames[0];
         this.defaultFormationData = this.samplesInBasin.filter(e => e.Formation_Name === this.defaultFormation);
-        this.wellDetails = this._setWellDetails(this.defaultFormationData,geospatialData);3
+        this.wellDetails = this._setWellDetails(this.defaultFormationData,geospatialData);
 
         // instantiate charts with default information
         this.tocChart = new TOC_barchart(this.defaultFormationData, this.defaultFormation, this.colorScale);
@@ -31,7 +31,7 @@ class formationList {
         this.potentialPlot = new PotentialPlot(this.defaultFormationData, this.defaultFormation, this.wellDetails);
 
         //passing samples of default formation
-        this.tocChart.update(this.defaultFormationData);
+        // this.tocChart.update(this.defaultFormationData);
 
 
         /* ******************************************* */
