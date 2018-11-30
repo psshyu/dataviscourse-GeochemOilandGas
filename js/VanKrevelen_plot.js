@@ -156,11 +156,14 @@ class VanKrevelenPlot{
 
         //appending delimiters
 
+        let that = this;
         function _scalePoints(curve){
 
-            curve = curve.map((d) => {
-                return [this.x(d[0]),this.y(d[1])];});
+            let curvex = curve.map((d) => {
+                return [that.x(d[0]),that.y(d[1])];});
+            return curvex;
         }
+
 
         let lineGenerator = d3.line()
             .curve(d3.curveCardinal);
@@ -192,8 +195,7 @@ class VanKrevelenPlot{
                 [26.011560693641627, 486.5895953757224],
                 [39.0173410404625, 530.937024642531],
                 [52.02312138728331, 562.6528749619713],
-            [66.76300578034687, 578.5975053240035],
-            [    11.271676300578065, 293.8028597505322]];
+            [66.76300578034687, 578.5975053240035],];
 
         let curve4 = [[2.6011560693641513, 22.132643748098417],
             [4.335260115606957, 151.6245816854273],
@@ -216,11 +218,24 @@ class VanKrevelenPlot{
         let path4 = lineGenerator(curve4);
 
 
+        this.svg.selectAll('.delimiter').remove();
 
-        this.svg.append('path')
-            .attr('d', path1)
-            .style('fill','none')
-            .style('stroke','black');
+        let paths = [path1, path2, path3, path4];
+
+        for(let i=0; i < paths.length; i++){
+
+            this.svg.append('path')
+                .attr('class','delimiter')
+                .attr('d', paths[i])
+                .style('fill','none')
+                .style('stroke','darkred')
+                .style('opacity',0.5)
+                .style('stroke-width','2px');
+
+        }
+
+
+
 
 
 
