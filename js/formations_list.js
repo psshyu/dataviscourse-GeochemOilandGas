@@ -168,12 +168,13 @@ class formationList {
     // click once to select
     // click again to deselect
     updateGraphs(well){
-        
+        // update legend
         d3.select("#legend").selectAll("circle")
             .style("opacity", 0.25).attr("stroke", "gray");
         this.selected.forEach(id => {
             d3.select("#legend").selectAll("#"+id).style("opacity", 1).attr("stroke", "black");
         });
+        this.tocChart.updateWells(this.selected);
         this.vanKrevelenPlot.updateWells(this.selected);
         this.potentialPlot.updateWells(this.selected);
         this.inverseKrevPlot.updateWells(this.selected);

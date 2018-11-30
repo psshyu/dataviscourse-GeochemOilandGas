@@ -5,6 +5,7 @@ class TOC_barchart {
 
     constructor(defaultData, defaultFormation, colorScale) {
         this.defaultData = defaultData;
+        this.currentData = this.defaultData;
         this.defaultFormation = defaultFormation;
         this.colorScale = colorScale;
 
@@ -106,7 +107,10 @@ class TOC_barchart {
         return bins;
     }
 
-    update(data) {
+    update(data, formation) {
+        if(formation == true){
+            this.currentData = data;
+        }
         // parse the TOC Values and bin them
         let tocValues = this.getTOCValues(data);
         let bins = this.binGenerate(tocValues);
@@ -146,7 +150,9 @@ class TOC_barchart {
             .attr("id", 'toc-yAxis')
             .transition(900)
             .call(d3.axisLeft(this.yScaleAxis));
-
-
+    }
+    updateWells(selectedWells){
+        let selection = this.currentData.filter((e) => selectedWells.includes(e.SRCLocationID));
+        this.update(selection, false);
     }
 }
