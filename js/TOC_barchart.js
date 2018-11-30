@@ -4,7 +4,10 @@
 class TOC_barchart {
 
     constructor(defaultData, defaultFormation, colorScale) {
-
+        this.defaultData = defaultData;
+        this.defaultFormation = defaultFormation;
+        this.colorScale = colorScale;
+        
         this.margin = {top: 30, right: 30, bottom: 30, left: 30};
         this.width = document.documentElement.clientWidth* 0.30;
         this.height = document.documentElement.clientHeight * 0.45;
@@ -30,7 +33,7 @@ class TOC_barchart {
         .domain([100, 0])
         .range([this.width - this.margin.right, this.margin.left*2]);
         
-        let tocValues = this.getTOCValues(defaultData);
+        let tocValues = this.getTOCValues(this.defaultData);
         let bins = this.binGenerate(tocValues);
 
         // get the highest frequency in the bins
@@ -87,7 +90,7 @@ class TOC_barchart {
         .attr("transform", "translate("+ this.margin.right * 2 + "," + 0 + ")")
         .attr("id", 'toc-yAxis')
         .call(d3.axisLeft(this.yScaleAxis));
-        //this.update(defaultData);
+
     }
 
     getTOCValues(data){
