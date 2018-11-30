@@ -41,7 +41,8 @@ class VanKrevelenPlot{
 
         // Plot title
         this.svg.append("text")
-            .attr("x", this.width/3)
+            .attr("class", "plotTitle")
+            .attr("x", this.width/2)
             .attr("y", this.margin.top)
             .text("Kerogen Type");
 
@@ -80,11 +81,13 @@ class VanKrevelenPlot{
         // Axis labels
         // x
         this.svg.append("text")
-            .attr("x", this.width/2.25)
-            .attr("y", parseInt(this.height - this.margin.bottom))
+            .attr("class", "label")
+            .attr("x", this.width/2)
+            .attr("y", parseInt(this.height - this.margin.bottom/2))
             .text("OI");
         // y
         this.svg.append('text')
+            .attr("class", "label")
             .attr('x', -(this.height / 2))
             .attr('y', this.width / 20)
             .attr('transform', 'rotate(-90)')

@@ -37,10 +37,11 @@ class PotentialPlot{
                      .append("svg")
                      .attr("id", "potentialPlotSVG")
                      .attr("class", "plot");
-                     
+        
         // Plot title
         this.svg.append("text")
-            .attr("x", this.width/3)
+            .attr("class", "plotTitle")
+            .attr("x", this.width/2)
             .attr("y", this.margin.top)
             .text("Potential Generation");
 
@@ -81,11 +82,13 @@ class PotentialPlot{
         // Axis labels
         // x
         this.svg.append("text")
-            .attr("x", this.width/2.25)
-            .attr("y", parseInt(this.height - this.margin.bottom))
+            .attr("class", "label")
+            .attr("x", this.width/2)
+            .attr("y", parseInt(this.height - this.margin.bottom/2))
             .text("TOC%");
         // y
         this.svg.append('text')
+            .attr("class", "label")
             .attr('x', -(this.height / 2))
             .attr('y', this.width / 20)
             .attr('transform', 'rotate(-90)')

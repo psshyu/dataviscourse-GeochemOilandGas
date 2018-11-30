@@ -51,6 +51,19 @@
 
 .plotTitle {
     text-anchor: middle;
+    font-weight: bold;
+    text-decoration: underline; 
+    font-size: 12pt;
+}
+
+.label {
+    font-weight: bold;
+}
+
+h6 {
+    padding: 5px 5px 5px 5px; 
+    text-align: center; 
+    text-decoration:underline
 }
 
 /* width */

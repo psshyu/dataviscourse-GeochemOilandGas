@@ -35,18 +35,14 @@ class TOC_barchart {
             .append("svg")
             .attr("id", "tocBarchartSVG")
             .attr("class", "plot");
-            //.style("background-color", "#ffffff");
 
+        // Plot title
         this.svg.append("text")
-            .attr("x", this.width/4)
+            .attr("class", "plotTitle")
+            .attr("x", this.width/2)
             .attr("y", this.margin.top)
             .text("Total Organic Carbon Content (TOC)");
-        /*
-        this.barGroup = d3.select('#tocBarchartSVG')
-                            .append('g')
-                            .attr("id", "rectGroup")
-                            .attr('transform','translate(0,'+ (this.height - this.margin.top*2)+') scale(1,-1)');
-        */
+
         // X Scale
         this.x = d3.scaleLinear()
         .domain([100, 0])
@@ -68,7 +64,7 @@ class TOC_barchart {
                         .range([0,this.height - this.margin.bottom*4]);
 
         // Create the bars for histogram
-        this.svg.selectAll('rect')
+        this.svg.selectAll('.bar')
             .data(bins)
             .enter().append('rect')
             .attr('class','bar')
@@ -85,11 +81,14 @@ class TOC_barchart {
         // Axis labels
         // x
         this.svg.append("text")
-            .attr("x", this.width/2.25)
-            .attr("y", parseInt(this.height - this.margin.bottom))
+            .attr("class", "label")
+            .attr("x", this.width/2)
+            .attr("y", parseInt(this.height - this.margin.bottom/2))
             .text("TOC%");
+
         // y
         this.svg.append('text')
+            .attr("class", "label")
             .attr('x', -(this.height / 2))
             .attr('y', this.width / 20)
             .attr('transform', 'rotate(-90)')
@@ -145,13 +144,13 @@ class TOC_barchart {
                         .range([0,this.height - this.margin.bottom*4]);
 
         // gather the bars and update them
-        let bars = this.svg.selectAll('rect').data(bins);
+        let bars = this.svg.selectAll('.bar').data(bins);
         bars.exit().remove();
         let newBars = bars.enter().append('rect');
         bars = newBars.merge(bars);
 
         
-        this.svg.selectAll('rect')
+        this.svg.selectAll('.bar')
             .transition()
             .duration(900)
             .attr('class','bar')
@@ -162,7 +161,7 @@ class TOC_barchart {
                 return 0.85*width;})
             .attr('height', (d) => { return this.yScale(d.length) });
             
-        this.svg.selectAll('rect')
+        this.svg.selectAll('.bar')
             .on("mouseover", this.mouseOverHandler)
             .on("mouseout", this.mouseOutHandler);
 
