@@ -35,18 +35,16 @@ class TOC_barchart {
 
             //xScale
             let xScale = d3.scaleLinear()
-                .domain([10, 0])
+                .domain([100, 0])
                 .range([this.width - this.margin.right, this.margin.left*2]);
 
             //creating bin generator
-            let binsGenerator = d3.histogram()
+            let bins = d3.histogram()
                     .domain([0, 100])
-                    .thresholds(xScale.ticks(10));
+                    .thresholds(20)
+                    (tocValues);
 
-            //building bins
-            let bins = binsGenerator(tocValues);
-            console.log(tocValues);
-            bins.pop(); //last bin range <10,10>
+            bins.pop(); 
 
             //yScale
             let maxCount = d3.max(bins.map(d => d.length));
@@ -57,7 +55,8 @@ class TOC_barchart {
 
             let yScale = d3.scaleLinear()
                             .domain([0, maxCount])
-                            .range([0,this.height - this.margin.bottom*2]);
+                            .range([0,this.height - this.margin.bottom*4]);
+
 
             //bars
             console.log(bins);
