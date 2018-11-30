@@ -52,9 +52,11 @@ class TOC_barchart {
         bars = newBars.merge(bars);
 
         bars.attr('class','bar')
-            .attr('x', (d) => { return this.x(+d.x0)+2;})
+            .attr('x', (d) => { return this.x(d.x0);})
             .attr('y', 0)
-            .attr('width', 12)
+            .attr('width', (d) => { 
+                let width = this.x(d.x1) - this.x(d.x0);
+                return 0.85*width;})
             .attr('height', (d) => { return this.yScale(d.length) })
             .attr('opacity',1)
             .style('fill','steelblue')
@@ -128,17 +130,15 @@ class TOC_barchart {
         bars.transition()
             .duration(900)
             .attr('class','bar')
-            .attr('x', d => {
-                return this.x(+d.x0)+2;})
+            .attr('x', d => { return this.x(d.x0); })
             .attr('y', 0)
-            .attr('width', 12)
-            .attr('height', (d) => {
-                return this.yScale(d.length)
-            })
+            .attr('width', (d) => { 
+                let width = this.x(d.x1) - this.x(d.x0);
+                return 0.85*width;})
+            .attr('height', (d) => { return this.yScale(d.length) })
             .attr('opacity',1)
             .style('fill','steelblue')
             .style('stroke','black');
-
 
         //remove initial axis
         d3.select('#TOCPlotYinit').remove();
