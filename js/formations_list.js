@@ -91,7 +91,7 @@ class formationList {
      */
     _setWellDetails(wellsInSample, geospatialData){
         let wellDetails = [];
-        let wellSet = []
+        let wellSet = [];
         wellsInSample.forEach( well => {
             for (let i = 0; i < geospatialData.length; i++){
                 let row = geospatialData[i];

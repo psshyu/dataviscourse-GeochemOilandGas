@@ -5,24 +5,60 @@ class TOC_barchart {
 
     constructor(defaultData, defaultFormation, colorScale) {
 
-        this.defaultData = defaultData;
-        this.defaultFormation = defaultFormation;
-        this.colorScale = colorScale;
+        // this.defaultData = defaultData;
+        // this.defaultFormation = defaultFormation;
+        // this.colorScale = colorScale;
 
         this.margin = {top: 30, right: 30, bottom: 30, left: 30};
         this.width = document.documentElement.clientWidth* 0.30;
-        this.height = document.documentElement.clientHeight * 0.30;
+        this.height = document.documentElement.clientHeight * 0.45;
 
+        //append svg
         this.svg = d3.select("#tocBarchart")
             .append("svg")
             .attr("id", "tocBarchartSVG")
             .attr("class", "plot")
             .style("background-color", "#ffffff");
-        
+
+        //plot title
         this.svg.append("text")
             .attr("x", this.width/4)
             .attr("y", this.margin.top)
             .text("Total Organic Carbon Content (TOC)");
+
+        this.samplesWithInformation = defaultData.filter(d => d.TOC_Percent_Measured !== '');
+
+        // X and Y scales
+        this.x = d3.scaleLinear()
+            .domain([10, 0])
+            .range([this.width - this.margin.right, this.margin.left*2]);
+        this.y = d3.scaleLinear()
+            .domain([0,900])
+            .range([this.height - this.margin.bottom*2, this.margin.top *2]);
+
+        //y gridlines
+        this.svg.append("g")
+            .attr("class", "grid")
+            .attr("transform", "translate("+ this.margin.right *2+ "," + 0 + ") scale(0.79,1)")
+            .call(d3.axisLeft(this.y)
+                .tickSize(-this.width, 0, 0)
+                .tickFormat("")
+            );
+
+        // X-axis
+        this.svg.append("g")
+            .attr("id", "TOCPlotX")
+            .attr("transform", "translate(0," + parseInt(this.height - this.margin.bottom*2) + ")")
+            .call(d3.axisBottom(this.x).ticks(20));
+
+        // Y Axis
+        this.svg.append("g")
+            .attr("id", "vanKrevPlotY")
+            .attr("transform", "translate("+ this.margin.right * 2 + "," + 0 + ")")
+            .call(d3.axisLeft(this.y));
+
+
+
     }
 
 
@@ -43,7 +79,7 @@ class TOC_barchart {
             let maxToc = d3.max(tocValues);
 
             let xScale = d3.scaleLinear()
-                .domain([0, 10])
+                .domain([10, 0])
                 .range([this.width - this.margin.right, this.margin.left]);
 
 
@@ -94,17 +130,11 @@ class TOC_barchart {
                 // .on('mouseout',)
                 // .on('click',); //highlight samples in other charts that have the clicked TOC
 
-            //remove old axes
-            d3.select("#toc-xAxis").remove();
-            d3.select("#toc-yAxis").remove();
 
             //scales for the axes. Axes will be fixed from 0 to 10 in steps of 0.5
-            //x axis
-            let xAxis = d3.axisBottom(xScale).ticks(20);
-            this.svg.append("g")
-                .attr("transform", "translate(0,270)")
-                .attr("id", 'toc-xAxis')
-                .call(xAxis);
+
+
+
 
             //y axis
             let num_ticks = 0;

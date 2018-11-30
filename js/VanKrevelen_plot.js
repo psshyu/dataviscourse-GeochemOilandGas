@@ -2,6 +2,7 @@
 // upper right in reference image
 
 class VanKrevelenPlot{
+
     mouseOverHandler(d, i){
         let id = d.SRCLocationID+"VKTip";
         //let samplesInBasin = geospatialData.filter(e=>e.USGS_Province === name);
@@ -149,6 +150,7 @@ class VanKrevelenPlot{
                         return color;
                     });
             });
+
         this.svg.selectAll("circle")
                 .attr("stroke", "gray")
                 .attr("r", 5)
@@ -163,6 +165,7 @@ class VanKrevelenPlot{
                 .attr("stroke", "white")
                 .on("mouseover", null)
                 .on("mouseout", null);
+
         selectedWells.forEach(id => {
             this.svg.selectAll("#"+id).raise(); //brings the selected elements to the top
             this.svg.selectAll("#"+id)
