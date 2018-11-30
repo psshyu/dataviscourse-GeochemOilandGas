@@ -61,8 +61,8 @@ class TOC_barchart {
             //bars
 
             //let's append a group to insert the bars
-            this.group = d3.select('#tocBarchartSVG').append('g').attr('transform','translate(0,350) scale(1,-0.8)');
-
+            //this.group = d3.select('#tocBarchartSVG').append('g').attr('transform','translate(0,350) scale(1,-0.8)');
+            this.group = d3.select('#tocBarchartSVG').append('g').attr("transform", "translate(0," + parseInt(this.height - this.margin.bottom*2) + ")");
             let bars = this.group.selectAll('.bar').data(bins);
             bars.exit().remove();
             let newBars = bars.enter().append('rect');
@@ -85,6 +85,7 @@ class TOC_barchart {
 
             //remove initial axis
             d3.select('#TOCPlotYinit').remove();
+            d3.select('#toc-xAxis').remove();
             d3.select('#toc-yAxis').remove();
 
             // X-axis
