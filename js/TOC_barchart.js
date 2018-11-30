@@ -2,6 +2,23 @@
 //upper left image in reference
 
 class TOC_barchart {
+    mouseOverHandler(d, i){
+        let id = "TOCTip";
+        d3.select("#tocBarchart")
+            .append("div")
+            .attr("class", "plotHover")
+            .style("left", d3.event.pageX + 15+"px")
+            .style("top", d3.event.pageY+ 15+"px")
+            .style("background-color", d3.rgb(255,255,255,0.8))
+            .attr("id", id)
+            .html(() => { 
+                return "<text style='text-align: left;'>Count: "+ d.length +"</text>"; });
+    }
+
+    mouseOutHandler(d, i) {
+        let id = "TOCTip";
+        d3.select("#"+id).remove();
+    }
 
     constructor(defaultData, defaultFormation, colorScale) {
         this.defaultData = defaultData;
@@ -59,8 +76,9 @@ class TOC_barchart {
             .attr('width', (d) => { 
                 let width = this.x(d.x1) - this.x(d.x0);
                 return 0.85*width;})
-            .attr('height', (d) => { return this.yScale(d.length) });
-
+            .attr('height', (d) => { return this.yScale(d.length) })
+            .on("mouseover", this.mouseOverHandler)
+            .on("mouseout", this.mouseOutHandler);
         // Axis labels
         // x
         this.svg.append("text")
@@ -137,7 +155,9 @@ class TOC_barchart {
             .attr('width', (d) => { 
                 let width = this.x(d.x1) - this.x(d.x0);
                 return 0.85*width;})
-            .attr('height', (d) => { return this.yScale(d.length) });
+            .attr('height', (d) => { return this.yScale(d.length) })
+            .on("mouseover", this.mouseOverHandler)
+            .on("mouseout", this.mouseOutHandler);;
 
         //Y-Axis
         d3.select("#toc-yAxis")
