@@ -5,7 +5,6 @@ class VanKrevelenPlot{
 
     mouseOverHandler(d, i){
         let id = d.SRCLocationID+"VKTip";
-        //let samplesInBasin = geospatialData.filter(e=>e.USGS_Province === name);
 
         d3.select("#vanKrevelenPlot")
             .append("div")
@@ -28,6 +27,7 @@ class VanKrevelenPlot{
         let id = d.SRCLocationID+"VKTip";
         d3.select("#"+id).remove();
     }
+
     constructor(defaultData, defaultFormation, wellDetails){
         this.defaultData = defaultData;
         this.defaultFormation = defaultFormation;
