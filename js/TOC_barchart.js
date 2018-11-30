@@ -49,12 +49,10 @@ class TOC_barchart {
                         .range([0,this.height - this.margin.bottom*4]);
 
         // Create the bars for histogram
-        let bars = this.barGroup.selectAll('.bar').data(bins);
-        bars.exit().remove();
-        let newBars = bars.enter().append('rect');
-        bars = newBars.merge(bars);
-
-        bars.attr('class','bar')
+        this.barGroup.selectAll('rect')
+            .data(bins)
+            .enter().append('rect')
+            .attr('class','bar')
             .attr('x', (d) => { return this.x(d.x0);})
             .attr('y', 0)
             .attr('width', (d) => { 
@@ -125,7 +123,7 @@ class TOC_barchart {
                         .range([0,this.height - this.margin.bottom*4]);
 
         //let's append a group to insert the bars
-        let bars = this.barGroup.selectAll('.bar').data(bins);
+        let bars = this.barGroup.selectAll('rect').data(bins);
         bars.exit().remove();
         let newBars = bars.enter().append('rect');
         bars = newBars.merge(bars);
@@ -142,9 +140,6 @@ class TOC_barchart {
             .attr('opacity',1)
             .style('fill','steelblue')
             .style('stroke','black');
-
-        //remove initial axis
-        //d3.select('#toc-yAxis').remove();
 
         //Y-Axis
         d3.select("#toc-yAxis")
