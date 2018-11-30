@@ -21,6 +21,8 @@ class formationList {
 
         // defaults - the formation that is initially displayed when a basin is clicked
         this.defaultFormation = this.formationNames[0];
+        this.currentFormation = this.defaultFormation;
+
         this.defaultFormationData = this.samplesInBasin.filter(e => e.Formation_Name === this.defaultFormation);
         this.wellDetails = this._setWellDetails(this.defaultFormationData,geospatialData);
 
@@ -40,11 +42,24 @@ class formationList {
                                 .attr("width", "100%");
 
         // row for each formation
-        this.formationList.selectAll("tr")
-            .data(this.formationNames)
-            .enter()
-            .append("tr").append("td").style("padding-left", "15px").text((d) => {return d;})
-            .on("click", (d) => { 
+        let row = this.formationList.selectAll("tr")
+                    .data(this.formationNames)
+                    .enter()
+                    .append("tr")
+                        .append("td");
+        row.style("padding-left", "15px")
+            .style("font-weight", (d) =>{
+                if(d === this.currentFormation){ return "bold"; }
+                else { return "normal" }
+            })
+            .text((d) => { return d; })
+            .on("click", (d) => {
+                this.currentFormation = d;
+                row.style("padding-left", "15px")
+                .style("font-weight", (d) =>{
+                    if(d === this.currentFormation){ return "bold"; }
+                    else { return "normal" }
+                });
                 let samplesOfClickedFormation = this.samplesInBasin.filter(e => e.Formation_Name === d); //d: clicked formation
                 let wellDetails = this._setWellDetails(samplesOfClickedFormation, geospatialData);
 

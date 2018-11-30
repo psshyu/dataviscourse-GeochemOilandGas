@@ -161,6 +161,7 @@ class TOC_barchart {
                 let width = this.x(d.x1) - this.x(d.x0);
                 return 0.85*width;})
             .attr('height', (d) => { return this.yScale(d.length) });
+            
         this.svg.selectAll('rect')
             .on("mouseover", this.mouseOverHandler)
             .on("mouseout", this.mouseOutHandler);
