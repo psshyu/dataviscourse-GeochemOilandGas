@@ -91,7 +91,7 @@ class TOC_barchart {
             // X-axis
             let xAxis = d3.axisBottom(xScale).ticks(20);
             this.svg.append("g")
-                .attr("id", "TOCPlotX")
+                .attr("id", "toc-xAxis")
                 .attr("transform", "translate(0," + parseInt(this.height - this.margin.bottom*2) + ")")
                 .call(xAxis);
 
