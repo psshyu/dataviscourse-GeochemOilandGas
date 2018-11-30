@@ -8,13 +8,10 @@ class PotentialPlot{
 
         d3.select("#potentialPlot")
             .append("div")
+            .attr("class", "plotHover")
             .style("left", d3.event.pageX + 15+"px")
             .style("top", d3.event.pageY+ 15+"px")
-            .style("padding", "5px 5px 5px 5px")
-            .style("position", "absolute")
-            .style("z-index", 10)
             .style("background-color", d3.rgb(255,255,255,0.8))
-            .style("border", "1px solid black")
             .attr("id", id)
             .html(() => { 
                 return "<h6>" + d.SRCLocationID + "</h6>"
@@ -39,8 +36,7 @@ class PotentialPlot{
         this.svg = d3.select("#potentialPlot")
                      .append("svg")
                      .attr("id", "potentialPlotSVG")
-                     .attr("class", "plot")
-                     .style("background-color", "#ffffff");
+                     .attr("class", "plot");
                      
         // Plot title
         this.svg.append("text")

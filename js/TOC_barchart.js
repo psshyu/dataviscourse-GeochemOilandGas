@@ -17,8 +17,8 @@ class TOC_barchart {
         this.svg = d3.select("#tocBarchart")
             .append("svg")
             .attr("id", "tocBarchartSVG")
-            .attr("class", "plot")
-            .style("background-color", "#ffffff");
+            .attr("class", "plot");
+            //.style("background-color", "#ffffff");
 
         this.svg.append("text")
             .attr("x", this.width/4)
@@ -59,10 +59,7 @@ class TOC_barchart {
             .attr('width', (d) => { 
                 let width = this.x(d.x1) - this.x(d.x0);
                 return 0.85*width;})
-            .attr('height', (d) => { return this.yScale(d.length) })
-            .attr('opacity',1)
-            .style('fill','steelblue')
-            .style('stroke','black');
+            .attr('height', (d) => { return this.yScale(d.length) });
 
         // Axis labels
         // x
@@ -140,10 +137,7 @@ class TOC_barchart {
             .attr('width', (d) => { 
                 let width = this.x(d.x1) - this.x(d.x0);
                 return 0.85*width;})
-            .attr('height', (d) => { return this.yScale(d.length) })
-            .attr('opacity',1)
-            .style('fill','steelblue')
-            .style('stroke','black');
+            .attr('height', (d) => { return this.yScale(d.length) });
 
         //Y-Axis
         d3.select("#toc-yAxis")
