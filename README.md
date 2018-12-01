@@ -2,12 +2,14 @@
 #### CS 6630 - Fall 2018
 #### Pablo Napan & Skylar Shyu
 
-### Project description:
+### Project description and Overview:
 
 The plan is to give our users a birds-eye/detailed view of
 the U.S. source rocks geochemical data (TOC, S1, S2, etc.) by displaying the data interactively
 so it facilitates geoscientists in the analysis/exploration of the data at different
-scales: data point, oil well and basin-wise.
+scales: data point, oil well and basin-wise. 
+
+Most tools in the oil & gas industry and academia focus on data management, not exploration nor visualization. We hope that this tool can enable both experts in the industry and the common lay-person to explore available geochemistry data for source rocks free from bias. However, without a doubt, this tool will probably be more useful to someone working in the oil & gas field, as it is costly to drill for the aforementioned resources. Thus, having a tool like this to broadly explore and perhaps compare well/basin samples will be useful to sift through the data to make good choices. 
 
 ### Features:
 
