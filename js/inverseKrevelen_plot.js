@@ -93,6 +93,27 @@ class InverseKrevelen{
             .attr('text-anchor', 'middle')
             .text('HI')
 
+
+        // Scatterplot circles
+        this.svg.selectAll("circle")
+            .data(samplesWithInformation)
+            .enter().append("circle")
+            .attr("id", (d)=>{ return d.SRCLocationID; })
+            .attr("cx", (d) => { return this.x(d.Tmax_C_Pyrolysis); })
+            .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
+            .attr("fill", (d) => { //return "#fddaec";
+                let color;
+                this.wellDetails.forEach( well => {
+                    if(d.SRCLocationID === well.wellID){ color = well.color; }})
+                return color;})
+            .attr("stroke", "gray")
+            .attr("r", 5)
+            .style("opacity", 1)
+            .on("mouseover", this.mouseOverHandler)
+            .on("mouseout", this.mouseOutHandler);
+
+
+
         //appending delimiters
         let that = this;
         function _scalePoints(curve){
@@ -176,28 +197,7 @@ class InverseKrevelen{
             .style('stroke-width','2px');
         }
 
-
-
-        // Scatterplot circles 
-        this.svg.selectAll("circle")
-            .data(samplesWithInformation)
-            .enter().append("circle")
-            .attr("id", (d)=>{ return d.SRCLocationID; })
-            .attr("cx", (d) => { return this.x(d.Tmax_C_Pyrolysis); })
-            .attr("cy", (d) => { return this.y(d.Hydrogen_Index); })
-            .attr("fill", (d) => { //return "#fddaec";
-                let color;
-                this.wellDetails.forEach( well => {
-                    if(d.SRCLocationID === well.wellID){ color = well.color; }})
-                return color;})
-            .attr("stroke", "gray")
-            .attr("r", 5)
-            .style("opacity", 1)
-            .on("mouseover", this.mouseOverHandler)
-            .on("mouseout", this.mouseOutHandler);
-
-
-        //delimiters
+//vertical lines
         let lineGeneratorV = d3.line();
         let points=[[this.x(435),this.y(0)],[this.x(435),this.y(900)]];
         let path = lineGeneratorV(points);
@@ -220,6 +220,7 @@ class InverseKrevelen{
             .style('stroke','grey')
             .style('opacity',0.5)
             .style('stroke-width','1px');
+
 
         //delimiter text
         this.svg.append('text')
@@ -271,6 +272,29 @@ class InverseKrevelen{
     update(samples, wellDetails){
         let samplesWithInformation = samples.filter(d => {if (d.Hydrogen_Index !== '' && d.Tmax_C_Pyrolysis !== '') return d});
 
+
+        this.svg.selectAll('.vertical').remove();
+
+//vertical lines
+        let lineGeneratorV = d3.line();
+        let points=[[this.x(435),this.y(0)],[this.x(435),this.y(900)]];
+        let path = lineGeneratorV(points);
+
+        this.svg.append('path')
+            .attr('class','vertical')
+            .attr('d', path)
+            .style('fill','none')
+            .style('stroke','grey')
+            .style('opacity',0.5)
+            .style('stroke-width','1px');
+
+        let points1=[[this.x(465),this.y(0)],[this.x(465),this.y(900)]];
+        let pathx = lineGeneratorV(points1);
+
+
+
+
+        //circles
         let c = this.svg.selectAll("circle").data(samplesWithInformation);
         c.exit().remove();
         let newc = c.enter().append('circle');
@@ -308,6 +332,61 @@ class InverseKrevelen{
                 .style("opacity", 1)
                 .on("mouseover", this.mouseOverHandler)
                 .on("mouseout", this.mouseOutHandler);
+
+
+
+        this.svg.append('path')
+            .attr('class','vertical')
+            .attr('d', pathx)
+            .style('fill','none')
+            .style('stroke','grey')
+            .style('opacity',0.5)
+            .style('stroke-width','1px');
+
+        this.svg.selectAll('.delimiterLabel').remove();
+        //delimiter text
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(390))
+            .attr('y', this.y(800))
+            .attr('text-anchor', 'middle')
+            .text('Type I');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(385))
+            .attr('y', this.y(550))
+            .attr('text-anchor', 'middle')
+            .text('Type II');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(385))
+            .attr('y', this.y(140))
+            .attr('text-anchor', 'middle')
+            .text('Type III');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(390))
+            .attr('y', this.y(850))
+            .attr('text-anchor', 'middle')
+            .text('Immature')
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(440))
+            .attr('y', this.y(850))
+            .attr('text-anchor', 'middle')
+            .text('Mature')
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(470))
+            .attr('y', this.y(850))
+            .attr('text-anchor', 'middle')
+            .text('Post-mature')
+
 
 
 
