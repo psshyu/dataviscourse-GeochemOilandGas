@@ -2,7 +2,7 @@
 ### CS 6630 - Fall 2018
 ### Pablo Napan & Skylar Shyu
 
-######Project description:######
+Project description:
 
 The plan is to give our users a birds-eye/detailed view of
 the U.S. source rocks geochemical data (TOC, S1, S2, etc.) by displaying the data interactively
@@ -12,10 +12,10 @@ scales: data point, oil well and basin-wise.
 *The data is property of the Energy and Geoscience Institute at the University of Utah. The data values have been modified
 for confidentiality purposes.
 
-######Website URL: https://github.com/psshyu/dataviscourse-GeochemOilandGas######
-######Screencast: www.youtube.com######
+Website URL: https://github.com/psshyu/dataviscourse-GeochemOilandGas
+Screencast:
 
-######Overview:######
+Overview:
 
 We are handing in:
 
