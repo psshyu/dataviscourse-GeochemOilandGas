@@ -199,7 +199,7 @@ class VanKrevelenPlot{
         this.svg.append('text')
             .attr("class", "delimiterLabel")
             .attr('x', this.x(60))
-            .attr('y', this.y(100))
+            .attr('y', this.y(600))
             .attr('text-anchor', 'middle')
             .text('Kerogen type II');
 
@@ -208,12 +208,12 @@ class VanKrevelenPlot{
             .attr('x', this.x(150))
             .attr('y', this.y(250))
             .attr('text-anchor', 'middle')
-            .text('Kerogen type III')
+            .text('Kerogen type III');
 
         this.svg.append('text')
             .attr("class", "delimiterLabel")
-            .attr('x', this.x(60))
-            .attr('y', this.y(90))
+            .attr('x', this.x(160))
+            .attr('y', this.y(80))
             .attr('text-anchor', 'middle')
             .text('Kerogen type IV')
 
