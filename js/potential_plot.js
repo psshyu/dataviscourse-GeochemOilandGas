@@ -50,11 +50,11 @@ class PotentialPlot{
         samplesWithInformation = this.calcAndAppendS1S2Sum(samplesWithInformation);
 
         // X and Y scales 
-        this.x = d3.scaleLinear()
-                .domain([100, 0])
+        this.x = d3.scaleLog()
+                .domain([100, 1e-1])
                 .range([this.width - this.margin.right, this.margin.left*2]);
-        this.y = d3.scaleLinear()
-                .domain([0,1000])
+        this.y = d3.scaleLog()
+                .domain([1e-1,1000])
                 .range([this.height - this.margin.bottom*2, this.margin.top *2]);
 
         //y gridlines
@@ -62,7 +62,7 @@ class PotentialPlot{
             .attr("class", "grid")
             .attr("transform", "translate("+ this.margin.right *2+ "," + 0 + ") scale(0.79,1)")
             .call(d3.axisLeft(this.y)
-                .tickSize(-this.width, 0, 0)
+                .tickSize(-this.width, 1e-6, 1e-6)
                 .tickFormat("")
             );
             
@@ -95,13 +95,58 @@ class PotentialPlot{
             .attr('text-anchor', 'middle')
             .text('S1 + S2')
 
+        //appending delimiters
         
+        let that = this;
+
+        function _scalePoints(curve){
+             let curvex = curve.map((d) => {
+                return [parseFloat(that.x(d[0])),parseFloat(that.y(d[1]))];});
+            return curvex;
+        }
+
+        let lineGenerator = d3.line();
+        console.log(lineGenerator);
+        //curve points
+        let curve1 = [[0.1, 1.5],
+                    [100, 1.5]];
+        let curve2 =[[1, 1000],
+                    [1, 3.5],
+                    [100, 3.5]];
+        let curve3 = [[2, 1000],
+                    [2, 10],
+                    [100, 10]];
+        let curve4 = [[3, 1000],
+                    [3, 20],
+                    [100, 20]];
+        curve1 = _scalePoints(curve1);
+        curve2 = _scalePoints(curve2);
+        curve3 = _scalePoints(curve3);
+        curve4 = _scalePoints(curve4);
+
+        //generate line
+        let path1 = lineGenerator(curve1);
+        let path2 = lineGenerator(curve2);
+        let path3 = lineGenerator(curve3);
+        let path4 = lineGenerator(curve4);
+        this.svg.selectAll('.delimiter').remove();
+        let paths = [path1, path2, path3, path4];
+        for(let i=0; i < paths.length; i++){
+            this.svg.append('path')
+            .attr('class','delimiter')
+            .attr('d', paths[i])
+            .style('fill','none')
+            .style('stroke','darkred')
+            .style('opacity',0.5)
+            .style('stroke-width','2px');
+        }
+
         // Scatterplot circles 
         this.svg.selectAll("circle")
             .data(samplesWithInformation)
             .enter().append("circle")
             .attr("id", (d)=>{return d.SRCLocationID})
-            .attr("cx", (d) => { return this.x(d.TOC_Percent_Measured); })
+            .attr("cx", (d) => { return parseFloat(this.x(d.TOC_Percent_Measured)); })
             .attr("cy", (d) => { return this.y(d.S1S2__mgHC_gmrock); })
             .attr("fill", (d) => {
                 let color;
@@ -117,26 +162,6 @@ class PotentialPlot{
             .on("mouseout", this.mouseOutHandler);
     }
 
-    minmax(samples, tag){
-        
-        if(samples.length > 0){
-            let min = parseFloat(samples[0][tag]);
-            let max = parseFloat(samples[0][tag]);
-            for(let i = 0; i < samples.length; i++){
-                let currentValue = parseFloat(samples[i][tag]);
-                if(currentValue < min){
-                    min = currentValue;
-                }
-                if(currentValue > max){
-                    max = currentValue;
-                }
-            }
-            return [min, max];
-        }
-        else{
-            return[0,10];
-        }
-    }
     calcAndAppendS1S2Sum(sampleList){
         for(let i = 0; i < sampleList.length; i++){
             let sumS1S2 = parseFloat(sampleList[i]['S1__mgHC_gmrock_']) + parseFloat(sampleList[i]['S2__mgHC_gmrock_']);
