@@ -13,6 +13,7 @@ scales: data point, oil well and basin-wise.
 for confidentiality purposes.
 
 Website URL: https://github.com/psshyu/dataviscourse-GeochemOilandGas
+
 Screencast:
 
 Overview:
@@ -21,6 +22,6 @@ We are handing in:
 
 - Process book (.pdf)
 - Feedback Excersise (.pdf)
-- /Data: Contains the geospatial table for the geochemical samples and the table containing the geochemical description of the samples.
+- /Data: Contains the geospatial table for the geochemical samples and the table containing the geochemical description of those samples.
 - /img: Reference images (from our design) that we use to guide our implementation.
 - /js: Contains the js code for this project.
