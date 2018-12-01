@@ -1,15 +1,15 @@
 # U.S. Source Rock Geochemistry Visualization System
-### CS 6630 - Fall 2018
-### Pablo Napan & Skylar Shyu
+#### CS 6630 - Fall 2018
+#### Pablo Napan & Skylar Shyu
 
-#### Project description:
+### Project description:
 
 The plan is to give our users a birds-eye/detailed view of
 the U.S. source rocks geochemical data (TOC, S1, S2, etc.) by displaying the data interactively
 so it facilitates geoscientists in the analysis/exploration of the data at different
 scales: data point, oil well and basin-wise.
 
-#### Features:
+### Features:
 
 For this purpose we have implemented two screens:
 
@@ -35,7 +35,7 @@ for confidentiality purposes.
 
 *Screencast:* https://youtu.be/4HY0Ihaf76M
 
-#### We are handing in:
+### We are handing in:
 
 - Process book (.pdf)
 - Feedback Excersise (.pdf)
