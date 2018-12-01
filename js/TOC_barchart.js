@@ -45,7 +45,7 @@ class TOC_barchart {
 
         // X Scale
         this.x = d3.scaleLinear()
-        .domain([100, 0])
+        .domain([10, 0])
         .range([this.width - this.margin.right, this.margin.left*2]);
         
         let tocValues = this.getTOCValues(this.defaultData);
@@ -117,7 +117,7 @@ class TOC_barchart {
 
     binGenerate(data){
         let bins = d3.histogram()
-                        .domain([0, 100])
+                        .domain([0, 10])
                         .thresholds(20)
                         (data);
         bins.pop()
