@@ -1,9 +1,9 @@
 .delimiterLabel{
 
     color:grey;
-    opacity: 0.5;
+    opacity: 0.7;
     /*text-emphasis-style: triangle;*/
-    /*font-size: 14px;*/
+    font-size: 14px;
     text-anchor: start;
     font-style: italic;
 }
