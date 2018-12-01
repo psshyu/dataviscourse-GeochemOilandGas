@@ -16,11 +16,16 @@ For this purpose we have implemented two screens:
 Screen #1:
 
 The points represent the well and outcrop locations across the U.S. from where the samples were taken; and the polygons show the
-geoprovinces that contain this samples (This clasification was made by the USGS).
+geoprovinces that contain this samples (This clasification was made by the USGS). This screen is intended to give the user a birds-eye view of
+the wells/samples and their distribution with respecto to the geoprovinces/basins.
 
+Screen #2:
 
-
-
+This screen is intended to let the user interact with the data and explore the data that the formations contain. Please note that
+the data is sparse and some formations may only have data in one or two charts. Since the data is expensive to acquire and hard to find,
+any piece of information is valuable for the exploration of hydrocarbons. The data in this screen, also, may show what can be interpreted
+as outliers (or data points outside the charts) by the layman user, but they lead to geological conclusions although we do not need to know
+their actual values in the X and Y axes.
 
 *The data is property of the Energy and Geoscience Institute at the University of Utah. The data values have been modified
 for confidentiality purposes.
