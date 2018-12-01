@@ -70,13 +70,17 @@ class PotentialPlot{
         this.svg.append("g")
             .attr("id", "potentialPlotX")
             .attr("transform", "translate(0," + parseInt(this.height - this.margin.bottom*2) + ")")
-            .call(d3.axisBottom(this.x));
+            .call(d3.axisBottom(this.x)
+                    .ticks(3)
+                    .tickFormat(d3.format("")));
       
         // Y Axis
         this.svg.append("g")
             .attr("id", "potentialPlotY")
             .attr("transform", "translate("+ this.margin.right * 2 + "," + 0 + ")")
-            .call(d3.axisLeft(this.y));
+            .call(d3.axisLeft(this.y)
+                    .ticks(3)
+                    .tickFormat(d3.format("")));
 
         
         // Axis labels
