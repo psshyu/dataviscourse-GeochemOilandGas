@@ -90,7 +90,7 @@ class Basin {
         });
 
         function clickHandler(d, i) {
-
+            
             d3.csv("data/SRCPhase2GeochemUSA2.csv", geospatialData => {
                 //remove the plot
                 d3.select("#tocBarchartSVG").remove();
@@ -103,7 +103,7 @@ class Basin {
                 d3.select("#formationListUL").remove();
                 
                 let samplesInClickedBasin = geospatialData.filter(e=>e.USGS_province === d.properties.Name);
-
+                d3.select("#basinName").html(()=> {return samplesInClickedBasin[0].USGS_province});
                 //color scale to be used across charts/legend
                 let colorScale = d3.scaleOrdinal(d3.schemePastel1);
 

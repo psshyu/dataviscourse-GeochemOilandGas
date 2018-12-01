@@ -103,3 +103,9 @@ h6 {
 
 }
 
+#basinName{
+    text-decoration: underline;
+    text-align: center;
+    padding: 2px;
+}
+
