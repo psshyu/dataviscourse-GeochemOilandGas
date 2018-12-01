@@ -292,8 +292,6 @@ class InverseKrevelen{
         let pathx = lineGeneratorV(points1);
 
 
-
-
         //circles
         let c = this.svg.selectAll("circle").data(samplesWithInformation);
         c.exit().remove();
