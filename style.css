@@ -1,6 +1,10 @@
 .delimiterLabel{
 
     color:grey;
+    opacity: 0.5;
+    /*text-emphasis-style: triangle;*/
+    /*font-size: 14px;*/
+    font-style: italic;
 }
 
 
