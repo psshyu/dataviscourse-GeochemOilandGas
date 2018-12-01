@@ -62,7 +62,7 @@ class PotentialPlot{
             .attr("class", "grid")
             .attr("transform", "translate("+ this.margin.right *2+ "," + 0 + ") scale(0.79,1)")
             .call(d3.axisLeft(this.y)
-                .tickSize(-this.width, 1e-6, 1e-6)
+                .tickSize(-this.width, 1e-1, 1e-1)
                 .tickFormat("")
             );
             
