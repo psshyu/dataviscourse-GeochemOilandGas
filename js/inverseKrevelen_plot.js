@@ -176,7 +176,8 @@ class InverseKrevelen{
             .style('stroke-width','2px');
         }
 
-        
+
+
         // Scatterplot circles 
         this.svg.selectAll("circle")
             .data(samplesWithInformation)
@@ -194,6 +195,31 @@ class InverseKrevelen{
             .style("opacity", 1)
             .on("mouseover", this.mouseOverHandler)
             .on("mouseout", this.mouseOutHandler);
+
+
+        //delimiters
+        let lineGeneratorV = d3.line();
+        let points=[[this.x(435),this.y(0)],[this.x(435),this.y(900)]];
+        let path = lineGeneratorV(points);
+
+        this.svg.append('path')
+            .attr('class','vertical')
+            .attr('d', path)
+            .style('fill','none')
+            .style('stroke','grey')
+            .style('opacity',0.5)
+            .style('stroke-width','1px');
+
+        let points1=[[this.x(465),this.y(0)],[this.x(465),this.y(900)]];
+        let pathx = lineGeneratorV(points1);
+
+        this.svg.append('path')
+            .attr('class','vertical')
+            .attr('d', pathx)
+            .style('fill','none')
+            .style('stroke','grey')
+            .style('opacity',0.5)
+            .style('stroke-width','1px');
 
         //delimiter text
         this.svg.append('text')
@@ -226,7 +252,7 @@ class InverseKrevelen{
 
         this.svg.append('text')
             .attr("class", "delimiterLabel")
-            .attr('x', this.x(435))
+            .attr('x', this.x(440))
             .attr('y', this.y(850))
             .attr('text-anchor', 'middle')
             .text('Mature')
@@ -237,32 +263,6 @@ class InverseKrevelen{
             .attr('y', this.y(850))
             .attr('text-anchor', 'middle')
             .text('Post-mature')
-
-
-        let lineGeneratorV = d3.line();
-        let points=[[this.x(435),this.y(0)],[this.x(435),this.y(900)]];
-        let path = lineGeneratorV(points);
-
-        this.svg.append('path')
-            .attr('class','vertical')
-            .attr('d', path)
-            .style('fill','none')
-            .style('stroke','grey')
-            .style('opacity',0.5)
-            .style('stroke-width','1px');
-
-        let points1=[[this.x(465),this.y(0)],[this.x(465),this.y(900)]];
-        let pathx = lineGeneratorV(points1);
-
-        this.svg.append('path')
-            .attr('class','vertical')
-            .attr('d', pathx)
-            .style('fill','none')
-            .style('stroke','grey')
-            .style('opacity',0.5)
-            .style('stroke-width','1px');
-
-
 
 
 
