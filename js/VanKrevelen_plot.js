@@ -124,6 +124,8 @@ class VanKrevelenPlot{
 
         let lineGenerator = d3.line()
             .curve(d3.curveCardinal);
+
+
         //data
         let curve1 = [[12.138728323699468, 15.91724977182821],
             [29.47976878612718, 41.36294493459059],

@@ -169,8 +169,6 @@ class PotentialPlot{
 
         }
 
-
-
     }
 
 
