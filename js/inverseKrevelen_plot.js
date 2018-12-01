@@ -194,6 +194,50 @@ class InverseKrevelen{
             .style("opacity", 1)
             .on("mouseover", this.mouseOverHandler)
             .on("mouseout", this.mouseOutHandler);
+
+        //delimiter text
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(390))
+            .attr('y', this.y(800))
+            .attr('text-anchor', 'middle')
+            .text('Type I');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(385))
+            .attr('y', this.y(550))
+            .attr('text-anchor', 'middle')
+            .text('Type II');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(385))
+            .attr('y', this.y(140))
+            .attr('text-anchor', 'middle')
+            .text('Type III');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(390))
+            .attr('y', this.y(850))
+            .attr('text-anchor', 'middle')
+            .text('Immature')
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(435))
+            .attr('y', this.y(850))
+            .attr('text-anchor', 'middle')
+            .text('Mature')
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(470))
+            .attr('y', this.y(850))
+            .attr('text-anchor', 'middle')
+            .text('Post-mature')
+
     }
 
     update(samples, wellDetails){
@@ -236,6 +280,10 @@ class InverseKrevelen{
                 .style("opacity", 1)
                 .on("mouseover", this.mouseOverHandler)
                 .on("mouseout", this.mouseOutHandler);
+
+
+
+
     }
     updateWells(selectedWells){
         this.svg.selectAll("circle")
