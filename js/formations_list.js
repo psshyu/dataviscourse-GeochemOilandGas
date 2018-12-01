@@ -8,7 +8,7 @@ class formationList {
             if(d.Hydrogen_Index>=0 && d.Hydrogen_Index<=900 && d.TOC_Percent_Measured>=0.1 &&
                 d.TOC_Percent_Measured<=1000 && d.Tmax_C_Pyrolysis>=380 && d.Tmax_C_Pyrolysis<=500&&
                 d.Hydrogen_Index>=0 && d.Hydrogen_Index<=900
-            && d.Oxygen_Index>=0)
+            && d.Oxygen_Index>=0 && d.Oxygen_Index<=200) //&& (d.S1__mgHC_gmrock_ + d.S2__mgHC_gmrock_>=0.1) &&  (d.S1__mgHC_gmrock_ + d.S2__mgHC_gmrock_<=1000))
             { return d}
         } );
 
