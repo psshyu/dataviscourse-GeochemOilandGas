@@ -164,6 +164,48 @@ class PotentialPlot{
             .style("opacity", 1)
             .on("mouseover", this.mouseOverHandler)
             .on("mouseout", this.mouseOutHandler);
+
+
+        //delimiter text
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(12))
+            .attr('y', this.y(100))
+            .attr('text-anchor', 'middle')
+            .text('Excellent');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(13))
+            .attr('y', this.y(12))
+            .attr('text-anchor', 'middle')
+            .text('V. Good');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(18))
+            .attr('y', this.y(5))
+            .attr('text-anchor', 'middle')
+            .text('Good');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(19))
+            .attr('y', this.y(2.0))
+            .attr('text-anchor', 'middle')
+            .text('Fair')
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.x(20))
+            .attr('y', this.y(0.8))
+            .attr('text-anchor', 'middle')
+            .text('Poor')
+
+
+
+
+
     }
 
     calcAndAppendS1S2Sum(sampleList){
