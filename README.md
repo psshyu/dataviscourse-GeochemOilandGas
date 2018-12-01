@@ -9,8 +9,22 @@ the U.S. source rocks geochemical data (TOC, S1, S2, etc.) by displaying the dat
 so it facilitates geoscientists in the analysis/exploration of the data at different
 scales: data point, oil well and basin-wise.
 
+Features:
+
+For this purpose we have implemented two screens:
+
+Screen #1:
+
+The points represent the well and outcrop locations across the U.S. from where the samples were taken; and the polygons show the
+geoprovinces that contain this samples (This clasification was made by the USGS).
+
+
+
+
+
 *The data is property of the Energy and Geoscience Institute at the University of Utah. The data values have been modified
 for confidentiality purposes.
+
 
 Website URL: https://github.com/psshyu/dataviscourse-GeochemOilandGas
 
