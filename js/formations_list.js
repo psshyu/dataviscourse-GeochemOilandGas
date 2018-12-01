@@ -2,6 +2,16 @@ class formationList {
 
     constructor(samplesInBasin, colorScale, geospatialData) {
         this.samplesInBasin = samplesInBasin;
+
+        this.samplesInBasin = this.samplesInBasin.filter(d => {
+
+            if(d.Hydrogen_Index>=0 && d.Hydrogen_Index<=900 && d.TOC_Percent_Measured>=0.1 &&
+                d.TOC_Percent_Measured<=1000 && d.Tmax_C_Pyrolysis>=380 && d.Tmax_C_Pyrolysis<=500&&
+                d.Hydrogen_Index>=0 && d.Hydrogen_Index<=900
+            && d.Oxygen_Index>=0)
+            { return d}
+        } );
+
         this.colorScale = colorScale;
 
         let wellAttr = ['Hydrogen_Index', 'Oxygen_Index',
