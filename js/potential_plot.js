@@ -204,8 +204,6 @@ class PotentialPlot{
 
 
 
-
-
     }
 
     calcAndAppendS1S2Sum(sampleList){
