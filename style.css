@@ -4,6 +4,7 @@
     opacity: 0.5;
     /*text-emphasis-style: triangle;*/
     /*font-size: 14px;*/
+    text-anchor: start;
     font-style: italic;
 }
 

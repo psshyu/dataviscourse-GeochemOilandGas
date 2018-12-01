@@ -191,29 +191,29 @@ class VanKrevelenPlot{
         //delimiter text
         this.svg.append('text')
             .attr("class", "delimiterLabel")
-            .attr('x', this.height / 2)
-            .attr('y', this.width / 2 -150)
+            .attr('x', this.x(40))
+            .attr('y', this.y(800))
             .attr('text-anchor', 'middle')
             .text('Kerogen type I');
 
         this.svg.append('text')
             .attr("class", "delimiterLabel")
-            .attr('x', this.height / 2 +50)
-            .attr('y', this.width / 2 -90)
+            .attr('x', this.x(60))
+            .attr('y', this.y(100))
             .attr('text-anchor', 'middle')
             .text('Kerogen type II');
 
         this.svg.append('text')
             .attr("class", "delimiterLabel")
-            .attr('x', this.height / 2 +150)
-            .attr('y', this.width / 2 + 10)
+            .attr('x', this.x(150))
+            .attr('y', this.y(250))
             .attr('text-anchor', 'middle')
             .text('Kerogen type III')
 
         this.svg.append('text')
             .attr("class", "delimiterLabel")
-            .attr('x', this.height / 2 +200)
-            .attr('y', this.width / 2 +65)
+            .attr('x', this.x(60))
+            .attr('y', this.y(90))
             .attr('text-anchor', 'middle')
             .text('Kerogen type IV')
 
@@ -265,31 +265,32 @@ class VanKrevelenPlot{
 
         this.svg.selectAll('.delimiterLabel').remove();
 
+//delimiter text
         this.svg.append('text')
             .attr("class", "delimiterLabel")
-            .attr('x', this.height / 2)
-            .attr('y', this.width / 2 -150)
+            .attr('x', this.x(40))
+            .attr('y', this.y(800))
             .attr('text-anchor', 'middle')
             .text('Kerogen type I');
 
         this.svg.append('text')
             .attr("class", "delimiterLabel")
-            .attr('x', this.height / 2 +50)
-            .attr('y', this.width / 2 -90)
+            .attr('x', this.x(60))
+            .attr('y', this.y(100))
             .attr('text-anchor', 'middle')
             .text('Kerogen type II');
 
         this.svg.append('text')
             .attr("class", "delimiterLabel")
-            .attr('x', this.height / 2 +150)
-            .attr('y', this.width / 2 + 10)
+            .attr('x', this.x(150))
+            .attr('y', this.y(250))
             .attr('text-anchor', 'middle')
             .text('Kerogen type III')
 
         this.svg.append('text')
             .attr("class", "delimiterLabel")
-            .attr('x', this.height / 2 +200)
-            .attr('y', this.width / 2 +65)
+            .attr('x', this.x(60))
+            .attr('y', this.y(90))
             .attr('text-anchor', 'middle')
             .text('Kerogen type IV')
 
