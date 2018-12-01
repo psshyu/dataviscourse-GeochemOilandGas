@@ -238,6 +238,34 @@ class InverseKrevelen{
             .attr('text-anchor', 'middle')
             .text('Post-mature')
 
+
+        let lineGeneratorV = d3.line();
+        let points=[[this.x(435),this.y(0)],[this.x(435),this.y(900)]];
+        let path = lineGeneratorV(points);
+
+        this.svg.append('path')
+            .attr('class','vertical')
+            .attr('d', path)
+            .style('fill','none')
+            .style('stroke','grey')
+            .style('opacity',0.5)
+            .style('stroke-width','1px');
+
+        let points1=[[this.x(465),this.y(0)],[this.x(465),this.y(900)]];
+        let pathx = lineGeneratorV(points1);
+
+        this.svg.append('path')
+            .attr('class','vertical')
+            .attr('d', pathx)
+            .style('fill','none')
+            .style('stroke','grey')
+            .style('opacity',0.5)
+            .style('stroke-width','1px');
+
+
+
+
+
     }
 
     update(samples, wellDetails){
