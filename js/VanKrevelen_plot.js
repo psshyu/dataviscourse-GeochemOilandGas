@@ -152,6 +152,7 @@ class VanKrevelenPlot{
         let path4 = lineGenerator(curve4);
         this.svg.selectAll('.delimiter').remove();
         let paths = [path1, path2, path3, path4];
+
         for(let i=0; i < paths.length; i++){
             this.svg.append('path')
             .attr('class','delimiter')
@@ -160,18 +161,12 @@ class VanKrevelenPlot{
             .style('stroke','darkred')
             .style('opacity',0.5)
             .style('stroke-width','2px');
+
+
         }
 
 
-
-
-
         /************************ */
-
-
-
-
-
 
         // Scatterplot circles 
         this.svg.selectAll("circle")
@@ -192,6 +187,38 @@ class VanKrevelenPlot{
             .style("opacity", 1)
             .on("mouseover", this.mouseOverHandler)
             .on("mouseout", this.mouseOutHandler);
+
+        //delimiter text
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.height / 2)
+            .attr('y', this.width / 2 -150)
+            .attr('text-anchor', 'middle')
+            .text('Kerogen type I');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.height / 2 +50)
+            .attr('y', this.width / 2 -90)
+            .attr('text-anchor', 'middle')
+            .text('Kerogen type II');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.height / 2 +150)
+            .attr('y', this.width / 2 + 10)
+            .attr('text-anchor', 'middle')
+            .text('Kerogen type III')
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.height / 2 +200)
+            .attr('y', this.width / 2 +65)
+            .attr('text-anchor', 'middle')
+            .text('Kerogen type IV')
+
+
+
     }
     
     update(samples, wellDetails){
@@ -235,6 +262,39 @@ class VanKrevelenPlot{
                 .style("opacity", 1)
                 .on("mouseover", this.mouseOverHandler)
                 .on("mouseout", this.mouseOutHandler);
+
+        this.svg.selectAll('.delimiterLabel').remove();
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.height / 2)
+            .attr('y', this.width / 2 -150)
+            .attr('text-anchor', 'middle')
+            .text('Kerogen type I');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.height / 2 +50)
+            .attr('y', this.width / 2 -90)
+            .attr('text-anchor', 'middle')
+            .text('Kerogen type II');
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.height / 2 +150)
+            .attr('y', this.width / 2 + 10)
+            .attr('text-anchor', 'middle')
+            .text('Kerogen type III')
+
+        this.svg.append('text')
+            .attr("class", "delimiterLabel")
+            .attr('x', this.height / 2 +200)
+            .attr('y', this.width / 2 +65)
+            .attr('text-anchor', 'middle')
+            .text('Kerogen type IV')
+
+
+
     }
 
     updateWells(selectedWells){
