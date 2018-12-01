@@ -2,14 +2,14 @@
 ### CS 6630 - Fall 2018
 ### Pablo Napan & Skylar Shyu
 
-Project description:
+#### Project description:
 
 The plan is to give our users a birds-eye/detailed view of
 the U.S. source rocks geochemical data (TOC, S1, S2, etc.) by displaying the data interactively
 so it facilitates geoscientists in the analysis/exploration of the data at different
 scales: data point, oil well and basin-wise.
 
-Features:
+#### Features:
 
 For this purpose we have implemented two screens:
 
@@ -31,16 +31,14 @@ their actual values in the X and Y axes.
 for confidentiality purposes.
 
 
-Website URL: https://github.com/psshyu/dataviscourse-GeochemOilandGas
+*Website URL:* https://psshyu.github.io/dataviscourse-GeochemOilandGas/
 
-Screencast:
+*Screencast:* https://youtu.be/4HY0Ihaf76M
 
-Overview:
-
-We are handing in:
+#### We are handing in:
 
 - Process book (.pdf)
 - Feedback Excersise (.pdf)
-- /Data: Contains the geospatial table for the geochemical samples and the table containing the geochemical description of those samples.
+- /data: Contains the geospatial table for the geochemical samples and the table containing the geochemical description of those samples.
 - /img: Reference images (from our design) that we use to guide our implementation.
 - /js: Contains the js code for this project.
