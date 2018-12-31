@@ -44,7 +44,7 @@ class VanKrevelenPlot{
             .attr("class", "plotTitle")
             .attr("x", this.width/2)
             .attr("y", this.margin.top)
-            .text("Van Krevelen");
+            .text("Kerogen Type");
 
 
         //filter out data that lacks HI && OI
