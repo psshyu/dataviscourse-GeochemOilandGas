@@ -133,7 +133,7 @@ class Basin {
                 .attr("id", id)
                 .html(() => { 
                     return "<h6>" + name + "</h6>"
-                        + "<text style='text-align: left;'>Samples in Basin: "+ samplesInBasin.length +"</text>"; });
+                        + "<text style='text-align: left;'>Samples in Geoprovince: "+ samplesInBasin.length +"</text>"; });
         }
 
         function mouseOutHandler(d, i) {

@@ -42,7 +42,7 @@ class InverseKrevelen{
             .attr("class", "plotTitle")
             .attr("x", this.width/2)
             .attr("y", this.margin.top)
-            .text("Inverse Van Krevelen");
+            .text("Maturation");
 
         //filter out data that lacks HI && OI
         let samplesWithInformation = defaultData.filter(d => {if (d.Hydrogen_Index !== '' && d.Tmax_C_Pyrolysis !== '') return d});
